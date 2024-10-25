@@ -1,9 +1,9 @@
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./Pages/Login/Login";
-import Signup from "./Pages/Signup/Signup";
-import Dashboard from "./Pages/Dashboard/Dashboard";
-import Variable from "./Pages/Variable/Variable";
+import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Login from './Pages/Login/Login'
+import Signup from './Pages/Signup/Signup'
+import Dashboard from './Pages/Dashboard/Dashboard'
+import Variable from './Pages/Variable/Variable'
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
         <Route path="/variable" element={<Variable />} />
       </Routes>
     </BrowserRouter>
-  );
+  )
 }
 
-export default App;
+export default App
