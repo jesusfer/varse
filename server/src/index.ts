@@ -1,4 +1,5 @@
-import express, { Express, Request, Response } from 'express'
+import express, { Express } from 'express'
+import cors from 'cors'
 import { UserService } from './user/user'
 import { AuthService } from './auth/auth'
 import { JwtService } from './auth/jwt'
@@ -16,6 +17,7 @@ const userRoutes = new UserRoutes(userService, authService)
 const authRoutes = new AuthRoutes(userService, authService)
 
 app.use(express.json())
+app.use(cors())
 
 userRoutes.addRoutes(app)
 authRoutes.addRoutes(app)
