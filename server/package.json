@@ -1,0 +1,19 @@
+{
+  "name": "varse-server",
+  "version": "1.0.0",
+  "module": "index.ts",
+  "type": "module",
+  "dependencies": {
+    "@types/express": "^5.0.0",
+    "express": "^4.21.1",
+    "ts-node": "latest",
+    "tsc-watch": "^6.2.0",
+    "typescript": "latest"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "bun run dist/index.js",
+    "start:local": "tsc-watch --onSuccess \"bun run dist/index.js\"",
+    "format": "prettier --write ."
+  }
+}
