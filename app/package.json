@@ -2,6 +2,7 @@
   "name": "varse-app",
   "version": "1.0.0",
   "dependencies": {
+    "axios": "^1.7.7",
     "prettier": "^3.3.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -32,6 +33,15 @@
     ]
   },
   "devDependencies": {
-    "@types/react-dom": "^18.3.1"
+    "@types/react-dom": "^18.3.1",
+    "autoprefixer": "latest",
+    "postcss": "latest",
+    "tailwindcss": "latest"
+  },
+  "postcss": {
+    "plugins": {
+      "tailwindcss": {},
+      "autoprefixer": {}
+    }
   }
 }
