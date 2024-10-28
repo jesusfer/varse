@@ -22,10 +22,10 @@ const PendingTableRow: React.FC<PendingTableRowProps> = ({
         <ChevronRight size={16} className="text-text-1 flex-none" />
         <p className="w-full text-[14px] text-text-1">{update.pendingValue}</p>
       </div>
-      <VariableButton onClick={approve} className={'text-positive'}>
+      <VariableButton onClick={approve} textColor="text-positive">
         Approve
       </VariableButton>
-      <VariableButton onClick={reject} className={'text-destructive'}>
+      <VariableButton onClick={reject} textColor="text-destructive">
         Reject
       </VariableButton>
       <div className="flex flex-col flex-none items-start justify-center">
