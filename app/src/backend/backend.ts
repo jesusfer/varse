@@ -35,4 +35,19 @@ export class BackendService {
     this.authService.setToken(user.token.token)
     return user
   }
+
+  async validate(): Promise<void> {
+    await this.httpService.request(
+      '/validate',
+      'POST',
+      {},
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
+  async logout(): Promise<void> {
+    this.authService.clearToken()
+  }
 }
