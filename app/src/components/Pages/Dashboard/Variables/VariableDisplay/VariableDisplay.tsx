@@ -21,7 +21,7 @@ const VariableDisplay: React.FC<VariableDisplayProps> = ({ variable }) => {
       <div className="w-full flex flex-col items-start justify-start gap-4">
         <div className="w-full flex items-center justify-between rounded-[6px] border border-panel-border">
           <div className="w-full h-[200px] p-3 border-r border-panel-border">
-            <p className="text-[14px] text-text-1">{variable.key}</p>
+            <p className="text-[14px] text-text-1">{variable.id}</p>
           </div>
           <div
             className={`w-full h-[200px] rounded-r-[6px] ${
@@ -74,7 +74,7 @@ const VariableDisplay: React.FC<VariableDisplayProps> = ({ variable }) => {
         {pendingOpen && (
           <PendingTableRow
             update={{
-              key: 'test',
+              id: 'test',
               name: 'test',
               currentValue: 'false',
               pendingValue: 'true',
@@ -95,7 +95,7 @@ const VariableDisplay: React.FC<VariableDisplayProps> = ({ variable }) => {
         {historyOpen && (
           <PastTableRow
             history={{
-              key: 'test',
+              id: 'test',
               name: 'test',
               originalValue: 'false',
               updatedValue: 'true',

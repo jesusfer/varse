@@ -27,13 +27,13 @@ export type AuthToken = {
 }
 
 export type Variable = {
-  key: string
+  id: string
   name: string
   value: string
 }
 
 export type PendingVariable = {
-  key: string
+  id: string
   name: string
   currentValue: string
   pendingValue: string
@@ -41,7 +41,7 @@ export type PendingVariable = {
 }
 
 export type HistoryVariable = {
-  key: string
+  id: string
   name: string
   originalValue: string
   updatedValue: string

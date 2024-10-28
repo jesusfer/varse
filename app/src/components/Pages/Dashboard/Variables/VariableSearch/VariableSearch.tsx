@@ -4,7 +4,15 @@ import VariableRow from './VariableRow/VariableRow'
 import { Variable } from '../../../../../backend/types'
 import VariableButton from '../VariableButton/VariableButton'
 
-const VariableSelect: React.FC = () => {
+interface VariableSearchProps {
+  variables: Variable[]
+  setSelectedKey: (key: string) => void
+}
+
+const VariableSearch: React.FC<VariableSearchProps> = ({
+  variables,
+  setSelectedKey,
+}) => {
   const [search, setSearch] = useState('')
   const [filteredVariables, setFilteredVariables] = useState(variables)
 
@@ -39,9 +47,10 @@ const VariableSelect: React.FC = () => {
         <div className="w-full flex flex-col max-h-[300px] overflow-y-auto">
           {filteredVariables.map((variable, index) => (
             <VariableRow
-              key={variable.key}
+              key={variable.id}
               name={variable.name}
               last={index === filteredVariables.length - 1}
+              onClick={() => setSelectedKey(variable.id)}
             />
           ))}
         </div>
@@ -50,17 +59,4 @@ const VariableSelect: React.FC = () => {
   )
 }
 
-export default VariableSelect
-
-const variables: Variable[] = [
-  { key: '0', name: 'Var 1', value: 'true' },
-  { key: '1', name: 'Var 2', value: 'true' },
-  { key: '2', name: 'Var 3', value: 'true' },
-  { key: '3', name: 'Var 4', value: 'true' },
-  { key: '4', name: 'Var 5', value: 'true' },
-  { key: '5', name: 'Var 6', value: 'true' },
-  { key: '6', name: 'Var 7', value: 'true' },
-  { key: '7', name: 'Var 8', value: 'true' },
-  { key: '8', name: 'Var 9', value: 'true' },
-  { key: '9', name: 'Var 10', value: 'true' },
-]
+export default VariableSearch
