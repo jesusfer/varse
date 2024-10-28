@@ -25,3 +25,8 @@ export type UserInfo = {
 export type AuthToken = {
   token: string
 }
+
+export type Variable = {
+  key: string
+  name: string
+}

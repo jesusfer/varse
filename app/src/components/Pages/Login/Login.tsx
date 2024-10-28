@@ -46,7 +46,7 @@ const Login: React.FC = () => {
         </div>
         <div className="w-full flex flex-col items-start justify-center gap-4">
           <button
-            className="w-full h-[40px] rounded-md bg-cta hover:bg-cta-hover text-cta-text text-[14px]"
+            className="w-full h-[40px] rounded-md bg-cta-base hover:bg-cta-hover text-cta-text text-[14px]"
             onClick={handleLogin}
           >
             Log In

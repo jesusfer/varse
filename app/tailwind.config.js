@@ -10,7 +10,7 @@ module.exports = {
           border: '#27272a',
         },
         cta: {
-          DEFAULT: '#fafafa',
+          base: '#fafafa',
           hover: '#eeeeee',
           text: '#18181b',
         },

@@ -7,3 +7,11 @@
   border: none;
   background: transparent;
 }
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+input {
+  outline: none;
+}
