@@ -18,6 +18,8 @@ module.exports = {
           1: '#fafafa',
           2: '#a1a1aa',
         },
+        positive: '#9BFF9D',
+        destructive: '#FF9B9B',
       },
     },
   },

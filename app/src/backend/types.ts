@@ -29,4 +29,21 @@ export type AuthToken = {
 export type Variable = {
   key: string
   name: string
+  value: string
+}
+
+export type PendingVariable = {
+  key: string
+  name: string
+  currentValue: string
+  pendingValue: string
+  createdAt: Date
+}
+
+export type HistoryVariable = {
+  key: string
+  name: string
+  originalValue: string
+  updatedValue: string
+  createdAt: Date
 }

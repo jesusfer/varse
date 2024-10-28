@@ -1,7 +1,8 @@
 import { Search } from 'lucide-react'
 import { useState } from 'react'
 import VariableRow from './VariableRow/VariableRow'
-import { Variable } from '../../../../backend/types'
+import { Variable } from '../../../../../backend/types'
+import VariableButton from '../VariableButton/VariableButton'
 
 const VariableSelect: React.FC = () => {
   const [search, setSearch] = useState('')
@@ -29,9 +30,7 @@ const VariableSelect: React.FC = () => {
             onChange={handleSearch}
           />
         </div>
-        <button className="h-[40px] px-3 py-1 flex flex-none items-center justify-center gap-2 border border-panel-border rounded-[6px] bg-primary text-[14px] text-text-1">
-          Create Variable
-        </button>
+        <VariableButton>Create Variable</VariableButton>
       </div>
       <div className="w-[400px] flex flex-col border border-panel-border rounded-[6px]">
         <div className="w-full p-3 flex items-center justify-start gap-3 border-b border-panel-border">
@@ -54,14 +53,14 @@ const VariableSelect: React.FC = () => {
 export default VariableSelect
 
 const variables: Variable[] = [
-  { key: '0', name: 'Var 1' },
-  { key: '1', name: 'Var 2' },
-  { key: '2', name: 'Var 3' },
-  { key: '3', name: 'Var 4' },
-  { key: '4', name: 'Var 5' },
-  { key: '5', name: 'Var 6' },
-  { key: '6', name: 'Var 7' },
-  { key: '7', name: 'Var 8' },
-  { key: '8', name: 'Var 9' },
-  { key: '9', name: 'Var 10' },
+  { key: '0', name: 'Var 1', value: 'true' },
+  { key: '1', name: 'Var 2', value: 'true' },
+  { key: '2', name: 'Var 3', value: 'true' },
+  { key: '3', name: 'Var 4', value: 'true' },
+  { key: '4', name: 'Var 5', value: 'true' },
+  { key: '5', name: 'Var 6', value: 'true' },
+  { key: '6', name: 'Var 7', value: 'true' },
+  { key: '7', name: 'Var 8', value: 'true' },
+  { key: '8', name: 'Var 9', value: 'true' },
+  { key: '9', name: 'Var 10', value: 'true' },
 ]
