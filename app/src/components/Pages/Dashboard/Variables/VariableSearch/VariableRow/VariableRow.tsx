@@ -1,16 +1,9 @@
 interface VariableRowProps extends React.HTMLAttributes<HTMLButtonElement> {
-  key: string
   name: string
-
   last?: boolean
 }
 
-const VariableRow: React.FC<VariableRowProps> = ({
-  key,
-  name,
-  last,
-  ...props
-}) => {
+const VariableRow: React.FC<VariableRowProps> = ({ name, last, ...props }) => {
   return (
     <button
       {...props}

@@ -7,11 +7,13 @@ import VariableButton from '../VariableButton/VariableButton'
 interface VariableSearchProps {
   variables: Variable[]
   setSelectedKey: (key: string) => void
+  create: () => void
 }
 
 const VariableSearch: React.FC<VariableSearchProps> = ({
   variables,
   setSelectedKey,
+  create,
 }) => {
   const [search, setSearch] = useState('')
   const [filteredVariables, setFilteredVariables] = useState(variables)
@@ -38,7 +40,7 @@ const VariableSearch: React.FC<VariableSearchProps> = ({
             onChange={handleSearch}
           />
         </div>
-        <VariableButton>Create Variable</VariableButton>
+        <VariableButton onClick={create}>Create Variable</VariableButton>
       </div>
       <div className="w-[400px] flex flex-col border border-panel-border rounded-[6px]">
         <div className="w-full p-3 flex items-center justify-start gap-3 border-b border-panel-border">

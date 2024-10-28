@@ -49,13 +49,13 @@ const VariableDisplay: React.FC<VariableDisplayProps> = ({ variable }) => {
           {editing && (
             <>
               <VariableButton
-                className="text-positive"
+                textColor="text-positive"
                 onClick={() => setEditing(false)}
               >
                 Submit
               </VariableButton>
               <VariableButton
-                className="text-destructive"
+                textColor="text-destructive"
                 onClick={() => setEditing(false)}
               >
                 Discard
@@ -104,7 +104,7 @@ const VariableDisplay: React.FC<VariableDisplayProps> = ({ variable }) => {
           />
         )}
       </Table>
-      <VariableButton className="text-destructive">
+      <VariableButton textColor="text-destructive">
         Delete Variable
       </VariableButton>
     </div>

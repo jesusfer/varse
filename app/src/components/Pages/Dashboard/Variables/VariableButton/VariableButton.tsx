@@ -1,16 +1,16 @@
 interface VariableButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode
+  textColor?: string
 }
 
 const VariableButton: React.FC<VariableButtonProps> = ({
   children,
-  className,
+  textColor = 'text-text-1',
   ...props
 }) => {
   return (
     <button
-      className={`h-[40px] px-3 py-1 flex flex-none items-center justify-center gap-2 border border-panel-border rounded-[6px] bg-primary text-[14px] text-text-1 ${className || ''}`}
+      className={`h-[40px] px-3 py-1 flex flex-none items-center justify-center gap-2 border border-panel-border rounded-[6px] bg-primary text-[14px] ${textColor}`}
       {...props}
     >
       {children}

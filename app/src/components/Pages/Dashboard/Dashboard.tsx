@@ -5,6 +5,7 @@ import Topbar from './Topbar/Topbar'
 import VariableDisplay from './Variables/VariableDisplay/VariableDisplay'
 import { Variable } from '../../../backend/types'
 import VariableSearch from './Variables/VariableSearch/VariableSearch'
+import VariableCreate from './Variables/VariableCreate/VariableCreate'
 
 export type DashboardTab = 'vars' | 'api'
 
@@ -13,6 +14,7 @@ const Dashboard: React.FC = () => {
 
   const [tab, setTab] = useState<DashboardTab>('vars')
   const [selectedKey, setSelectedKey] = useState<string | null>(null)
+  const [createVariable, setCreateVariable] = useState(false)
 
   const selectedVariable = variables.find((v) => v.id === selectedKey)
 
@@ -34,12 +36,19 @@ const Dashboard: React.FC = () => {
                 <VariableSearch
                   variables={variables}
                   setSelectedKey={setSelectedKey}
+                  create={() => setCreateVariable(true)}
                 />
               )}
             </>
           )}
         </div>
       </div>
+      {createVariable && (
+        <VariableCreate
+          create={() => setCreateVariable(false)}
+          close={() => setCreateVariable(false)}
+        />
+      )}
     </div>
   )
 }

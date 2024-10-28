@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       colors: {
         background: '#09090b',
+        backgroundPopup: '#0000007F',
         panel: {
           background: '#18181b',
           border: '#27272a',
