@@ -21,7 +21,7 @@ const VariableDisplay: React.FC<VariableDisplayProps> = ({ variable }) => {
       <div className="w-full flex flex-col items-start justify-start gap-4">
         <div className="w-full flex items-center justify-between rounded-[6px] border border-panel-border">
           <div className="w-full h-[200px] p-3 border-r border-panel-border">
-            <p className="text-[14px] text-text-1">{variable.id}</p>
+            <p className="text-[14px] text-text-1">{variable.name}</p>
           </div>
           <div
             className={`w-full h-[200px] rounded-r-[6px] ${

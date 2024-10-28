@@ -44,16 +44,30 @@ const VariableSearch: React.FC<VariableSearchProps> = ({
         <div className="w-full p-3 flex items-center justify-start gap-3 border-b border-panel-border">
           <p className="text-[14px] text-text-2">Key</p>
         </div>
-        <div className="w-full flex flex-col max-h-[300px] overflow-y-auto">
-          {filteredVariables.map((variable, index) => (
-            <VariableRow
-              key={variable.id}
-              name={variable.name}
-              last={index === filteredVariables.length - 1}
-              onClick={() => setSelectedKey(variable.id)}
-            />
-          ))}
-        </div>
+        {variables.length > 0 && (
+          <div className="w-full flex flex-col max-h-[300px] overflow-y-auto">
+            {filteredVariables.map((variable, index) => (
+              <VariableRow
+                key={variable.id}
+                name={variable.name}
+                last={index === filteredVariables.length - 1}
+                onClick={() => setSelectedKey(variable.id)}
+              />
+            ))}
+          </div>
+        )}
+        {variables.length > 0 && filteredVariables.length === 0 && (
+          <div className="w-full flex items-center justify-start p-3">
+            <p className="text-[14px] text-text-2">No variables found.</p>
+          </div>
+        )}
+        {variables.length === 0 && (
+          <div className="w-full flex items-center justify-start p-3">
+            <p className="text-[14px] text-text-2">
+              You don't have any variables yet.
+            </p>
+          </div>
+        )}
       </div>
     </>
   )
