@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import useBackend from './useBackend'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,20 +11,20 @@ const useLoggedIn = () => {
 
   const getPage = useCallback(() => window.location.pathname, [])
 
-  const validate = useCallback(
-    () =>
-      backendService
-        .validate()
-        .then(() => {
-          if ([LOGIN_PATH, SIGNUP_PATH].includes(getPage())) {
-            navigate('/dashboard')
-          }
-        })
-        .catch(() => navigate(LOGIN_PATH)),
-    [backendService, getPage, navigate],
-  )
+  const validate = useCallback(() => {
+    backendService
+      .validate()
+      .then(() => {
+        if ([LOGIN_PATH, SIGNUP_PATH].includes(getPage())) {
+          navigate('/dashboard')
+        }
+      })
+      .catch(() => navigate(LOGIN_PATH))
+  }, [backendService, getPage, navigate])
 
-  validate()
+  useEffect(() => {
+    validate()
+  }, [validate])
 }
 
 export default useLoggedIn

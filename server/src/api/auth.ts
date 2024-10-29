@@ -47,8 +47,7 @@ export class AuthRoutes {
       await this.authService.validateJwt(token)
       res.json({ message: 'Token is valid' })
     } catch (error) {
-      console.error('Error validating', error)
-      res.status(500).json({ message: 'Internal server error' })
+      res.status(401).json({ message: 'Unauthorized' })
     }
   }
 }

@@ -3,11 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import OnboardingInput from '../../Library/OnboardingInput/OnboardingInput'
 import OnboardingCard from '../../Library/OnboardingCard/OnboardingCard'
 import useSignup from '../../../hooks/useSignup'
-import useLoggedIn from '../../../hooks/useLoggedIn'
 
 const Signup: React.FC = () => {
-  useLoggedIn()
-
   const navigate = useNavigate()
   const { signup } = useSignup()
 
