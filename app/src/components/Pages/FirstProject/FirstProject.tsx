@@ -31,7 +31,7 @@ const FirstProject: React.FC = () => {
             <Input
               label="Project Name"
               value={projectName}
-              onChange={(value) => setProjectName(value)}
+              onChange={(e) => setProjectName(e.target.value)}
               placeholder="Enter project name"
             />
           </div>

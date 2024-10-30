@@ -1,27 +1,59 @@
 import { Search } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import Button from '../../Library/Button/Button'
 import KeyTable from './KeyTable/KeyTable'
 import KeyCreatePopup from './KeyCreatePopup/KeyCreatePopup'
 import TopBar from '../../Library/TopBar/TopBar'
+import useProject from '../../../hooks/useProject'
+import { useActiveProject } from '../../../context/ProjectContext'
+import { ApiKey } from '../../../backend/types'
 
 const Keys: React.FC = () => {
+  const { createApiKey, getApiKeys, deleteApiKey } = useProject()
+  const { activeProject } = useActiveProject()
+
   const [search, setSearch] = useState('')
-  const [filteredKeys, setFilteredKeys] = useState(keys)
+  const [keys, setKeys] = useState<ApiKey[]>([])
+
+  const filteredKeys = useMemo(() => {
+    return keys.filter(
+      (key) =>
+        key.name.toLowerCase().includes(search.toLowerCase()) ||
+        key.key.toLowerCase().includes(search.toLowerCase()),
+    )
+  }, [keys, search])
+
   const [creatingKey, setCreatingKey] = useState(false)
+
+  useEffect(() => {
+    if (!activeProject) return
+
+    const fetchKeys = async () => {
+      const fetchedKeys = await getApiKeys(activeProject.id)
+      setKeys(fetchedKeys)
+    }
+
+    fetchKeys()
+  }, [activeProject, getApiKeys])
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
-    setFilteredKeys(
-      keys.filter(
-        (key) =>
-          key.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
-          key.key.toLowerCase().includes(e.target.value.toLowerCase()),
-      ),
-    )
   }
 
-  const createKey = (name: string) => setCreatingKey(false)
+  const handleCreateKey = async (name: string) => {
+    if (!activeProject) return
+    await createApiKey(activeProject.id, name)
+    const updatedKeys = await getApiKeys(activeProject.id)
+    setKeys(updatedKeys)
+    setCreatingKey(false)
+  }
+
+  const handleDeleteKey = async (apiKeyId: string) => {
+    if (!activeProject) return
+    await deleteApiKey(activeProject.id, apiKeyId)
+    const updatedKeys = await getApiKeys(activeProject.id)
+    setKeys(updatedKeys)
+  }
 
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
@@ -46,10 +78,14 @@ const Keys: React.FC = () => {
               Create Key
             </Button>
           </div>
-          <KeyTable keys={keys} filteredKeys={filteredKeys} />
+          <KeyTable
+            keys={keys}
+            filteredKeys={filteredKeys}
+            onDelete={handleDeleteKey}
+          />
           <KeyCreatePopup
             isOpen={creatingKey}
-            create={createKey}
+            create={handleCreateKey}
             onClose={() => setCreatingKey(false)}
           />
         </div>
@@ -59,15 +95,3 @@ const Keys: React.FC = () => {
 }
 
 export default Keys
-
-export type ApiKey = {
-  id: string
-  name: string
-  key: string
-  lastUsed: Date
-}
-
-const keys: ApiKey[] = [
-  { id: '1', name: 'key_1', key: '1234567890', lastUsed: new Date() },
-  { id: '2', name: 'key_2', key: '6789012345', lastUsed: new Date() },
-]

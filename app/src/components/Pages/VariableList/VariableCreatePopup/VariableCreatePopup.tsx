@@ -20,6 +20,14 @@ const VariableCreatePopup: React.FC<VariableCreatePopupProps> = ({
   const ref = useRef<HTMLDivElement>(null)
   useClickOutside(ref, onClose)
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (name.trim() && value.trim()) create(name, value)
+    setName('')
+    setValue('')
+    onClose()
+  }
+
   if (!isOpen) return null
 
   return (
@@ -31,23 +39,29 @@ const VariableCreatePopup: React.FC<VariableCreatePopupProps> = ({
         <h1 className="text-[24px] font-semibold text-text-1">
           Create Variable
         </h1>
-        <div className="w-full flex flex-col items-center gap-4">
-          <Input
-            label="Key"
-            value={name}
-            type="text"
-            placeholder="variable_key"
-            onChange={(value) => setName(value)}
-          />
-          <Input
-            label="Value"
-            value={value}
-            type="text"
-            placeholder="true"
-            onChange={(value) => setValue(value)}
-          />
-        </div>
-        <Button onClick={() => create(name, value)}>Submit</Button>
+        <form
+          onSubmit={handleSubmit}
+          className="w-full flex flex-col items-start gap-6"
+        >
+          <div className="w-full flex flex-col items-center gap-4">
+            <Input
+              label="Key"
+              value={name}
+              type="text"
+              placeholder="variable_key"
+              onChange={(e) => setName(e.target.value)}
+              autoFocus
+            />
+            <Input
+              label="Value"
+              value={value}
+              type="text"
+              placeholder="true"
+              onChange={(e) => setValue(e.target.value)}
+            />
+          </div>
+          <Button type="submit">Submit</Button>
+        </form>
       </div>
     </div>
   )

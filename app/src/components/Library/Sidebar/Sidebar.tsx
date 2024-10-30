@@ -1,14 +1,11 @@
 import { Book, Database, KeyRound, Pencil, Rocket } from 'lucide-react'
 import SidebarButton from '../SidebarButton/SidebarButton'
 import useNav from '../../../hooks/useNav'
-import { Project } from '../../../backend/types'
 import { useLocation } from 'react-router-dom'
+import { useActiveProject } from '../../../context/ProjectContext'
 
-interface SidebarProps {
-  activeProject: Project | null
-}
-
-const Sidebar: React.FC<SidebarProps> = ({ activeProject }) => {
+const Sidebar: React.FC = () => {
+  const { activeProject } = useActiveProject()
   const navigate = useNav()
   const location = useLocation()
 
@@ -65,7 +62,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeProject }) => {
 }
 
 const getActiveTab = (pathname: string): string | null => {
-  if (pathname.startsWith('/variables')) return 'vars'
+  if (pathname.startsWith('/variable')) return 'vars'
   if (pathname.startsWith('/keys')) return 'api'
   return null
 }

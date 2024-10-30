@@ -39,14 +39,14 @@ const Login: React.FC = () => {
               placeholder="Enter your email"
               value={email}
               type="email"
-              onChange={(value) => setEmail(value)}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <Input
               label="Password"
               placeholder="Enter your password"
               value={password}
               type="password"
-              onChange={(value) => setPassword(value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="w-full flex flex-col items-start justify-center gap-4">

@@ -31,6 +31,13 @@ export type Project = {
   name: string
 }
 
+export type ApiKey = {
+  id: string
+  name: string
+  key: string
+  lastUsed: Date | null
+}
+
 export type Variable = {
   id: string
   name: string

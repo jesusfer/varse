@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '@prisma/client'
+import { ApiKey, Prisma, PrismaClient } from '@prisma/client'
 import { ProjectInfo } from './types'
 
 export class ProjectService {
@@ -44,5 +44,38 @@ export class ProjectService {
       },
     })
     return projects
+  }
+
+  async createApiKey(projectId: string, name: string): Promise<void> {
+    const key = crypto.randomUUID()
+    await this.prisma.apiKey.create({
+      data: { name, key, projectId },
+    })
+  }
+
+  async getApiKeys(projectId: string): Promise<ApiKey[]> {
+    const apiKeys = await this.prisma.apiKey.findMany({
+      where: { projectId },
+    })
+    return apiKeys
+  }
+
+  async deleteApiKey(apiKeyId: string): Promise<void> {
+    await this.prisma.apiKey.delete({ where: { id: apiKeyId } })
+  }
+
+  async verifyProjectAccess(
+    userId: string,
+    projectId: string
+  ): Promise<boolean> {
+    const membership = await this.prisma.projectUser.findUnique({
+      where: {
+        userId_projectId: {
+          userId,
+          projectId,
+        },
+      },
+    })
+    return !!membership
   }
 }

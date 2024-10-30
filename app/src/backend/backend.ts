@@ -1,6 +1,7 @@
 import { AuthService } from './auth'
 import { HTTPService } from './http'
 import {
+  ApiKey,
   LoginRequest,
   LoginResponse,
   Project,
@@ -63,6 +64,39 @@ export class BackendService {
     return this.httpService.request(
       '/project',
       'GET',
+      {},
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
+  async createApiKey(projectId: string, name: string): Promise<void> {
+    await this.httpService.request(
+      `/project/${projectId}/apikeys`,
+      'POST',
+      { name },
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
+  async getApiKeys(projectId: string): Promise<ApiKey[]> {
+    return this.httpService.request(
+      `/project/${projectId}/apikeys`,
+      'GET',
+      {},
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
+  async deleteApiKey(projectId: string, apiKeyId: string): Promise<void> {
+    await this.httpService.request(
+      `/project/${projectId}/apikeys/${apiKeyId}`,
+      'DELETE',
       {},
       {
         Authorization: `Bearer ${this.authService.getToken()}`,

@@ -1,13 +1,18 @@
 import { Copy, Trash } from 'lucide-react'
 import useNav from '../../../../hooks/useNav'
-import { ApiKey } from '../Keys'
+import { ApiKey } from '../../../../backend/types'
 
 interface KeyTableProps {
   keys: ApiKey[]
   filteredKeys: ApiKey[]
+  onDelete: (apiKeyId: string) => void
 }
 
-const KeyTable: React.FC<KeyTableProps> = ({ keys, filteredKeys }) => {
+const KeyTable: React.FC<KeyTableProps> = ({
+  keys,
+  filteredKeys,
+  onDelete,
+}) => {
   const navigate = useNav()
 
   return (
@@ -15,7 +20,7 @@ const KeyTable: React.FC<KeyTableProps> = ({ keys, filteredKeys }) => {
       <div className="sticky top-0 bg-background w-full p-3 flex items-center justify-between border-b border-panel-border">
         <div className="flex-1 flex items-center justify-end gap-3">
           <p className="w-[140px] text-[14px] text-text-2">Name</p>
-          <p className="flex-1 text-[14px] text-text-2">Key</p>
+          <p className="w-[200px] text-[14px] text-text-2">Key</p>
           <p className="w-[140px] text-[14px] text-text-2">Last Used</p>
           <div className="w-4 h-4" />
           <div className="w-4 h-4" />
@@ -30,9 +35,14 @@ const KeyTable: React.FC<KeyTableProps> = ({ keys, filteredKeys }) => {
             >
               <div className="flex-1 flex items-center justify-end gap-3">
                 <p className="w-[140px] text-[14px] text-text-1">{key.name}</p>
-                <p className="flex-1 text-[14px] text-text-1">{key.key}</p>
+                <p
+                  className="w-[200px] text-[14px] text-text-1 truncate"
+                  title={key.key}
+                >
+                  {key.key}
+                </p>
                 <p className="w-[140px] text-[14px] text-text-2">
-                  {key.lastUsed.toLocaleDateString()}
+                  {key.lastUsed ? key.lastUsed.toLocaleDateString() : 'Never'}
                 </p>
                 <div
                   className="w-4 h-4 text-text-2 hover:text-text-1 cursor-pointer"
@@ -40,7 +50,10 @@ const KeyTable: React.FC<KeyTableProps> = ({ keys, filteredKeys }) => {
                 >
                   <Copy size={16} />
                 </div>
-                <div className="w-4 h-4 text-text-2 hover:text-text-1 cursor-pointer">
+                <div
+                  className="w-4 h-4 text-text-2 hover:text-text-1 cursor-pointer"
+                  onClick={() => onDelete(key.id)}
+                >
                   <Trash size={16} />
                 </div>
               </div>
