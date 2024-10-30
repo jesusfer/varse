@@ -1,6 +1,6 @@
-import { PendingVariable } from '../../../../../../backend/types'
 import { ChevronRight } from 'lucide-react'
-import Button from '../../../../../Library/Button/Button'
+import Button from '../../../../Library/Button/Button'
+import { PendingVariable } from '../../../../../backend/types'
 
 interface PendingTableRowProps {
   update: PendingVariable

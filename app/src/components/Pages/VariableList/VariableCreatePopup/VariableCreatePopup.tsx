@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
-import useClickOutside from '../../../../../hooks/useClickOutside'
-import Button from '../../../../Library/Button/Button'
-import Input from '../../../../Library/Input/Input'
+import useClickOutside from '../../../../hooks/useClickOutside'
+import Button from '../../../Library/Button/Button'
+import Input from '../../../Library/Input/Input'
 
 interface VariableCreatePopupProps {
   isOpen: boolean

@@ -1,10 +1,10 @@
-import { Variable } from '../../../../../backend/types'
 import Table from './Table/Table'
 import { useState } from 'react'
 import TableHeader from './TableHeader/TableHeader'
 import PendingTableRow from './PendingTableRow/PendingTableRow'
 import PastTableRow from './PastTableRow/PastTableRow'
-import Button from '../../../../Library/Button/Button'
+import { Variable } from '../../../../backend/types'
+import Button from '../../../Library/Button/Button'
 
 interface VariableDisplayProps {
   variable: Variable

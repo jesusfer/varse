@@ -10,7 +10,7 @@ const useLoginRedirect = () => {
     backendService
       .validate()
       .then(() => {
-        navigate('variables')
+        navigate('variable-list')
       })
       .catch(() => {})
   }, [backendService, navigate])

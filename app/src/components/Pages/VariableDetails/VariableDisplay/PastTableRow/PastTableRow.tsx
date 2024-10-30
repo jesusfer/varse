@@ -1,6 +1,5 @@
-import { HistoryVariable } from '../../../../../../backend/types'
 import { ChevronRight } from 'lucide-react'
-
+import { HistoryVariable } from '../../../../../backend/types'
 interface PastTableRowProps {
   history: HistoryVariable
 }

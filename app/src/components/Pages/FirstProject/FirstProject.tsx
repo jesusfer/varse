@@ -15,7 +15,7 @@ const FirstProject: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     await createProject(projectName)
-    navigate('variables')
+    navigate('variable-list')
   }
 
   return (

@@ -7,19 +7,23 @@ type LinkKey =
   | 'docs.home'
   | 'docs.variables.create'
   | 'docs.variables.read'
-  | 'variables'
+  | 'variable-list'
+  | 'variable-details'
   | 'keys'
   | 'login'
   | 'signup'
+  | 'first-project'
 
 const linkMap: Record<LinkKey, string> = {
   'docs.home': `${baseUrl}/docs`,
   'docs.variables.create': `${baseUrl}/docs/creating-variables`,
   'docs.variables.read': `${baseUrl}/docs/updating-variables`,
-  variables: '/variables',
+  'variable-list': '/variable-list',
+  'variable-details': '/variable-details',
   keys: '/keys',
   login: '/login',
   signup: '/signup',
+  'first-project': '/first-project',
 }
 
 const isInternalLink = (key: LinkKey) => linkMap[key].startsWith('/')
@@ -31,7 +35,7 @@ const useNav = () => {
     (key: LinkKey, id?: string) => {
       let path = linkMap[key]
 
-      if (key === 'variables' && id) {
+      if (key === 'variable-details' && id) {
         path = `${path}/${id}`
       }
 

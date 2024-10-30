@@ -1,14 +1,11 @@
 import { Search } from 'lucide-react'
-import Sidebar from '../../Library/Sidebar/Sidebar'
 import { useState } from 'react'
 import Button from '../../Library/Button/Button'
-import useAuthRequired from '../../../hooks/useAuthRequired'
 import KeyTable from './KeyTable/KeyTable'
 import KeyCreatePopup from './KeyCreatePopup/KeyCreatePopup'
+import TopBar from '../../Library/TopBar/TopBar'
 
 const Keys: React.FC = () => {
-  useAuthRequired()
-
   const [search, setSearch] = useState('')
   const [filteredKeys, setFilteredKeys] = useState(keys)
   const [creatingKey, setCreatingKey] = useState(false)
@@ -24,42 +21,37 @@ const Keys: React.FC = () => {
     )
   }
 
-  const createKey = (name: string) => {
-    console.log(name)
-    setCreatingKey(false)
-  }
+  const createKey = (name: string) => setCreatingKey(false)
 
   return (
-    <div className="h-screen w-screen flex items-start justify-start bg-background">
-      <Sidebar tab={'api'} />
+    <div className="w-full h-full flex flex-col overflow-hidden">
+      <TopBar>
+        <h2 className="text-[14px] text-text-1">API Keys</h2>
+      </TopBar>
       <div className="w-full h-full flex flex-col overflow-hidden">
-        <div className="w-full h-[60px] p-4 flex items-center bg-panel-background border-b border-panel-border flex-shrink-0">
-          <h2 className="text-[14px] text-text-1">API Keys</h2>
-        </div>
-        <div className="w-full h-full flex flex-col overflow-hidden">
-          <div className="w-full flex-1 p-8 gap-4 flex flex-col items-center justify-start overflow-auto">
-            <div className="w-full max-w-[600px] h-[40px] flex items-center flex-shrink-0 gap-4">
-              <div className="w-full h-[40px] px-3 py-1 flex items-center justify-start gap-2 rounded-[6px] border border-panel-border">
-                <Search size={16} className="text-text-2" />
-                <input
-                  className="w-full h-full bg-transparent text-[14px] text-text-1 placeholder:text-text-2"
-                  type="text"
-                  placeholder="Search keys"
-                  value={search}
-                  onChange={handleSearch}
-                />
-              </div>
-              <Button variant="outline" onClick={() => setCreatingKey(true)}>
-                Create Key
-              </Button>
+        <div className="w-full flex-1 p-8 gap-4 flex flex-col items-center justify-start overflow-auto">
+          <div className="w-full max-w-[600px] h-[40px] flex items-center flex-shrink-0 gap-4">
+            <div className="w-full h-[40px] px-3 py-1 flex items-center justify-start gap-2 rounded-[6px] border border-panel-border">
+              <Search size={16} className="text-text-2" />
+              <input
+                className="w-full h-full bg-transparent text-[14px] text-text-1 placeholder:text-text-2"
+                name="search"
+                type="text"
+                placeholder="Search keys"
+                value={search}
+                onChange={handleSearch}
+              />
             </div>
-            <KeyTable keys={keys} filteredKeys={filteredKeys} />
-            <KeyCreatePopup
-              isOpen={creatingKey}
-              create={createKey}
-              onClose={() => setCreatingKey(false)}
-            />
+            <Button variant="outline" onClick={() => setCreatingKey(true)}>
+              Create Key
+            </Button>
           </div>
+          <KeyTable keys={keys} filteredKeys={filteredKeys} />
+          <KeyCreatePopup
+            isOpen={creatingKey}
+            create={createKey}
+            onClose={() => setCreatingKey(false)}
+          />
         </div>
       </div>
     </div>

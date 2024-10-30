@@ -3,9 +3,12 @@ import './index.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './components/Pages/Login/Login'
 import Signup from './components/Pages/Signup/Signup'
-import Variables from './components/Pages/Variables/Variables'
 import Keys from './components/Pages/Keys/Keys'
 import FirstProject from './components/Pages/FirstProject/FirstProject'
+import Dashboard from './components/Pages/Dashboard/Dashboard'
+import VariableList from './components/Pages/VariableList/VariableList'
+import VariableDetails from './components/Pages/VariableDetails/VariableDetails'
+import NotFound from './components/Pages/NotFound/NotFound'
 
 function App() {
   return (
@@ -15,9 +18,17 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/first-project" element={<FirstProject />} />
-        <Route path="/variables" element={<Variables />} />
-        <Route path="/variables/:variableId" element={<Variables />} />
-        <Route path="/keys" element={<Keys />} />
+
+        <Route element={<Dashboard />}>
+          <Route path="/variable-list" element={<VariableList />} />
+          <Route
+            path="/variable-details/:variableId"
+            element={<VariableDetails />}
+          />
+          <Route path="/keys" element={<Keys />} />
+        </Route>
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   )

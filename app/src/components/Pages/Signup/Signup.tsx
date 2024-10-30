@@ -18,7 +18,7 @@ const Signup: React.FC = () => {
   const handleSignup = async () => {
     if (password !== confirmPassword) return
     await signup(email, password)
-    navigate('variables')
+    navigate('first-project')
   }
 
   return (

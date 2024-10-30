@@ -5,11 +5,13 @@ import useLogin from '../../../hooks/useLogin'
 import Button from '../../Library/Button/Button'
 import useNav from '../../../hooks/useNav'
 import useLoginRedirect from '../../../hooks/useLoginRedirect'
+import useProject from '../../../hooks/useProject'
 
 const Login: React.FC = () => {
   useLoginRedirect()
   const navigate = useNav()
   const { login } = useLogin()
+  const { getProjects } = useProject()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -17,7 +19,8 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     await login(email, password)
-    navigate('variables')
+    const projects = await getProjects()
+    navigate(projects.length > 0 ? 'variable-list' : 'first-project')
   }
 
   return (

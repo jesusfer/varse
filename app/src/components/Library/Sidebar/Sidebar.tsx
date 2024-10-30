@@ -1,30 +1,26 @@
 import { Book, Database, KeyRound, Pencil, Rocket } from 'lucide-react'
 import SidebarButton from '../SidebarButton/SidebarButton'
 import useNav from '../../../hooks/useNav'
-import useProject from '../../../hooks/useProject'
-import { useEffect, useState } from 'react'
 import { Project } from '../../../backend/types'
+import { useLocation } from 'react-router-dom'
 
 interface SidebarProps {
-  tab: 'vars' | 'api'
+  activeProject: Project | null
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ tab }) => {
+const Sidebar: React.FC<SidebarProps> = ({ activeProject }) => {
   const navigate = useNav()
-  const { getProjects } = useProject()
-  const [activeProject, setActiveProject] = useState<Project | null>(null)
+  const location = useLocation()
 
-  useEffect(() => {
-    getProjects().then((projects) => {
-      setActiveProject(projects[0])
-    })
-  }, [getProjects])
+  const tab = getActiveTab(location.pathname)
 
   return (
     <div className="w-[240px] h-full py-4 flex flex-col flex-none items-start justify-start gap-4 bg-panel-background border-r border-panel-border">
       <div className="w-full py-2 px-3 gap-1.5 flex flex-col">
         <div className="w-full flex flex-col">
-          <h2 className="text-[14px] text-text-1">{activeProject?.name}</h2>
+          <h2 className="text-[14px] text-text-1">
+            {activeProject?.name || 'Loading...'}
+          </h2>
           <p className="text-[10px] text-text-2">Free</p>
         </div>
       </div>
@@ -34,7 +30,7 @@ const Sidebar: React.FC<SidebarProps> = ({ tab }) => {
           icon={<Database size={16} className={'text-text-1'} />}
           name={'Variables'}
           active={tab === 'vars'}
-          onClick={() => navigate('variables')}
+          onClick={() => navigate('variable-list')}
         />
         <SidebarButton
           icon={<KeyRound size={16} className={'text-text-1'} />}
@@ -66,6 +62,12 @@ const Sidebar: React.FC<SidebarProps> = ({ tab }) => {
       </div>
     </div>
   )
+}
+
+const getActiveTab = (pathname: string): string | null => {
+  if (pathname.startsWith('/variables')) return 'vars'
+  if (pathname.startsWith('/keys')) return 'api'
+  return null
 }
 
 export default Sidebar
