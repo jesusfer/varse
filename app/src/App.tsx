@@ -16,6 +16,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/first-project" element={<FirstProject />} />
         <Route path="/variables" element={<Variables />} />
+        <Route path="/variables/:variableId" element={<Variables />} />
         <Route path="/keys" element={<Keys />} />
       </Routes>
     </BrowserRouter>

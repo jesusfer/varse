@@ -28,8 +28,13 @@ const useNav = () => {
   const navigate = useNavigate()
 
   return useCallback(
-    (key: LinkKey) => {
-      const path = linkMap[key]
+    (key: LinkKey, id?: string) => {
+      let path = linkMap[key]
+
+      if (key === 'variables' && id) {
+        path = `${path}/${id}`
+      }
+
       if (isInternalLink(key)) {
         navigate(path)
       } else {
