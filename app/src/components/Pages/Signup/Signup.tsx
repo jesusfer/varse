@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import OnboardingInput from '../../Library/OnboardingInput/OnboardingInput'
+import Input from '../../Library/Input/Input'
 import OnboardingCard from '../../Library/OnboardingCard/OnboardingCard'
 import useSignup from '../../../hooks/useSignup'
 import Button from '../../Library/Button/Button'
@@ -31,21 +31,21 @@ const Signup: React.FC = () => {
           </p>
         </div>
         <div className="w-full flex flex-col items-start justify-center gap-4">
-          <OnboardingInput
+          <Input
             label="Email"
             placeholder="Enter your email"
             value={email}
             type="email"
             onChange={(value) => setEmail(value)}
           />
-          <OnboardingInput
+          <Input
             label="Password"
             placeholder="Enter your password"
             value={password}
             type="password"
             onChange={(value) => setPassword(value)}
           />
-          <OnboardingInput
+          <Input
             label="Confirm Password"
             placeholder="Confirm your password"
             value={confirmPassword}

@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import useClickOutside from '../../../../../hooks/useClickOutside'
 import Button from '../../../../Library/Button/Button'
+import Input from '../../../../Library/Input/Input'
 
 interface VariableCreateProps {
   create: (name: string, value: string) => void
@@ -24,26 +25,20 @@ const VariableCreate: React.FC<VariableCreateProps> = ({ create, close }) => {
           Create Variable
         </h1>
         <div className="w-full flex flex-col items-center gap-4">
-          <div className="w-full flex flex-col items-start justify-start gap-2">
-            <p className="text-[14px] text-text-1">Key</p>
-            <input
-              className="w-full h-[36px] px-3 py-1 bg-transparent border border-panel-border rounded-[6px] text-[14px] text-text-1 placeholder:text-text-2"
-              type="text"
-              placeholder="variable_key"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-          <div className="w-full flex flex-col items-start justify-start gap-2">
-            <p className="text-[14px] text-text-1">Value</p>
-            <input
-              className="w-full h-[36px] px-3 py-1 bg-transparent border border-panel-border rounded-[6px] text-[14px] text-text-1 placeholder:text-text-2"
-              type="text"
-              placeholder="true"
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-            />
-          </div>
+          <Input
+            label="Key"
+            value={name}
+            type="text"
+            placeholder="variable_key"
+            onChange={(value) => setName(value)}
+          />
+          <Input
+            label="Value"
+            value={value}
+            type="text"
+            placeholder="true"
+            onChange={(value) => setValue(value)}
+          />
         </div>
         <Button onClick={() => create(name, value)}>Submit</Button>
       </div>

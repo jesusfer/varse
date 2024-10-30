@@ -36,7 +36,10 @@ const Variables: React.FC = () => {
       </div>
       {createVariable && (
         <VariableCreate
-          create={() => setCreateVariable(false)}
+          create={(name, value) => {
+            console.log(name, value)
+            setCreateVariable(false)
+          }}
           close={() => setCreateVariable(false)}
         />
       )}

@@ -20,8 +20,8 @@ const TableHeader: React.FC<TableHeaderProps> = ({
       <p className="w-full text-[14px] text-text-2">
         {title + ' (' + count + ')'}
       </p>
-      {open && <ChevronDown size={24} className="text-text-2" />}
-      {!open && <ChevronUp size={24} className="text-text-2" />}
+      {open && <ChevronDown size={16} className="text-text-2" />}
+      {!open && <ChevronUp size={16} className="text-text-2" />}
     </div>
   )
 }
