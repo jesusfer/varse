@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import useClickOutside from '../../../../../hooks/useClickOutside'
+import Button from '../../../../Library/Button/Button'
 
 interface VariableCreateProps {
   create: (name: string, value: string) => void
@@ -44,12 +45,7 @@ const VariableCreate: React.FC<VariableCreateProps> = ({ create, close }) => {
             />
           </div>
         </div>
-        <button
-          className="px-3 py-2 rounded-[6px] bg-cta-base text-[14px] font-medium text-cta-text"
-          onClick={() => create(name, value)}
-        >
-          Submit
-        </button>
+        <Button onClick={() => create(name, value)}>Submit</Button>
       </div>
     </div>
   )

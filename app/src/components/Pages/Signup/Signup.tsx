@@ -1,11 +1,14 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import OnboardingInput from '../../Library/OnboardingInput/OnboardingInput'
 import OnboardingCard from '../../Library/OnboardingCard/OnboardingCard'
 import useSignup from '../../../hooks/useSignup'
+import Button from '../../Library/Button/Button'
+import useNav from '../../../hooks/useNav'
+import useLoginRedirect from '../../../hooks/useLoginRedirect'
 
 const Signup: React.FC = () => {
-  const navigate = useNavigate()
+  useLoginRedirect()
+  const navigate = useNav()
   const { signup } = useSignup()
 
   const [email, setEmail] = useState('')
@@ -15,7 +18,7 @@ const Signup: React.FC = () => {
   const handleSignup = async () => {
     if (password !== confirmPassword) return
     await signup(email, password)
-    navigate('/dashboard')
+    navigate('variables')
   }
 
   return (
@@ -51,17 +54,17 @@ const Signup: React.FC = () => {
           />
         </div>
         <div className="w-full flex flex-col items-start justify-center gap-4">
-          <button
-            className="w-full h-[40px] rounded-md bg-cta-base hover:bg-cta-hover text-cta-text text-[14px]"
-            onClick={handleSignup}
-          >
+          <Button className="w-full" onClick={handleSignup}>
             Create Account
-          </button>
-          <p className="text-text-1 text-[14px]">
+          </Button>
+          <p className="text-text-2 text-[14px]">
             Already have an account?{' '}
-            <Link style={{ textDecoration: 'underline' }} to="/login">
+            <span
+              className="underline text-text-1 cursor-pointer"
+              onClick={() => navigate('login')}
+            >
               Log In
-            </Link>
+            </span>
           </p>
         </div>
       </OnboardingCard>

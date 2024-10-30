@@ -1,6 +1,6 @@
 import { PendingVariable } from '../../../../../../backend/types'
 import { ChevronRight } from 'lucide-react'
-import VariableButton from '../../VariableButton/VariableButton'
+import Button from '../../../../../Library/Button/Button'
 
 interface PendingTableRowProps {
   update: PendingVariable
@@ -22,12 +22,12 @@ const PendingTableRow: React.FC<PendingTableRowProps> = ({
         <ChevronRight size={16} className="text-text-1 flex-none" />
         <p className="w-full text-[14px] text-text-1">{update.pendingValue}</p>
       </div>
-      <VariableButton onClick={approve} textColor="text-positive">
+      <Button className="!text-positive" variant="outline" onClick={approve}>
         Approve
-      </VariableButton>
-      <VariableButton onClick={reject} textColor="text-destructive">
+      </Button>
+      <Button className="!text-destructive" variant="outline" onClick={reject}>
         Reject
-      </VariableButton>
+      </Button>
       <div className="flex flex-col flex-none items-start justify-center">
         <p className="text-[12px] text-text-2">User Name</p>
         <p className="text-[12px] text-text-2">

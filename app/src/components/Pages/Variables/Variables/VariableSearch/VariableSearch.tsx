@@ -2,7 +2,8 @@ import { Search } from 'lucide-react'
 import { useState } from 'react'
 import VariableRow from './VariableRow/VariableRow'
 import { Variable } from '../../../../../backend/types'
-import VariableButton from '../VariableButton/VariableButton'
+import useNav from '../../../../../hooks/useNav'
+import Button from '../../../../Library/Button/Button'
 
 interface VariableSearchProps {
   variables: Variable[]
@@ -15,6 +16,7 @@ const VariableSearch: React.FC<VariableSearchProps> = ({
   setSelectedKey,
   create,
 }) => {
+  const navigate = useNav()
   const [search, setSearch] = useState('')
   const [filteredVariables, setFilteredVariables] = useState(variables)
 
@@ -40,19 +42,20 @@ const VariableSearch: React.FC<VariableSearchProps> = ({
             onChange={handleSearch}
           />
         </div>
-        <VariableButton onClick={create}>Create Variable</VariableButton>
+        <Button variant="outline" onClick={create}>
+          Create Variable
+        </Button>
       </div>
-      <div className="w-[400px] flex flex-col border border-panel-border rounded-[6px]">
-        <div className="w-full p-3 flex items-center justify-start gap-3 border-b border-panel-border">
+      <div className="w-[400px] h-full border border-panel-border rounded-[6px] flex-shrink overflow-auto">
+        <div className="sticky top-0 bg-background w-full p-3 flex items-center justify-start gap-3 border-b border-panel-border">
           <p className="text-[14px] text-text-2">Key</p>
         </div>
         {variables.length > 0 && (
-          <div className="w-full flex flex-col max-h-[300px] overflow-y-auto">
+          <div className="w-full flex flex-col overflow-y-auto">
             {filteredVariables.map((variable, index) => (
               <VariableRow
                 key={variable.id}
                 name={variable.name}
-                last={index === filteredVariables.length - 1}
                 onClick={() => setSelectedKey(variable.id)}
               />
             ))}
@@ -64,10 +67,16 @@ const VariableSearch: React.FC<VariableSearchProps> = ({
           </div>
         )}
         {variables.length === 0 && (
-          <div className="w-full flex items-center justify-start p-3">
+          <div className="w-full flex items-center justify-between p-3">
             <p className="text-[14px] text-text-2">
               You don't have any variables yet.
             </p>
+            <button
+              className="text-[14px] text-cta-base cursor-pointer underline"
+              onClick={() => navigate('docs.home')}
+            >
+              Quick Start
+            </button>
           </div>
         )}
       </div>

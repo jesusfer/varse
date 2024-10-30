@@ -1,10 +1,10 @@
 import { Variable } from '../../../../../backend/types'
-import VariableButton from '../VariableButton/VariableButton'
 import Table from './Table/Table'
 import { useState } from 'react'
 import TableHeader from './TableHeader/TableHeader'
 import PendingTableRow from './PendingTableRow/PendingTableRow'
 import PastTableRow from './PastTableRow/PastTableRow'
+import Button from '../../../../Library/Button/Button'
 
 interface VariableDisplayProps {
   variable: Variable
@@ -42,24 +42,26 @@ const VariableDisplay: React.FC<VariableDisplayProps> = ({ variable }) => {
         </div>
         <div className="flex items-center justify-center gap-4">
           {!editing && (
-            <VariableButton onClick={() => setEditing(!editing)}>
+            <Button variant="outline" onClick={() => setEditing(!editing)}>
               Update Value
-            </VariableButton>
+            </Button>
           )}
           {editing && (
             <>
-              <VariableButton
-                textColor="text-positive"
+              <Button
+                className="!text-positive"
+                variant="outline"
                 onClick={() => setEditing(false)}
               >
                 Submit
-              </VariableButton>
-              <VariableButton
-                textColor="text-destructive"
+              </Button>
+              <Button
+                className="!text-destructive"
+                variant="outline"
                 onClick={() => setEditing(false)}
               >
                 Discard
-              </VariableButton>
+              </Button>
             </>
           )}
         </div>
@@ -104,9 +106,9 @@ const VariableDisplay: React.FC<VariableDisplayProps> = ({ variable }) => {
           />
         )}
       </Table>
-      <VariableButton textColor="text-destructive">
+      <Button className="!text-destructive" variant="outline">
         Delete Variable
-      </VariableButton>
+      </Button>
     </div>
   )
 }

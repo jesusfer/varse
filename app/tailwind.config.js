@@ -12,12 +12,15 @@ module.exports = {
         },
         cta: {
           base: '#fafafa',
-          hover: '#eeeeee',
+          hover: '#cccccc',
           text: '#18181b',
         },
         text: {
           1: '#fafafa',
           2: '#a1a1aa',
+        },
+        input: {
+          active: '#ffffff10',
         },
         positive: '#9BFF9D',
         destructive: '#FF9B9B',
