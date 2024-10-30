@@ -1,4 +1,4 @@
-import { Search } from 'lucide-react'
+import { Copy, Search, Trash } from 'lucide-react'
 import Sidebar from '../../Library/Sidebar/Sidebar'
 import { useState } from 'react'
 import Button from '../../Library/Button/Button'
@@ -44,17 +44,42 @@ const Keys: React.FC = () => {
               <Button variant="outline">Create Key</Button>
             </div>
             <div className="w-full max-w-[600px] h-full border border-panel-border rounded-[6px] flex-shrink overflow-auto">
-              <div className="sticky top-0 bg-background w-full p-3 flex items-center justify-start gap-3 border-b border-panel-border">
-                <p className="text-[14px] text-text-2">Key</p>
+              <div className="sticky top-0 bg-background w-full p-3 flex items-center justify-between border-b border-panel-border">
+                <div className="flex-1 flex items-center justify-end gap-3">
+                  <p className="w-[140px] text-[14px] text-text-2">Name</p>
+                  <p className="flex-1 text-[14px] text-text-2">Key</p>
+                  <p className="w-[140px] text-[14px] text-text-2">Last Used</p>
+                  <div className="w-4 h-4" />
+                  <div className="w-4 h-4" />
+                </div>
               </div>
               {keys.length > 0 && (
                 <div className="w-full flex flex-col overflow-y-auto">
                   {filteredKeys.map((key) => (
                     <div
                       key={key.id}
-                      className="w-full p-3 flex items-center justify-start border-b border-panel-border cursor-pointer hover:bg-panel-background-hover"
+                      className="w-full p-3 flex items-center justify-between border-b border-panel-border"
                     >
-                      <p className="text-[14px] text-text-1">{key.name}</p>
+                      <div className="flex-1 flex items-center justify-end gap-3">
+                        <p className="w-[140px] text-[14px] text-text-1">
+                          {key.name}
+                        </p>
+                        <p className="flex-1 text-[14px] text-text-1">
+                          {key.key}
+                        </p>
+                        <p className="w-[140px] text-[14px] text-text-2">
+                          {key.lastUsed.toLocaleDateString()}
+                        </p>
+                        <div
+                          className="w-4 h-4 text-text-2 hover:text-text-1 cursor-pointer"
+                          onClick={() => navigator.clipboard.writeText(key.key)}
+                        >
+                          <Copy size={16} />
+                        </div>
+                        <div className="w-4 h-4 text-text-2 hover:text-text-1 cursor-pointer">
+                          <Trash size={16} />
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -90,13 +115,11 @@ export default Keys
 type ApiKey = {
   id: string
   name: string
+  key: string
+  lastUsed: Date
 }
 
 const keys: ApiKey[] = [
-  { id: '1', name: 'Key 1' },
-  { id: '2', name: 'Key 2' },
-  { id: '3', name: 'Key 3' },
-  { id: '4', name: 'Key 4' },
-  { id: '5', name: 'Key 5' },
-  { id: '6', name: 'Key 6' },
+  { id: '1', name: 'Key 1', key: '1234567890', lastUsed: new Date() },
+  { id: '2', name: 'Key 2', key: '6789012345', lastUsed: new Date() },
 ]

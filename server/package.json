@@ -22,7 +22,8 @@
     "build": "tsc",
     "start": "bun run dist/index.js",
     "start:local": "tsc-watch --onSuccess \"bun run dist/index.js\"",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "studio:local": "DATABASE_URL=$(grep DATABASE_URL .env.local | cut -d '=' -f2- | tr -d '\"') npx prisma studio"
   },
   "devDependencies": {
     "@types/node": "^22.8.0",
