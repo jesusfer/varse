@@ -26,6 +26,11 @@ export type AuthToken = {
   token: string
 }
 
+export type Project = {
+  id: string
+  name: string
+}
+
 export type Variable = {
   id: string
   name: string

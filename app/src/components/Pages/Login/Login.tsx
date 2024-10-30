@@ -54,10 +54,7 @@ const Login: React.FC = () => {
               Don't have an account?{' '}
               <span
                 className="underline text-text-1 cursor-pointer"
-                onClick={() => {
-                  console.log('clicked')
-                  navigate('signup')
-                }}
+                onClick={() => navigate('signup')}
               >
                 Sign Up
               </span>

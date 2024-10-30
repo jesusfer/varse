@@ -3,6 +3,7 @@ import { HTTPService } from './http'
 import {
   LoginRequest,
   LoginResponse,
+  Project,
   SignupRequest,
   SignupResponse,
 } from './types'
@@ -40,6 +41,28 @@ export class BackendService {
     await this.httpService.request(
       '/validate',
       'POST',
+      {},
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
+  async createProject(projectName: string): Promise<void> {
+    await this.httpService.request(
+      '/project',
+      'POST',
+      { name: projectName },
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
+  async getProjects(): Promise<Project[]> {
+    return this.httpService.request(
+      '/project',
+      'GET',
       {},
       {
         Authorization: `Bearer ${this.authService.getToken()}`,

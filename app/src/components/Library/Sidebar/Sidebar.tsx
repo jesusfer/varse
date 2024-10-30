@@ -1,6 +1,9 @@
 import { Book, Database, KeyRound, Pencil, Rocket } from 'lucide-react'
 import SidebarButton from '../SidebarButton/SidebarButton'
 import useNav from '../../../hooks/useNav'
+import useProject from '../../../hooks/useProject'
+import { useEffect, useState } from 'react'
+import { Project } from '../../../backend/types'
 
 interface SidebarProps {
   tab: 'vars' | 'api'
@@ -8,12 +11,20 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ tab }) => {
   const navigate = useNav()
+  const { getProjects } = useProject()
+  const [activeProject, setActiveProject] = useState<Project | null>(null)
+
+  useEffect(() => {
+    getProjects().then((projects) => {
+      setActiveProject(projects[0])
+    })
+  }, [getProjects])
 
   return (
     <div className="w-[240px] h-full py-4 flex flex-col flex-none items-start justify-start gap-4 bg-panel-background border-r border-panel-border">
       <div className="w-full py-2 px-3 gap-1.5 flex flex-col">
         <div className="w-full flex flex-col">
-          <h2 className="text-[14px] text-text-1">Project Name</h2>
+          <h2 className="text-[14px] text-text-1">{activeProject?.name}</h2>
           <p className="text-[10px] text-text-2">Free</p>
         </div>
       </div>

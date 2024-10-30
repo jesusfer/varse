@@ -3,13 +3,18 @@ import Input from '../../Library/Input/Input'
 import OnboardingCard from '../../Library/OnboardingCard/OnboardingCard'
 import Button from '../../Library/Button/Button'
 import useNav from '../../../hooks/useNav'
+import useAuthRequired from '../../../hooks/useAuthRequired'
+import useProject from '../../../hooks/useProject'
 
 const FirstProject: React.FC = () => {
+  useAuthRequired()
+  const { createProject } = useProject()
   const navigate = useNav()
   const [projectName, setProjectName] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    await createProject(projectName)
     navigate('variables')
   }
 
@@ -31,7 +36,7 @@ const FirstProject: React.FC = () => {
             />
           </div>
           <div className="w-full flex flex-col items-start justify-center gap-4">
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" onClick={handleSubmit}>
               Create Project
             </Button>
           </div>

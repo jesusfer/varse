@@ -1,7 +1,7 @@
-import { User } from '@prisma/client'
 import { UserService } from '../user/user'
 import { JwtService } from './jwt'
 import { AuthLogin, AuthToken } from './types'
+import { UserInfo } from '../user/types'
 
 export class AuthService {
   private userService: UserService
@@ -24,7 +24,7 @@ export class AuthService {
     return { token: this.jwtService.sign(payload) }
   }
 
-  async validateJwt(token: string): Promise<User> {
+  async validateJwt(token: string): Promise<UserInfo> {
     const payload = this.jwtService.verify(token)
     if (!payload || typeof payload !== 'object') {
       throw new Error('Invalid token payload')
@@ -35,6 +35,6 @@ export class AuthService {
       throw new Error('User not found')
     }
 
-    return user
+    return { id: user.id, email: user.email }
   }
 }
