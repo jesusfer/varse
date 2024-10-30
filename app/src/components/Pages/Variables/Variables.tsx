@@ -4,7 +4,7 @@ import Topbar from './Topbar/Topbar'
 import VariableDisplay from './Variables/VariableDisplay/VariableDisplay'
 import { Variable } from '../../../backend/types'
 import VariableSearch from './Variables/VariableSearch/VariableSearch'
-import VariableCreate from './Variables/VariableCreate/VariableCreate'
+import VariableCreatePopup from './Variables/VariableCreatePopup/VariableCreatePopup'
 import useAuthRequired from '../../../hooks/useAuthRequired'
 
 const Variables: React.FC = () => {
@@ -34,15 +34,14 @@ const Variables: React.FC = () => {
           )}
         </div>
       </div>
-      {createVariable && (
-        <VariableCreate
-          create={(name, value) => {
-            console.log(name, value)
-            setCreateVariable(false)
-          }}
-          close={() => setCreateVariable(false)}
-        />
-      )}
+      <VariableCreatePopup
+        isOpen={createVariable}
+        create={(name, value) => {
+          console.log(name, value)
+          setCreateVariable(false)
+        }}
+        onClose={() => setCreateVariable(false)}
+      />
     </div>
   )
 }

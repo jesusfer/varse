@@ -1,19 +1,18 @@
 interface InputProps {
   label: string
-
   value: string
-  type: string
-  placeholder: string
-
   onChange: (value: string) => void
+
+  type?: string
+  placeholder?: string
 }
 
 const Input: React.FC<InputProps> = ({
   label,
-  placeholder,
   value,
-  type,
   onChange,
+  type = 'text',
+  placeholder = '',
 }) => {
   return (
     <div className="w-full flex flex-col items-start justify-center gap-2">

@@ -3,17 +3,24 @@ import useClickOutside from '../../../../../hooks/useClickOutside'
 import Button from '../../../../Library/Button/Button'
 import Input from '../../../../Library/Input/Input'
 
-interface VariableCreateProps {
+interface VariableCreatePopupProps {
+  isOpen: boolean
   create: (name: string, value: string) => void
-  close: () => void
+  onClose: () => void
 }
 
-const VariableCreate: React.FC<VariableCreateProps> = ({ create, close }) => {
+const VariableCreatePopup: React.FC<VariableCreatePopupProps> = ({
+  isOpen,
+  create,
+  onClose,
+}) => {
   const [name, setName] = useState('')
   const [value, setValue] = useState('')
 
   const ref = useRef<HTMLDivElement>(null)
-  useClickOutside(ref, close)
+  useClickOutside(ref, onClose)
+
+  if (!isOpen) return null
 
   return (
     <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-backgroundPopup z-[1]">
@@ -46,4 +53,4 @@ const VariableCreate: React.FC<VariableCreateProps> = ({ create, close }) => {
   )
 }
 
-export default VariableCreate
+export default VariableCreatePopup
