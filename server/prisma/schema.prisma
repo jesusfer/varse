@@ -9,18 +9,18 @@ datasource db {
 }
 
 model User {
-  id       String         @id @default(uuid())
-  email    String         @unique
+  id       String        @id @default(uuid())
+  email    String        @unique
   password String
   projects ProjectUser[]
 }
 
 model Project {
-  id          String        @id @default(uuid())
-  name        String
-  members     ProjectUser[]
-  apiKeys     ApiKey[]
-  variables   Variable[]
+  id        String        @id @default(uuid())
+  name      String
+  members   ProjectUser[]
+  apiKeys   ApiKey[]
+  variables Variable[]
 }
 
 model ProjectUser {
@@ -35,22 +35,22 @@ model ProjectUser {
 }
 
 model ApiKey {
-  id          String    @id @default(uuid())
-  name        String    @unique
-  key         String    @unique
-  createdAt   DateTime  @default(now())
-  lastUsedAt  DateTime?
-  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId   String
+  id         String    @id @default(uuid())
+  name       String    @unique
+  key        String    @unique
+  createdAt  DateTime  @default(now())
+  lastUsedAt DateTime?
+  project    Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId  String
 
   @@index([projectId])
 }
 
 model Variable {
-  id        String   @id @default(uuid())
+  id        String  @id @default(uuid())
   key       String
   value     String
-  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId String
 
   @@unique([projectId, key])
