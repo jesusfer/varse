@@ -18,10 +18,9 @@ const KeyTable: React.FC<KeyTableProps> = ({
   return (
     <div className="w-full max-w-[600px] h-full border border-panel-border rounded-[6px] flex-shrink overflow-auto">
       <div className="sticky top-0 bg-background w-full p-3 flex items-center justify-between border-b border-panel-border">
-        <div className="flex-1 flex items-center justify-end gap-3">
+        <div className="flex-1 flex items-center justify-start gap-3">
           <p className="w-[140px] text-[14px] text-text-2">Name</p>
           <p className="w-[200px] text-[14px] text-text-2">Key</p>
-          <p className="w-[140px] text-[14px] text-text-2">Last Used</p>
           <div className="w-4 h-4" />
           <div className="w-4 h-4" />
         </div>
@@ -33,25 +32,24 @@ const KeyTable: React.FC<KeyTableProps> = ({
               key={key.id}
               className="w-full p-3 flex items-center justify-between border-b border-panel-border"
             >
-              <div className="flex-1 flex items-center justify-end gap-3">
-                <p className="w-[140px] text-[14px] text-text-1">{key.name}</p>
+              <div className="flex-1 flex items-center justify-start gap-3">
+                <p className="w-[140px] flex-none text-[14px] text-text-1">
+                  {key.name}
+                </p>
                 <p
-                  className="w-[200px] text-[14px] text-text-1 truncate"
+                  className="w-full text-[14px] text-text-1 truncate"
                   title={key.key}
                 >
                   {key.key}
                 </p>
-                <p className="w-[140px] text-[14px] text-text-2">
-                  {key.lastUsed ? key.lastUsed.toLocaleDateString() : 'Never'}
-                </p>
                 <div
-                  className="w-4 h-4 text-text-2 hover:text-text-1 cursor-pointer"
+                  className="w-4 h-4 flex-none text-text-2 hover:text-text-1 cursor-pointer"
                   onClick={() => navigator.clipboard.writeText(key.key)}
                 >
                   <Copy size={16} />
                 </div>
                 <div
-                  className="w-4 h-4 text-text-2 hover:text-text-1 cursor-pointer"
+                  className="w-4 h-4 flex-none text-text-2 hover:text-text-1 cursor-pointer"
                   onClick={() => onDelete(key.id)}
                 >
                   <Trash size={16} />
