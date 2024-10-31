@@ -7,11 +7,11 @@ export class JwtService {
     this.secretKey = process.env.JWT_SECRET || 'secret'
   }
 
-  sign(payload: object, expiresIn: string = '1h'): string {
+  sign = (payload: object, expiresIn: string = '1h'): string => {
     return jwt.sign(payload, this.secretKey, { expiresIn })
   }
 
-  verify(token: string): JwtPayload | string {
+  verify = (token: string): JwtPayload | string => {
     try {
       return jwt.verify(token, this.secretKey)
     } catch (error) {
@@ -19,7 +19,7 @@ export class JwtService {
     }
   }
 
-  decode(token: string): JwtPayload | string | null {
+  decode = (token: string): JwtPayload | string | null => {
     return jwt.decode(token)
   }
 }

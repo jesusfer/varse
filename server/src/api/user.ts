@@ -13,7 +13,7 @@ export class UserRoutes {
     this.authService = authService
   }
 
-  addRoutes(router: Router) {
+  addRoutes = (router: Router) => {
     router.post('/user', this.validateCreateUser(), this.createUser)
   }
 

@@ -8,10 +8,10 @@ export class ProjectService {
     this.prisma = new PrismaClient()
   }
 
-  async createProject(
+  createProject = async (
     input: Prisma.ProjectCreateInput,
     userId: string
-  ): Promise<ProjectInfo> {
+  ): Promise<ProjectInfo> => {
     const project = await this.prisma.project.create({
       data: {
         ...input,
@@ -29,7 +29,7 @@ export class ProjectService {
     return { id: project.id, name: project.name }
   }
 
-  async getProjects(userId: string): Promise<ProjectInfo[]> {
+  getProjects = async (userId: string): Promise<ProjectInfo[]> => {
     const projects = await this.prisma.project.findMany({
       where: {
         members: {
@@ -46,61 +46,61 @@ export class ProjectService {
     return projects
   }
 
-  async createApiKey(projectId: string, name: string): Promise<void> {
+  createApiKey = async (projectId: string, name: string): Promise<void> => {
     const key = crypto.randomUUID()
     await this.prisma.apiKey.create({
       data: { name, key, projectId },
     })
   }
 
-  async getApiKeys(projectId: string): Promise<ApiKey[]> {
+  getApiKeys = async (projectId: string): Promise<ApiKey[]> => {
     const apiKeys = await this.prisma.apiKey.findMany({
       where: { projectId },
     })
     return apiKeys
   }
 
-  async deleteApiKey(apiKeyId: string): Promise<void> {
+  deleteApiKey = async (apiKeyId: string): Promise<void> => {
     await this.prisma.apiKey.delete({ where: { id: apiKeyId } })
   }
 
-  async createVariable(
+  createVariable = async (
     projectId: string,
     key: string,
     value: string
-  ): Promise<void> {
+  ): Promise<void> => {
     await this.prisma.variable.create({ data: { projectId, key, value } })
   }
 
-  async getVariables(projectId: string): Promise<Variable[]> {
+  getVariables = async (projectId: string): Promise<Variable[]> => {
     const variables = await this.prisma.variable.findMany({
       where: { projectId },
     })
     return variables
   }
 
-  async getVariableById(variableId: string): Promise<Variable | null> {
+  getVariableById = async (variableId: string): Promise<Variable | null> => {
     const variable = await this.prisma.variable.findUnique({
       where: { id: variableId },
     })
     return variable
   }
 
-  async updateVariable(variableId: string, value: string): Promise<void> {
+  updateVariable = async (variableId: string, value: string): Promise<void> => {
     await this.prisma.variable.update({
       where: { id: variableId },
       data: { value },
     })
   }
 
-  async deleteVariable(variableId: string): Promise<void> {
+  deleteVariable = async (variableId: string): Promise<void> => {
     await this.prisma.variable.delete({ where: { id: variableId } })
   }
 
-  async verifyProjectAccess(
+  verifyProjectAccess = async (
     userId: string,
     projectId: string
-  ): Promise<boolean> {
+  ): Promise<boolean> => {
     const membership = await this.prisma.projectUser.findUnique({
       where: {
         userId_projectId: {

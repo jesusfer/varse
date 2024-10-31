@@ -8,14 +8,14 @@ export class UserService {
     this.prisma = new PrismaClient()
   }
 
-  async createUser(input: Prisma.UserCreateInput): Promise<UserInfo> {
+  createUser = async (input: Prisma.UserCreateInput): Promise<UserInfo> => {
     const user = await this.prisma.user.create({
       data: input,
     })
     return { id: user.id, email: user.email }
   }
 
-  async getUserByEmail(email: string): Promise<User | null> {
+  getUserByEmail = async (email: string): Promise<User | null> => {
     return await this.prisma.user.findUnique({
       where: { email },
     })

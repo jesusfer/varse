@@ -12,7 +12,7 @@ export class AuthService {
     this.jwtService = jwtService
   }
 
-  async generateJwt(request: AuthLogin): Promise<AuthToken> {
+  generateJwt = async (request: AuthLogin): Promise<AuthToken> => {
     const user = await this.userService.getUserByEmail(request.email)
     if (!user) throw new Error('User not found')
 
@@ -24,7 +24,7 @@ export class AuthService {
     return { token: this.jwtService.sign(payload) }
   }
 
-  async validateJwt(token: string): Promise<UserInfo> {
+  validateJwt = async (token: string): Promise<UserInfo> => {
     const payload = this.jwtService.verify(token)
     if (!payload || typeof payload !== 'object') {
       throw new Error('Invalid token payload')

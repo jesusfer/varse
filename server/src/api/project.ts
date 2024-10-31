@@ -20,7 +20,7 @@ export class ProjectRoutes {
     this.authMiddleware = authMiddleware
   }
 
-  addRoutes(router: Router) {
+  addRoutes = (router: Router) => {
     router.post(
       '/project',
       this.authMiddleware.authenticate,
