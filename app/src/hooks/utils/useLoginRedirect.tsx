@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import useBackend from '../services/useBackend'
 import useNav from './useNav'
 import useReferalCode from './useReferalCode'
-import useProject from './useProject'
+import useProject from '../services/useProject'
 
 const useLoginRedirect = () => {
   const navigate = useNav()

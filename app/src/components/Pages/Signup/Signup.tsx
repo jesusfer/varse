@@ -4,7 +4,7 @@ import OnboardingCard from '../../Library/OnboardingCard/OnboardingCard'
 import Button from '../../Library/Button/Button'
 import useLoginRedirect from '../../../hooks/utils/useLoginRedirect'
 import useNav from '../../../hooks/utils/useNav'
-import useReferalCode from '../../../hooks/useReferalCode'
+import useReferalCode from '../../../hooks/utils/useReferalCode'
 import useProject from '../../../hooks/services/useProject'
 import useAccount from '../../../hooks/services/useAccount'
 

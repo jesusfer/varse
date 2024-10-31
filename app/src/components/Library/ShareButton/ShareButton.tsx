@@ -1,12 +1,12 @@
 import { ArrowUpRight } from 'lucide-react'
 import { ProjectShareLink } from '../../../backend/types'
-import { useActiveProject } from '../../../context/ProjectContext'
-import useProject from '../../../hooks/useProject'
 import Button from '../Button/Button'
 import { useState } from 'react'
+import useActiveProject from '../../../hooks/state/useActiveProject'
+import useProject from '../../../hooks/services/useProject'
 
 export default function ShareButton() {
-  const { activeProject } = useActiveProject()
+  const activeProject = useActiveProject()
   const { shareProject } = useProject()
   const [isVisible] = useState(false)
 
