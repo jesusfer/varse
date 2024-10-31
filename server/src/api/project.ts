@@ -65,6 +65,17 @@ export class ProjectRoutes {
       this.authMiddleware.verifyAccess,
       this.deleteVariable
     )
+
+    router.get(
+      '/project/:projectId/share',
+      this.authMiddleware.verifyAccess,
+      this.shareProject
+    )
+    router.post(
+      '/project/:projectId/share/:linkId',
+      this.authMiddleware.authenticate,
+      this.acceptShareLink
+    )
   }
 
   private createProject = async (
@@ -206,6 +217,34 @@ export class ProjectRoutes {
     try {
       await this.projectService.deleteVariable(req.params.variableId)
       res.json({ message: 'Variable deleted' })
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
+  private shareProject = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const link = await this.projectService.createShareLink(
+        req.params.projectId
+      )
+      res.json(link)
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
+  private acceptShareLink = async (
+    req: Request,
+    res: Response
+  ): Promise<void> => {
+    try {
+      if (!req.user) {
+        res.status(401).json({ message: 'Unauthorized' })
+        return
+      }
+
+      await this.projectService.acceptShareLink(req.user.id, req.params.linkId)
+      res.json({ message: 'Project shared' })
     } catch (error) {
       res.status(500).json({ message: 'Internal server error' })
     }

@@ -16,11 +16,12 @@ model User {
 }
 
 model Project {
-  id        String        @id @default(uuid())
-  name      String
-  members   ProjectUser[]
-  apiKeys   ApiKey[]
-  variables Variable[]
+  id               String             @id @default(uuid())
+  name             String
+  members          ProjectUser[]
+  apiKeys          ApiKey[]
+  variables        Variable[]
+  ProjectShareLink ProjectShareLink[]
 }
 
 model ProjectUser {
@@ -32,6 +33,14 @@ model ProjectUser {
   role      ProjectRole @default(MEMBER)
 
   @@unique([userId, projectId])
+}
+
+model ProjectShareLink {
+  id        String   @id @default(uuid())
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+  createdAt DateTime @default(now())
+  expiresAt DateTime
 }
 
 model ApiKey {

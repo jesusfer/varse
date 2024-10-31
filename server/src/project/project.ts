@@ -1,4 +1,10 @@
-import { ApiKey, Prisma, PrismaClient, Variable } from '@prisma/client'
+import {
+  ApiKey,
+  Prisma,
+  PrismaClient,
+  ProjectShareLink,
+  Variable,
+} from '@prisma/client'
 import { ProjectInfo } from './types'
 
 export class ProjectService {
@@ -131,5 +137,32 @@ export class ProjectService {
       },
     })
     return !!membership
+  }
+
+  createShareLink = async (projectId: string): Promise<ProjectShareLink> => {
+    const link = await this.prisma.projectShareLink.create({
+      data: {
+        projectId: projectId,
+        expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24),
+      },
+    })
+    return link
+  }
+
+  acceptShareLink = async (userId: string, linkId: string): Promise<void> => {
+    const link = await this.prisma.projectShareLink.findUnique({
+      where: { id: linkId },
+    })
+    if (!link || link.expiresAt < new Date()) {
+      throw new Error('Invalid share link')
+    }
+
+    await this.prisma.projectUser.create({
+      data: {
+        userId: userId,
+        projectId: link.projectId,
+        role: 'MEMBER',
+      },
+    })
   }
 }
