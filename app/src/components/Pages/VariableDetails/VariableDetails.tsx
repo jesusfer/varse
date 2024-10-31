@@ -7,6 +7,7 @@ import VariableDisplay from './VariableDisplay/VariableDisplay'
 import useVariableList from '../../../hooks/state/useVariableList'
 import useVariableDelete from '../../../hooks/actions/useVariableDelete'
 import useVariableUpdate from '../../../hooks/actions/useVariableUpdate'
+import ShareButton from '../../Library/ShareButton/ShareButton'
 
 const VariableDetails: React.FC = () => {
   const { variableId } = useParams()
@@ -23,14 +24,17 @@ const VariableDetails: React.FC = () => {
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
       <TopBar>
-        <h2
-          className="text-[14px] text-text-2 cursor-pointer hover:text-text-1"
-          onClick={() => nav('variable-list')}
-        >
-          Variables
-        </h2>
-        <ChevronRight size={12} className="text-text-2" />
-        <p className="text-[14px] text-text-1">{selectedVariable.key}</p>
+        <div className="flex items-center gap-3">
+          <h2
+            className="text-[14px] text-text-2 cursor-pointer hover:text-text-1"
+            onClick={() => nav('variable-list')}
+          >
+            Variables
+          </h2>
+          <ChevronRight size={12} className="text-text-2" />
+          <p className="text-[14px] text-text-1">{selectedVariable.key}</p>
+        </div>
+        <ShareButton />
       </TopBar>
       <div className="w-full flex-1 p-8 gap-4 flex flex-col items-center justify-start overflow-auto">
         <div className="w-full max-w-[800px] flex flex-col items-start justify-start gap-8">

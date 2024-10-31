@@ -7,6 +7,7 @@ import VariableCreatePopup from './VariableCreatePopup/VariableCreatePopup'
 import VariableTable from './VariableTable/VariableTable'
 import useVariableCreate from '../../../hooks/actions/useVariableCreate'
 import useVariableList from '../../../hooks/state/useVariableList'
+import ShareButton from '../../Library/ShareButton/ShareButton'
 
 const VariableList: React.FC = () => {
   const navigate = useNav()
@@ -25,6 +26,7 @@ const VariableList: React.FC = () => {
     <div className="w-full h-full flex flex-col overflow-hidden">
       <TopBar>
         <h2 className="text-[14px] text-text-1">Variables</h2>
+        <ShareButton />
       </TopBar>
       <div className="w-full h-full flex flex-col overflow-hidden">
         <div className="w-full flex-1 p-8 gap-4 flex flex-col items-center justify-start overflow-auto">

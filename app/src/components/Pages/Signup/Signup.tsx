@@ -24,7 +24,7 @@ const Signup: React.FC = () => {
     if (password !== confirmPassword) return
     await signup(email, password)
     if (referral) {
-      await acceptShareLink(referral.projectId, referral.linkId)
+      await acceptShareLink(referral.projectId, referral.id)
       navigate('variable-list')
     } else {
       navigate('first-project')

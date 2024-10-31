@@ -15,7 +15,7 @@ const useLoginRedirect = () => {
       .validate()
       .then(() => {
         if (referral) {
-          acceptShareLink(referral.projectId, referral.linkId)
+          acceptShareLink(referral.projectId, referral.id)
         }
         navigate('variable-list')
       })

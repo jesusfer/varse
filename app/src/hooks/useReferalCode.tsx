@@ -1,8 +1,8 @@
 import { useLocation } from 'react-router-dom'
 
 interface ReferralInfo {
+  id: string
   projectId: string
-  linkId: string
 }
 
 const useReferalCode = (): ReferralInfo | null => {
@@ -10,13 +10,13 @@ const useReferalCode = (): ReferralInfo | null => {
   const searchParams = new URLSearchParams(location.search)
 
   const referral = searchParams.get('referral')
-  const projectId = searchParams.get('projectId')
-  const linkId = searchParams.get('linkId')
-  if (!referral || !projectId || !linkId) {
+  const projectId = searchParams.get('project')
+  const id = searchParams.get('id')
+  if (!referral || !projectId || !id) {
     return null
   }
 
-  return { projectId, linkId }
+  return { id, projectId }
 }
 
 export default useReferalCode
