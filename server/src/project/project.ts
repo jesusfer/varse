@@ -60,6 +60,13 @@ export class ProjectService {
     return apiKeys
   }
 
+  getApiKeyByKey = async (key: string): Promise<ApiKey | null> => {
+    const apiKey = await this.prisma.apiKey.findUnique({
+      where: { key },
+    })
+    return apiKey
+  }
+
   deleteApiKey = async (apiKeyId: string): Promise<void> => {
     await this.prisma.apiKey.delete({ where: { id: apiKeyId } })
   }
@@ -82,6 +89,16 @@ export class ProjectService {
   getVariableById = async (variableId: string): Promise<Variable | null> => {
     const variable = await this.prisma.variable.findUnique({
       where: { id: variableId },
+    })
+    return variable
+  }
+
+  getVariableByKey = async (
+    projectId: string,
+    key: string
+  ): Promise<Variable | null> => {
+    const variable = await this.prisma.variable.findUnique({
+      where: { projectId_key: { projectId, key } },
     })
     return variable
   }

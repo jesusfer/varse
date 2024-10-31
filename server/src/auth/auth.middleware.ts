@@ -66,4 +66,26 @@ export class AuthMiddleware {
       return
     }
   }
+
+  authenticateProject = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    const apiKey = req.headers['x-api-key']
+    if (typeof apiKey !== 'string') {
+      res.status(401).json({ message: 'Invalid API key' })
+      return
+    }
+
+    const apiKeyInfo = await this.projectService.getApiKeyByKey(apiKey)
+    if (!apiKeyInfo) {
+      res.status(401).json({ message: 'Invalid API key' })
+      return
+    }
+
+    req.projectId = apiKeyInfo.projectId
+
+    next()
+  }
 }

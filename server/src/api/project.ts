@@ -1,15 +1,6 @@
 import { Request, Response, Router } from 'express'
 import { ProjectService } from '../project/project'
 import { AuthMiddleware } from '../auth/auth.middleware'
-import { UserInfo } from '../user/types'
-
-declare global {
-  namespace Express {
-    interface Request {
-      user: UserInfo
-    }
-  }
-}
 
 export class ProjectRoutes {
   private projectService: ProjectService
@@ -76,6 +67,11 @@ export class ProjectRoutes {
     res: Response
   ): Promise<void> => {
     try {
+      if (!req.user) {
+        res.status(401).json({ message: 'Unauthorized' })
+        return
+      }
+
       const project = await this.projectService.createProject(
         req.body,
         req.user.id
@@ -88,6 +84,11 @@ export class ProjectRoutes {
 
   private getProjects = async (req: Request, res: Response): Promise<void> => {
     try {
+      if (!req.user) {
+        res.status(401).json({ message: 'Unauthorized' })
+        return
+      }
+
       const projects = await this.projectService.getProjects(req.user.id)
       res.json(projects)
     } catch (error) {
