@@ -7,6 +7,7 @@ import {
   Variable,
 } from '@prisma/client'
 import { ProjectInfo } from './types'
+import { v4 } from 'uuid'
 
 export class ProjectService {
   private prisma: PrismaClient
@@ -58,7 +59,7 @@ export class ProjectService {
   }
 
   createApiKey = async (projectId: string, name: string): Promise<void> => {
-    const key = crypto.randomUUID()
+    const key = `pk_${v4().replace(/-/g, '')}`
     await this.prisma.apiKey.create({
       data: { name, key, projectId },
     })
@@ -71,7 +72,7 @@ export class ProjectService {
   }
 
   getApiKeyByKey = async (key: string): Promise<ApiKey | null> => {
-    return await this.prisma.apiKey.findFirst({
+    return await this.prisma.apiKey.findUnique({
       where: { key },
     })
   }

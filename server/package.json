@@ -15,7 +15,8 @@
     "prisma": "^5.21.1",
     "ts-node": "latest",
     "tsc-watch": "^6.2.0",
-    "typescript": "latest"
+    "typescript": "latest",
+    "uuid": "^11.0.2"
   },
   "scripts": {
     "build": "tsc",
