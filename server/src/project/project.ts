@@ -64,17 +64,16 @@ export class ProjectService {
   }
 
   getApiKeys = async (projectId: string): Promise<ApiKey[]> => {
-    const apiKeys = await this.prisma.apiKey.findMany({
+    return await this.prisma.apiKey.findMany({
       where: { projectId },
     })
-    return apiKeys
   }
 
   getApiKeyByKey = async (key: string): Promise<ApiKey | null> => {
-    const apiKey = await this.prisma.apiKey.findUnique({
+    console.log('key', key)
+    return await this.prisma.apiKey.findUnique({
       where: { key },
     })
-    return apiKey
   }
 
   deleteApiKey = async (apiKeyId: string): Promise<void> => {
@@ -90,27 +89,24 @@ export class ProjectService {
   }
 
   getVariables = async (projectId: string): Promise<Variable[]> => {
-    const variables = await this.prisma.variable.findMany({
+    return await this.prisma.variable.findMany({
       where: { projectId },
     })
-    return variables
   }
 
   getVariableById = async (variableId: string): Promise<Variable | null> => {
-    const variable = await this.prisma.variable.findUnique({
+    return await this.prisma.variable.findUnique({
       where: { id: variableId },
     })
-    return variable
   }
 
   getVariableByKey = async (
     projectId: string,
     key: string
   ): Promise<Variable | null> => {
-    const variable = await this.prisma.variable.findUnique({
+    return await this.prisma.variable.findUnique({
       where: { projectId_key: { projectId, key } },
     })
-    return variable
   }
 
   updateVariable = async (variableId: string, value: string): Promise<void> => {
@@ -140,13 +136,12 @@ export class ProjectService {
   }
 
   createShareLink = async (projectId: string): Promise<ProjectShareLink> => {
-    const link = await this.prisma.projectShareLink.create({
+    return await this.prisma.projectShareLink.create({
       data: {
         projectId: projectId,
         expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24),
       },
     })
-    return link
   }
 
   acceptShareLink = async (userId: string, linkId: string): Promise<void> => {
