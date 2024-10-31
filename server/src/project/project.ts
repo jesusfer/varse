@@ -71,8 +71,7 @@ export class ProjectService {
   }
 
   getApiKeyByKey = async (key: string): Promise<ApiKey | null> => {
-    console.log('key', key)
-    return await this.prisma.apiKey.findUnique({
+    return await this.prisma.apiKey.findFirst({
       where: { key },
     })
   }

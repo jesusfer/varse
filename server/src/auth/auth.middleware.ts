@@ -73,14 +73,12 @@ export class AuthMiddleware {
     next: NextFunction
   ): Promise<void> => {
     const apiKey = req.headers['x-api-key']
-    console.log('apiKey', apiKey)
     if (typeof apiKey !== 'string') {
       res.status(401).json({ message: 'No API key provided' })
       return
     }
 
     const apiKeyInfo = await this.projectService.getApiKeyByKey(apiKey)
-    console.log('apiKeyInfo', apiKeyInfo)
     if (!apiKeyInfo) {
       res.status(401).json({ message: 'Invalid API key' })
       return
