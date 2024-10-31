@@ -43,3 +43,14 @@ export type Variable = {
   key: string
   value: string
 }
+
+export type ProjectShareLink = {
+  id: string
+  projectId: string
+  expiresAt: Date
+}
+
+export type Referal = {
+  id: string
+  projectId: string
+}

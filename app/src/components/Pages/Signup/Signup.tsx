@@ -2,14 +2,18 @@ import { useState } from 'react'
 import Input from '../../Library/Input/Input'
 import OnboardingCard from '../../Library/OnboardingCard/OnboardingCard'
 import Button from '../../Library/Button/Button'
-import useNav from '../../../hooks/utils/useNav'
 import useLoginRedirect from '../../../hooks/utils/useLoginRedirect'
+import useNav from '../../../hooks/utils/useNav'
+import useReferalCode from '../../../hooks/useReferalCode'
+import useProject from '../../../hooks/services/useProject'
 import useAccount from '../../../hooks/services/useAccount'
 
 const Signup: React.FC = () => {
   useLoginRedirect()
   const navigate = useNav()
+  const referral = useReferalCode()
   const { signup } = useAccount()
+  const { acceptShareLink } = useProject()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -19,7 +23,12 @@ const Signup: React.FC = () => {
     e.preventDefault()
     if (password !== confirmPassword) return
     await signup(email, password)
-    navigate('first-project')
+    if (referral) {
+      await acceptShareLink(referral.projectId, referral.linkId)
+      navigate('variable-list')
+    } else {
+      navigate('first-project')
+    }
   }
 
   return (

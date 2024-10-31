@@ -78,6 +78,20 @@ const useProject = () => {
     [backendService],
   )
 
+  const shareProject = useCallback(
+    async (projectId: string) => {
+      return backendService.shareProject(projectId)
+    },
+    [backendService],
+  )
+
+  const acceptShareLink = useCallback(
+    async (projectId: string, linkId: string) => {
+      return backendService.acceptShareLink(projectId, linkId)
+    },
+    [backendService],
+  )
+
   return {
     createProject,
     getProjects,
@@ -90,6 +104,8 @@ const useProject = () => {
     getVariableById,
     updateVariable,
     deleteVariable,
+    shareProject,
+    acceptShareLink,
   }
 }
 

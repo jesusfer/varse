@@ -5,6 +5,7 @@ import {
   LoginRequest,
   LoginResponse,
   Project,
+  ProjectShareLink,
   SignupRequest,
   SignupResponse,
   UserInfo,
@@ -187,6 +188,28 @@ export class BackendService {
     await this.httpService.request(
       `/project/${projectId}/variables/${variableId}`,
       'DELETE',
+      {},
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
+  async shareProject(projectId: string): Promise<ProjectShareLink> {
+    return this.httpService.request(
+      `/project/${projectId}/share`,
+      'GET',
+      {},
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
+  async acceptShareLink(projectId: string, linkId: string): Promise<void> {
+    await this.httpService.request(
+      `/project/${projectId}/share/${linkId}`,
+      'POST',
       {},
       {
         Authorization: `Bearer ${this.authService.getToken()}`,
