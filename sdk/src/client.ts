@@ -17,7 +17,7 @@ class VarseClient {
     const headers = { "x-api-key": this.config.apiKey };
     const route = `${this.config.baseUrl}/variable/${variableId}`;
     const response = await axios.get(route, { headers });
-    return response.data;
+    return response.data.value;
   }
 
   async getBool(variableId: string): Promise<boolean> {
