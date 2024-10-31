@@ -1,0 +1,48 @@
+name: Prod Builds
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REGISTRY: 471112499466.dkr.ecr.us-east-1.amazonaws.com
+
+jobs:
+  services:
+    runs-on: namespace-profile-repaint
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.service.name }}
+      cancel-in-progress: true
+    strategy:
+      matrix:
+        service:
+          - { name: "app", dockerfile: "./app/Dockerfile", path: "app/.", arg: "--build-arg ENV_FILE=.env.production" }
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_PROD }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_PROD }}
+          aws-region: us-east-1
+
+      - name: ECR Login
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build and Push Image
+        env:
+          ECR_REPOSITORY: varse/${{ matrix.service.name }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build --platform=linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ${{ matrix.service.arg }} -f ${{ matrix.service.dockerfile }} ${{ matrix.service.path }}
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+      - name: Result
+        run: echo "The image $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG and $ECR_REGISTRY/$ECR_REPOSITORY:latest have been pushed to ECR."
