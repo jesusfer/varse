@@ -18,8 +18,8 @@ jobs:
     strategy:
       matrix:
         service:
-          - { name: "app", dockerfile: "./app/Dockerfile", path: "app/.", arg: "--build-arg ENV_FILE=.env.production" }
-          - { name: "api", dockerfile: "./server/Dockerfile", path: "server/.", arg: "--build-arg ENV_FILE=.env.production" }
+          - { name: "app", dockerfile: "./app/Dockerfile", path: "app/.", arg: "--build-arg ENV_FILE=.env" }
+          - { name: "api", dockerfile: "./server/Dockerfile", path: "server/.", arg: "--build-arg ENV_FILE=.env" }
     steps:
       - name: Checkout
         uses: actions/checkout@v2
