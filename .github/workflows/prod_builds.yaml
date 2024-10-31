@@ -18,8 +18,8 @@ jobs:
     strategy:
       matrix:
         service:
-          - { name: "app", dockerfile: "./app/Dockerfile", path: "app/.", arg: "--build-arg ENV_FILE=.env" }
-          - { name: "api", dockerfile: "./server/Dockerfile", path: "server/.", arg: "--build-arg ENV_FILE=.env" }
+          - { name: "app", dockerfile: "./app/Dockerfile", path: "app/." }
+          - { name: "api", dockerfile: "./server/Dockerfile", path: "server/." }
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -39,7 +39,7 @@ jobs:
           ECR_REPOSITORY: varse/${{ matrix.service.name }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build --platform=linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ${{ matrix.service.arg }} -f ${{ matrix.service.dockerfile }} ${{ matrix.service.path }}
+          docker build --platform=linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ${{ matrix.service.dockerfile }} ${{ matrix.service.path }}
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
