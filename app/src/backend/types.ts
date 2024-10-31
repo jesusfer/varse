@@ -40,13 +40,13 @@ export type ApiKey = {
 
 export type Variable = {
   id: string
-  name: string
+  key: string
   value: string
 }
 
 export type PendingVariable = {
   id: string
-  name: string
+  key: string
   currentValue: string
   pendingValue: string
   createdAt: Date
@@ -54,7 +54,7 @@ export type PendingVariable = {
 
 export type HistoryVariable = {
   id: string
-  name: string
+  key: string
   originalValue: string
   updatedValue: string
   createdAt: Date

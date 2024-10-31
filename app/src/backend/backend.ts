@@ -7,6 +7,7 @@ import {
   Project,
   SignupRequest,
   SignupResponse,
+  Variable,
 } from './types'
 
 export class BackendService {
@@ -96,6 +97,72 @@ export class BackendService {
   async deleteApiKey(projectId: string, apiKeyId: string): Promise<void> {
     await this.httpService.request(
       `/project/${projectId}/apikeys/${apiKeyId}`,
+      'DELETE',
+      {},
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
+  async createVariable(
+    projectId: string,
+    key: string,
+    value: string,
+  ): Promise<void> {
+    await this.httpService.request(
+      `/project/${projectId}/variables`,
+      'POST',
+      { key, value },
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
+  async getVariables(projectId: string): Promise<Variable[]> {
+    return this.httpService.request(
+      `/project/${projectId}/variables`,
+      'GET',
+      {},
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
+  async getVariableById(
+    projectId: string,
+    variableId: string,
+  ): Promise<Variable> {
+    return this.httpService.request(
+      `/project/${projectId}/variables/${variableId}`,
+      'GET',
+      {},
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
+  async updateVariable(
+    projectId: string,
+    variableId: string,
+    value: string,
+  ): Promise<void> {
+    await this.httpService.request(
+      `/project/${projectId}/variables/${variableId}`,
+      'PUT',
+      { value },
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
+  async deleteVariable(projectId: string, variableId: string): Promise<void> {
+    await this.httpService.request(
+      `/project/${projectId}/variables/${variableId}`,
       'DELETE',
       {},
       {

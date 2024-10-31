@@ -43,6 +43,32 @@ export class ProjectRoutes {
       this.authMiddleware.verifyAccess,
       this.deleteApiKey
     )
+
+    router.post(
+      '/project/:projectId/variables',
+      this.authMiddleware.verifyAccess,
+      this.createVariable
+    )
+    router.get(
+      '/project/:projectId/variables',
+      this.authMiddleware.verifyAccess,
+      this.getVariables
+    )
+    router.get(
+      '/project/:projectId/variables/:variableId',
+      this.authMiddleware.verifyAccess,
+      this.getVariableById
+    )
+    router.put(
+      '/project/:projectId/variables/:variableId',
+      this.authMiddleware.verifyAccess,
+      this.updateVariable
+    )
+    router.delete(
+      '/project/:projectId/variables/:variableId',
+      this.authMiddleware.verifyAccess,
+      this.deleteVariable
+    )
   }
 
   private createProject = async (
@@ -94,6 +120,74 @@ export class ProjectRoutes {
     try {
       await this.projectService.deleteApiKey(req.params.apiKeyId)
       res.json({ message: 'Api key deleted' })
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
+  private createVariable = async (
+    req: Request,
+    res: Response
+  ): Promise<void> => {
+    try {
+      await this.projectService.createVariable(
+        req.params.projectId,
+        req.body.key,
+        req.body.value
+      )
+      res.json({ message: 'Variable created' })
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
+  private getVariables = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const variables = await this.projectService.getVariables(
+        req.params.projectId
+      )
+      res.json(variables)
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
+  private getVariableById = async (
+    req: Request,
+    res: Response
+  ): Promise<void> => {
+    try {
+      const variable = await this.projectService.getVariableById(
+        req.params.variableId
+      )
+      res.json(variable)
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
+  private updateVariable = async (
+    req: Request,
+    res: Response
+  ): Promise<void> => {
+    try {
+      await this.projectService.updateVariable(
+        req.params.variableId,
+        req.body.value
+      )
+      res.json({ message: 'Variable updated' })
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
+  private deleteVariable = async (
+    req: Request,
+    res: Response
+  ): Promise<void> => {
+    try {
+      await this.projectService.deleteVariable(req.params.variableId)
+      res.json({ message: 'Variable deleted' })
     } catch (error) {
       res.status(500).json({ message: 'Internal server error' })
     }

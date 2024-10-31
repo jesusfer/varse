@@ -1,4 +1,4 @@
-import { ApiKey, Prisma, PrismaClient } from '@prisma/client'
+import { ApiKey, Prisma, PrismaClient, Variable } from '@prisma/client'
 import { ProjectInfo } from './types'
 
 export class ProjectService {
@@ -62,6 +62,39 @@ export class ProjectService {
 
   async deleteApiKey(apiKeyId: string): Promise<void> {
     await this.prisma.apiKey.delete({ where: { id: apiKeyId } })
+  }
+
+  async createVariable(
+    projectId: string,
+    key: string,
+    value: string
+  ): Promise<void> {
+    await this.prisma.variable.create({ data: { projectId, key, value } })
+  }
+
+  async getVariables(projectId: string): Promise<Variable[]> {
+    const variables = await this.prisma.variable.findMany({
+      where: { projectId },
+    })
+    return variables
+  }
+
+  async getVariableById(variableId: string): Promise<Variable | null> {
+    const variable = await this.prisma.variable.findUnique({
+      where: { id: variableId },
+    })
+    return variable
+  }
+
+  async updateVariable(variableId: string, value: string): Promise<void> {
+    await this.prisma.variable.update({
+      where: { id: variableId },
+      data: { value },
+    })
+  }
+
+  async deleteVariable(variableId: string): Promise<void> {
+    await this.prisma.variable.delete({ where: { id: variableId } })
   }
 
   async verifyProjectAccess(

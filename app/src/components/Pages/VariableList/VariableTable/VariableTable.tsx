@@ -19,7 +19,7 @@ const VariableTable: React.FC<VariableTableProps> = ({
     <div className="w-full max-w-[600px] h-full border border-panel-border rounded-[6px] flex-shrink overflow-auto">
       <div className="sticky top-0 bg-background w-full p-3 flex items-center justify-between border-b border-panel-border">
         <div className="flex-1 flex items-center justify-end gap-3">
-          <p className="w-[140px] text-[14px] text-text-2">Name</p>
+          <p className="w-[140px] text-[14px] text-text-2">Key</p>
           <p className="flex-1 text-[14px] text-text-2">Value</p>
           <div className="w-4 h-4" />
         </div>
@@ -34,7 +34,7 @@ const VariableTable: React.FC<VariableTableProps> = ({
             >
               <div className="flex-1 flex items-center justify-end gap-3">
                 <p className="w-[140px] text-[14px] text-text-1">
-                  {variable.name}
+                  {variable.key}
                 </p>
                 <p className="flex-1 text-[14px] text-text-1">
                   {variable.value}

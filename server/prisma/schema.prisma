@@ -20,6 +20,7 @@ model Project {
   name        String
   members     ProjectUser[]
   apiKeys     ApiKey[]
+  variables   Variable[]
 }
 
 model ProjectUser {
@@ -42,6 +43,17 @@ model ApiKey {
   project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId   String
 
+  @@index([projectId])
+}
+
+model Variable {
+  id        String   @id @default(uuid())
+  key       String
+  value     String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+
+  @@unique([projectId, key])
   @@index([projectId])
 }
 

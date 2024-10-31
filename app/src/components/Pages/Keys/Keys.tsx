@@ -43,16 +43,14 @@ const Keys: React.FC = () => {
   const handleCreateKey = async (name: string) => {
     if (!activeProject) return
     await createApiKey(activeProject.id, name)
-    const updatedKeys = await getApiKeys(activeProject.id)
-    setKeys(updatedKeys)
+    setKeys(await getApiKeys(activeProject.id))
     setCreatingKey(false)
   }
 
   const handleDeleteKey = async (apiKeyId: string) => {
     if (!activeProject) return
     await deleteApiKey(activeProject.id, apiKeyId)
-    const updatedKeys = await getApiKeys(activeProject.id)
-    setKeys(updatedKeys)
+    setKeys(await getApiKeys(activeProject.id))
   }
 
   return (

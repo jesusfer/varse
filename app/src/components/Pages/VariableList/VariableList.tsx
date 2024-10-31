@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Search } from 'lucide-react'
 import { Variable } from '../../../backend/types'
 import useNav from '../../../hooks/useNav'
@@ -6,20 +6,44 @@ import TopBar from '../../Library/TopBar/TopBar'
 import Button from '../../Library/Button/Button'
 import VariableCreatePopup from './VariableCreatePopup/VariableCreatePopup'
 import VariableTable from './VariableTable/VariableTable'
+import useProject from '../../../hooks/useProject'
+import { useActiveProject } from '../../../context/ProjectContext'
 
 const VariableList: React.FC = () => {
   const nav = useNav()
+  const { createVariable, getVariables } = useProject()
+  const { activeProject } = useActiveProject()
+
   const [search, setSearch] = useState('')
-  const [filteredVariables, setFilteredVariables] = useState(variables)
+  const [variables, setVariables] = useState<Variable[]>([])
   const [creatingVariable, setCreatingVariable] = useState(false)
+
+  const filteredVariables = useMemo(() => {
+    return variables.filter((variable) =>
+      variable.key.toLowerCase().includes(search.toLowerCase()),
+    )
+  }, [variables, search])
+
+  useEffect(() => {
+    if (!activeProject) return
+
+    const fetchVariables = async () => {
+      const fetchedVariables = await getVariables(activeProject.id)
+      setVariables(fetchedVariables)
+    }
+
+    fetchVariables()
+  }, [activeProject, getVariables])
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
-    setFilteredVariables(
-      variables.filter((variable) =>
-        variable.name.toLowerCase().includes(e.target.value.toLowerCase()),
-      ),
-    )
+  }
+
+  const handleCreateVariable = async (key: string, value: string) => {
+    if (!activeProject) return
+    await createVariable(activeProject.id, key, value)
+    setVariables(await getVariables(activeProject.id))
+    setCreatingVariable(false)
   }
 
   return (
@@ -54,7 +78,7 @@ const VariableList: React.FC = () => {
       </div>
       <VariableCreatePopup
         isOpen={creatingVariable}
-        create={(name, value) => setCreatingVariable(false)}
+        create={handleCreateVariable}
         onClose={() => setCreatingVariable(false)}
       />
     </div>
@@ -62,5 +86,3 @@ const VariableList: React.FC = () => {
 }
 
 export default VariableList
-
-const variables: Variable[] = [{ id: '0', name: 'Var 1', value: 'true' }]

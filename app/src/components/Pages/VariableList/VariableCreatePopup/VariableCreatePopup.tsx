@@ -22,7 +22,9 @@ const VariableCreatePopup: React.FC<VariableCreatePopupProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (name.trim() && value.trim()) create(name, value)
+    if (name.trim()) {
+      create(name, value.trim() || 'true')
+    }
     setName('')
     setValue('')
     onClose()
