@@ -1,12 +1,12 @@
 import axios from "axios";
-import { VariableValue } from ".";
+import { VariableValue } from "./types";
 
-export interface VarseClientOptions {
+interface VarseClientOptions {
   apiKey: string;
   baseUrl: string;
 }
 
-export class VarseClient {
+class VarseClient {
   private config: VarseClientOptions;
 
   constructor(options: VarseClientOptions) {
@@ -16,9 +16,7 @@ export class VarseClient {
   async get(variableId: string): Promise<VariableValue> {
     const headers = { "x-api-key": this.config.apiKey };
     const route = `${this.config.baseUrl}/variable/${variableId}`;
-
     const response = await axios.get(route, { headers });
-
     return response.data;
   }
 
@@ -27,3 +25,5 @@ export class VarseClient {
     return value === "true";
   }
 }
+
+export { VarseClient, VarseClientOptions };

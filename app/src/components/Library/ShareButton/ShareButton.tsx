@@ -3,10 +3,14 @@ import { ProjectShareLink } from '../../../backend/types'
 import { useActiveProject } from '../../../context/ProjectContext'
 import useProject from '../../../hooks/useProject'
 import Button from '../Button/Button'
+import { useState } from 'react'
 
 export default function ShareButton() {
   const { activeProject } = useActiveProject()
   const { shareProject } = useProject()
+  const [isVisible] = useState(false)
+
+  if (!isVisible) return null
 
   return (
     <Button

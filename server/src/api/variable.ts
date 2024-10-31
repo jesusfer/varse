@@ -13,7 +13,7 @@ export class VariableRoutes {
 
   addRoutes = (router: Router) => {
     router.get(
-      '/variable/:variableId',
+      '/variable/:key',
       this.authMiddleware.authenticateProject,
       this.getVariable
     )
@@ -25,8 +25,10 @@ export class VariableRoutes {
       return
     }
 
-    const variableId = req.params.variableId
-    const variable = await this.projectService.getVariableById(variableId)
+    const variable = await this.projectService.getVariableByKey(
+      req.projectId,
+      req.params.key
+    )
     res.json(variable)
   }
 }
