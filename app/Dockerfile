@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y curl
 
 WORKDIR /usr/src/app
 
-ARG ENV_FILE=.env.production
+ARG ENV_FILE=.env
 
 COPY package*.json ./
 
