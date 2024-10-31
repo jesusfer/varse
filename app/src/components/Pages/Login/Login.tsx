@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Input from '../../Library/Input/Input'
 import OnboardingCard from '../../Library/OnboardingCard/OnboardingCard'
-import useLogin from '../../../hooks/useLogin'
+import useAccount from '../../../hooks/useAccount'
 import Button from '../../Library/Button/Button'
 import useNav from '../../../hooks/useNav'
 import useLoginRedirect from '../../../hooks/useLoginRedirect'
@@ -10,7 +10,7 @@ import useProject from '../../../hooks/useProject'
 const Login: React.FC = () => {
   useLoginRedirect()
   const navigate = useNav()
-  const { login } = useLogin()
+  const { login } = useAccount()
   const { getProjects } = useProject()
 
   const [email, setEmail] = useState('')

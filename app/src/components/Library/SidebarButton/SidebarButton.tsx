@@ -23,7 +23,7 @@ const SidebarButton: React.FC<SidebarButtonProps> = ({
     >
       {icon}
       <p className="text-[14px] text-text-1">{name}</p>
-      {external && <ExternalLink className="ml-auto w-4 h-4 text-text-2" />}
+      {external && <ExternalLink className="ml-auto w-3 h-3 text-text-2" />}
     </button>
   )
 }

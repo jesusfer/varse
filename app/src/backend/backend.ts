@@ -7,6 +7,7 @@ import {
   Project,
   SignupRequest,
   SignupResponse,
+  UserInfo,
   Variable,
 } from './types'
 
@@ -37,6 +38,17 @@ export class BackendService {
     )
     this.authService.setToken(user.token.token)
     return user
+  }
+
+  async getUserInfo(): Promise<UserInfo> {
+    return this.httpService.request(
+      '/user',
+      'GET',
+      {},
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
   }
 
   async validate(): Promise<void> {

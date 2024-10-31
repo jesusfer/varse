@@ -9,6 +9,7 @@ import Dashboard from './components/Pages/Dashboard/Dashboard'
 import VariableList from './components/Pages/VariableList/VariableList'
 import VariableDetails from './components/Pages/VariableDetails/VariableDetails'
 import NotFound from './components/Pages/NotFound/NotFound'
+import Account from './components/Pages/Account/Account'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             element={<VariableDetails />}
           />
           <Route path="/keys" element={<Keys />} />
+          <Route path="/account" element={<Account />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

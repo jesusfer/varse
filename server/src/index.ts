@@ -29,7 +29,7 @@ const projectService = new ProjectService()
 const authService = new AuthService(userService, jwtService)
 const authMiddleware = new AuthMiddleware(authService, projectService)
 
-const userRoutes = new UserRoutes(userService, authService)
+const userRoutes = new UserRoutes(userService, authService, authMiddleware)
 const projectRoutes = new ProjectRoutes(projectService, authMiddleware)
 const authRoutes = new AuthRoutes(userService, authService)
 const variableRoutes = new VariableRoutes(projectService, authMiddleware)

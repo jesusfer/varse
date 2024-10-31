@@ -1,4 +1,4 @@
-import { Book, Database, KeyRound, Pencil, Rocket } from 'lucide-react'
+import { Database, KeyRound, Rocket, User } from 'lucide-react'
 import SidebarButton from '../SidebarButton/SidebarButton'
 import useNav from '../../../hooks/useNav'
 import { useLocation } from 'react-router-dom'
@@ -35,25 +35,16 @@ const Sidebar: React.FC = () => {
           active={tab === 'api'}
           onClick={() => navigate('keys')}
         />
-      </div>
-      <div className="w-full px-3 py-2 flex flex-col gap-1">
-        <h3 className="text-[12px] font-semibold text-text-2">Docs</h3>
+        <SidebarButton
+          icon={<User size={16} className={'text-text-1'} />}
+          name={'Account'}
+          active={tab === 'account'}
+          onClick={() => navigate('account')}
+        />
         <SidebarButton
           icon={<Rocket size={16} className={'text-text-1'} />}
-          name={'Quick Start'}
+          name={'Docs'}
           onClick={() => navigate('docs.home')}
-          external
-        />
-        <SidebarButton
-          icon={<Book size={16} className={'text-text-1'} />}
-          name={'Creating Variables'}
-          onClick={() => navigate('docs.variables.create')}
-          external
-        />
-        <SidebarButton
-          icon={<Pencil size={16} className={'text-text-1'} />}
-          name={'Reading Variables'}
-          onClick={() => navigate('docs.variables.read')}
           external
         />
       </div>
@@ -64,6 +55,7 @@ const Sidebar: React.FC = () => {
 const getActiveTab = (pathname: string): string | null => {
   if (pathname.startsWith('/variable')) return 'vars'
   if (pathname.startsWith('/keys')) return 'api'
+  if (pathname.startsWith('/account')) return 'account'
   return null
 }
 

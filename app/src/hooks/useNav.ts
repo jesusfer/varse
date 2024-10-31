@@ -10,6 +10,7 @@ type LinkKey =
   | 'variable-list'
   | 'variable-details'
   | 'keys'
+  | 'account'
   | 'login'
   | 'signup'
   | 'first-project'
@@ -21,6 +22,7 @@ const linkMap: Record<LinkKey, string> = {
   'variable-list': '/variable-list',
   'variable-details': '/variable-details',
   keys: '/keys',
+  account: '/account',
   login: '/login',
   signup: '/signup',
   'first-project': '/first-project',

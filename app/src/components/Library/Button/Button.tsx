@@ -8,8 +8,7 @@ const Button: React.FC<ButtonProps> = ({
   className = '',
   ...props
 }) => {
-  const baseClasses =
-    'px-4 py-2 rounded-md text-sm transition-colors duration-200 ease-in-out whitespace-nowrap'
+  const baseClasses = 'px-4 py-2 rounded-md text-sm whitespace-nowrap'
 
   const variantClasses = {
     cta: 'bg-cta-base hover:bg-cta-hover text-cta-text',
