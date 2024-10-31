@@ -1,19 +1,19 @@
 import { useEffect } from 'react'
-import useBackend from './useBackend'
+import useBackend from '../services/useBackend'
 import useNav from './useNav'
 
-const useAuthRequired = () => {
+const useLoginRedirect = () => {
   const navigate = useNav()
   const backendService = useBackend()
 
   useEffect(() => {
     backendService
       .validate()
-      .then(() => {})
-      .catch(() => {
-        navigate('login')
+      .then(() => {
+        navigate('variable-list')
       })
+      .catch(() => {})
   }, [backendService, navigate])
 }
 
-export default useAuthRequired
+export default useLoginRedirect

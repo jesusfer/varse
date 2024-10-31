@@ -1,55 +1,22 @@
 import { useParams } from 'react-router-dom'
-import useNav from '../../../hooks/useNav'
+import useNav from '../../../hooks/utils/useNav'
 import TopBar from '../../Library/TopBar/TopBar'
 import { ChevronRight } from 'lucide-react'
-import {
-  HistoryVariable,
-  PendingVariable,
-  Variable,
-} from '../../../backend/types'
-import useProject from '../../../hooks/useProject'
-import { useEffect, useState } from 'react'
-import { useActiveProject } from '../../../context/ProjectContext'
 import Button from '../../Library/Button/Button'
-import PendingUpdates from './PendingUpdates/PendingUpdates'
-import PastUpdates from './PastUpdates/PastUpdates'
 import VariableDisplay from './VariableDisplay/VariableDisplay'
+import useVariableList from '../../../hooks/state/useVariableList'
+import useVariableDelete from '../../../hooks/actions/useVariableDelete'
+import useVariableUpdate from '../../../hooks/actions/useVariableUpdate'
 
 const VariableDetails: React.FC = () => {
   const { variableId } = useParams()
+
   const nav = useNav()
-  const { getVariableById, deleteVariable, updateVariable } = useProject()
-  const { activeProject } = useActiveProject()
+  const variableList = useVariableList()
+  const deleteVariable = useVariableDelete()
+  const updateVariable = useVariableUpdate()
 
-  const [selectedVariable, setSelectedVariable] = useState<Variable | null>(
-    null,
-  )
-  const [pendingOpen, setPendingOpen] = useState(true)
-  const [historyOpen, setHistoryOpen] = useState(false)
-
-  useEffect(() => {
-    if (!variableId || !activeProject) return
-
-    const fetchVariable = async () => {
-      const variable = await getVariableById(activeProject.id, variableId)
-      setSelectedVariable(variable)
-    }
-
-    fetchVariable()
-  }, [variableId, getVariableById, activeProject])
-
-  const handleDeleteVariable = async () => {
-    if (!activeProject || !selectedVariable) return
-    if (!selectedVariable) return
-    await deleteVariable(activeProject.id, selectedVariable.id)
-    nav('variable-list')
-  }
-
-  const handleUpdateVariable = async (id: string, value: string) => {
-    if (!activeProject) return
-    await updateVariable(activeProject.id, id, value)
-    setSelectedVariable(await getVariableById(activeProject.id, id))
-  }
+  const selectedVariable = variableList.find((v) => v.id === variableId)
 
   if (!selectedVariable) return null
 
@@ -69,27 +36,13 @@ const VariableDetails: React.FC = () => {
         <div className="w-full max-w-[800px] flex flex-col items-start justify-start gap-8">
           <VariableDisplay
             variable={selectedVariable}
-            handleUpdate={handleUpdateVariable}
-          />
-
-          <PendingUpdates
-            updates={PendingUpdateList}
-            isOpen={pendingOpen}
-            onToggle={() => setPendingOpen(!pendingOpen)}
-            onApprove={() => {}}
-            onReject={() => {}}
-          />
-
-          <PastUpdates
-            history={HistoryList}
-            isOpen={historyOpen}
-            onToggle={() => setHistoryOpen(!historyOpen)}
+            handleUpdate={updateVariable}
           />
 
           <Button
             className="!text-destructive"
             variant="outline"
-            onClick={handleDeleteVariable}
+            onClick={() => deleteVariable(selectedVariable.id)}
           >
             Delete Variable
           </Button>
@@ -100,36 +53,3 @@ const VariableDetails: React.FC = () => {
 }
 
 export default VariableDetails
-
-const PendingUpdateList: PendingVariable[] = [
-  {
-    id: '1',
-    key: 'key',
-    createdAt: new Date(),
-    currentValue: 'placeholder',
-    pendingValue: 'value',
-  },
-  {
-    id: '2',
-    key: 'key',
-    createdAt: new Date(),
-    currentValue: 'placeholder',
-    pendingValue: 'value',
-  },
-]
-const HistoryList: HistoryVariable[] = [
-  {
-    id: '1',
-    key: 'key',
-    originalValue: 'placeholder',
-    updatedValue: 'value',
-    createdAt: new Date(),
-  },
-  {
-    id: '2',
-    key: 'key',
-    originalValue: 'placeholder',
-    updatedValue: 'value',
-    createdAt: new Date(),
-  },
-]

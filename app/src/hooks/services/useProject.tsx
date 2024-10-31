@@ -15,6 +15,13 @@ const useProject = () => {
     return backendService.getProjects()
   }, [backendService])
 
+  const deleteProject = useCallback(
+    async (projectId: string) => {
+      return backendService.deleteProject(projectId)
+    },
+    [backendService],
+  )
+
   const createApiKey = useCallback(
     async (projectId: string, name: string) => {
       return backendService.createApiKey(projectId, name)
@@ -74,6 +81,7 @@ const useProject = () => {
   return {
     createProject,
     getProjects,
+    deleteProject,
     createApiKey,
     getApiKeys,
     deleteApiKey,

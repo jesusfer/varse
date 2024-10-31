@@ -1,19 +1,26 @@
 import { Copy } from 'lucide-react'
-import useNav from '../../../../hooks/useNav'
+import useNav from '../../../../hooks/utils/useNav'
 import { Variable } from '../../../../backend/types'
+import { useMemo } from 'react'
 
 interface VariableTableProps {
-  variables: Variable[]
-  filteredVariables: Variable[]
+  variableList: Variable[]
+  search: string
   onSelect: (key: string) => void
 }
 
 const VariableTable: React.FC<VariableTableProps> = ({
-  variables,
-  filteredVariables,
+  variableList: variables,
+  search,
   onSelect,
 }) => {
   const navigate = useNav()
+
+  const filteredVariables = useMemo(() => {
+    return variables.filter((variable) =>
+      variable.key.toLowerCase().includes(search.toLowerCase()),
+    )
+  }, [variables, search])
 
   return (
     <div className="w-full max-w-[600px] h-full border border-panel-border rounded-[6px] flex-shrink overflow-auto">

@@ -2,9 +2,9 @@ import { useState } from 'react'
 import Input from '../../Library/Input/Input'
 import OnboardingCard from '../../Library/OnboardingCard/OnboardingCard'
 import Button from '../../Library/Button/Button'
-import useNav from '../../../hooks/useNav'
-import useLoginRedirect from '../../../hooks/useLoginRedirect'
-import useAccount from '../../../hooks/useAccount'
+import useNav from '../../../hooks/utils/useNav'
+import useLoginRedirect from '../../../hooks/utils/useLoginRedirect'
+import useAccount from '../../../hooks/services/useAccount'
 
 const Signup: React.FC = () => {
   useLoginRedirect()

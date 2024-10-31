@@ -62,8 +62,8 @@ export class BackendService {
     )
   }
 
-  async createProject(projectName: string): Promise<void> {
-    await this.httpService.request(
+  async createProject(projectName: string): Promise<Project> {
+    return this.httpService.request(
       '/project',
       'POST',
       { name: projectName },
@@ -77,6 +77,17 @@ export class BackendService {
     return this.httpService.request(
       '/project',
       'GET',
+      {},
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
+  async deleteProject(projectId: string): Promise<void> {
+    await this.httpService.request(
+      `/project/${projectId}`,
+      'DELETE',
       {},
       {
         Authorization: `Bearer ${this.authService.getToken()}`,

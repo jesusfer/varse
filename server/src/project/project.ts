@@ -46,6 +46,10 @@ export class ProjectService {
     return projects
   }
 
+  deleteProject = async (projectId: string): Promise<void> => {
+    await this.prisma.project.delete({ where: { id: projectId } })
+  }
+
   createApiKey = async (projectId: string, name: string): Promise<void> => {
     const key = crypto.randomUUID()
     await this.prisma.apiKey.create({

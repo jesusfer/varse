@@ -3,13 +3,14 @@ import { useNavigate } from 'react-router-dom'
 
 const baseUrl = process.env.REACT_APP_WEBSITE_URL || 'http://varse.io'
 
-type LinkKey =
+export type LinkKey =
   | 'docs.home'
   | 'docs.variables.create'
   | 'docs.variables.read'
   | 'variable-list'
   | 'variable-details'
   | 'keys'
+  | 'admin'
   | 'account'
   | 'login'
   | 'signup'
@@ -23,6 +24,7 @@ const linkMap: Record<LinkKey, string> = {
   'variable-details': '/variable-details',
   keys: '/keys',
   account: '/account',
+  admin: '/admin',
   login: '/login',
   signup: '/signup',
   'first-project': '/first-project',

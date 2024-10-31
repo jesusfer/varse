@@ -18,6 +18,11 @@ export class ProjectRoutes {
       this.createProject
     )
     router.get('/project', this.authMiddleware.authenticate, this.getProjects)
+    router.delete(
+      '/project/:projectId',
+      this.authMiddleware.verifyAccess,
+      this.deleteProject
+    )
 
     router.post(
       '/project/:projectId/apikeys',
@@ -91,6 +96,18 @@ export class ProjectRoutes {
 
       const projects = await this.projectService.getProjects(req.user.id)
       res.json(projects)
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
+  private deleteProject = async (
+    req: Request,
+    res: Response
+  ): Promise<void> => {
+    try {
+      await this.projectService.deleteProject(req.params.projectId)
+      res.json({ message: 'Project deleted' })
     } catch (error) {
       res.status(500).json({ message: 'Internal server error' })
     }

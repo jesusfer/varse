@@ -2,9 +2,9 @@ import { useState } from 'react'
 import Input from '../../Library/Input/Input'
 import OnboardingCard from '../../Library/OnboardingCard/OnboardingCard'
 import Button from '../../Library/Button/Button'
-import useNav from '../../../hooks/useNav'
-import useAuthRequired from '../../../hooks/useAuthRequired'
-import useProject from '../../../hooks/useProject'
+import useNav from '../../../hooks/utils/useNav'
+import useAuthRequired from '../../../hooks/utils/useAuthRequired'
+import useProject from '../../../hooks/services/useProject'
 
 const FirstProject: React.FC = () => {
   useAuthRequired()

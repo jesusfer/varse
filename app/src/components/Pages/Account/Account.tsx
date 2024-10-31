@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import useAccount from '../../../hooks/useAccount'
-import useNav from '../../../hooks/useNav'
+import useAccount from '../../../hooks/services/useAccount'
+import useNav from '../../../hooks/utils/useNav'
 import Button from '../../Library/Button/Button'
 import TopBar from '../../Library/TopBar/TopBar'
 import { UserInfo } from '../../../backend/types'

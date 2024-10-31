@@ -43,19 +43,3 @@ export type Variable = {
   key: string
   value: string
 }
-
-export type PendingVariable = {
-  id: string
-  key: string
-  currentValue: string
-  pendingValue: string
-  createdAt: Date
-}
-
-export type HistoryVariable = {
-  id: string
-  key: string
-  originalValue: string
-  updatedValue: string
-  createdAt: Date
-}

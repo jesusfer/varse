@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import { BackendService } from '../backend/backend'
-import { HTTPService } from '../backend/http'
+import { BackendService } from '../../backend/backend'
+import { HTTPService } from '../../backend/http'
 import useAuthService from './useAuthService'
 
 const { REACT_APP_SERVER_ADDRESS } = process.env

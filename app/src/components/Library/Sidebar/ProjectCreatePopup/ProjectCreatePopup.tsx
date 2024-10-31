@@ -1,45 +1,40 @@
 import { useRef, useState } from 'react'
 import useClickOutside from '../../../../hooks/utils/useClickOutside'
-import Button from '../../../Library/Button/Button'
 import Input from '../../../Library/Input/Input'
+import Button from '../../../Library/Button/Button'
 
-interface VariableCreatePopupProps {
+interface ProjectCreatePopupProps {
   isOpen: boolean
-  create: (name: string, value: string) => void
+  create: (name: string) => void
   onClose: () => void
 }
 
-const VariableCreatePopup: React.FC<VariableCreatePopupProps> = ({
+const ProjectCreatePopup: React.FC<ProjectCreatePopupProps> = ({
   isOpen,
   create,
   onClose,
 }) => {
   const [name, setName] = useState('')
-  const [value, setValue] = useState('')
-
   const ref = useRef<HTMLDivElement>(null)
   useClickOutside(ref, onClose)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (name.trim()) {
-      create(name, value.trim() || 'true')
-    }
+    if (name.trim()) create(name)
     setName('')
-    setValue('')
     onClose()
   }
 
   if (!isOpen) return null
 
   return (
-    <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-backgroundPopup z-[1]">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-backgroundPopup z-[1]">
       <div
         ref={ref}
-        className="w-[360px] p-6 flex flex-col items-start justify-start gap-6 rounded-[6px] bg-panel-background border border-panel-border"
+        className="w-[360px] p-6 flex flex-col items-start justify-start gap-6 rounded-[6px] bg-panel-background border border-panel-border shadow-lg shadow-black/25"
       >
         <h1 className="text-[24px] font-semibold text-text-1">
-          Create Variable
+          Create Project
         </h1>
         <form
           onSubmit={handleSubmit}
@@ -47,26 +42,19 @@ const VariableCreatePopup: React.FC<VariableCreatePopupProps> = ({
         >
           <div className="w-full flex flex-col items-center gap-4">
             <Input
-              label="Key"
+              label="Project Name"
               value={name}
               type="text"
-              placeholder="variable_key"
+              placeholder="Project Name"
               onChange={(e) => setName(e.target.value)}
               autoFocus
             />
-            <Input
-              label="Value"
-              value={value}
-              type="text"
-              placeholder="true"
-              onChange={(e) => setValue(e.target.value)}
-            />
           </div>
-          <Button type="submit">Submit</Button>
+          <Button type="submit">Create Project</Button>
         </form>
       </div>
     </div>
   )
 }
 
-export default VariableCreatePopup
+export default ProjectCreatePopup

@@ -1,4 +1,4 @@
-import useNav from '../../../hooks/useNav'
+import useNav from '../../../hooks/utils/useNav'
 
 const NotFound: React.FC = () => {
   const navigate = useNav()

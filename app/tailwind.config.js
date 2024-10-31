@@ -24,6 +24,10 @@ module.exports = {
         },
         positive: '#9BFF9D',
         destructive: '#FF9B9B',
+        popupShadow: '#0000007f',
+      },
+      boxShadow: {
+        popupShadow: '4px 4px 12px 0 rgba(0, 0, 0, 0.35)',
       },
     },
   },
