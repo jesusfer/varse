@@ -76,6 +76,12 @@ export class ProjectRoutes {
       this.authMiddleware.authenticate,
       this.acceptShareLink
     )
+
+    router.get(
+      '/project/:projectId/users',
+      this.authMiddleware.verifyAccess,
+      this.getProjectUsers
+    )
   }
 
   private createProject = async (
@@ -245,6 +251,20 @@ export class ProjectRoutes {
 
       await this.projectService.acceptShareLink(req.user.id, req.params.linkId)
       res.json({ message: 'Project shared' })
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
+  private getProjectUsers = async (
+    req: Request,
+    res: Response
+  ): Promise<void> => {
+    try {
+      const projectUsers = await this.projectService.getProjectUsers(
+        req.params.projectId
+      )
+      res.json(projectUsers)
     } catch (error) {
       res.status(500).json({ message: 'Internal server error' })
     }

@@ -92,6 +92,13 @@ const useProject = () => {
     [backendService],
   )
 
+  const getProjectUsers = useCallback(
+    async (projectId: string) => {
+      return backendService.getProjectUsers(projectId)
+    },
+    [backendService],
+  )
+
   return {
     createProject,
     getProjects,
@@ -106,6 +113,7 @@ const useProject = () => {
     deleteVariable,
     shareProject,
     acceptShareLink,
+    getProjectUsers,
   }
 }
 

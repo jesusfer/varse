@@ -1,5 +1,5 @@
 import { atom } from 'recoil'
-import { Project, Variable, ApiKey } from '../backend/types'
+import { Project, Variable, ApiKey, ProjectUser } from '../backend/types'
 import persistAtom from './persistAtom'
 
 export const activeProjectAtom = atom<Project | null>(
@@ -25,5 +25,10 @@ export const variableListAtom = atom<Variable[]>({
 
 export const apiKeyListAtom = atom<ApiKey[]>({
   key: 'apiKeyList',
+  default: [],
+})
+
+export const projectUserListAtom = atom<ProjectUser[]>({
+  key: 'projectUserList',
   default: [],
 })

@@ -3,6 +3,7 @@ import {
   Prisma,
   PrismaClient,
   ProjectShareLink,
+  ProjectUser,
   Variable,
 } from '@prisma/client'
 import { ProjectInfo } from './types'
@@ -159,5 +160,26 @@ export class ProjectService {
         role: 'MEMBER',
       },
     })
+  }
+
+  getProjectUsers = async (projectId: string): Promise<ProjectUser[]> => {
+    const users = await this.prisma.projectUser.findMany({
+      where: { projectId },
+      include: {
+        user: {
+          select: {
+            email: true,
+          },
+        },
+      },
+    })
+
+    return users.map((u) => ({
+      id: u.userId,
+      projectId: u.projectId,
+      userId: u.userId,
+      email: u.user.email,
+      role: u.role,
+    }))
   }
 }

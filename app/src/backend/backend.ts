@@ -6,6 +6,7 @@ import {
   LoginResponse,
   Project,
   ProjectShareLink,
+  ProjectUser,
   SignupRequest,
   SignupResponse,
   UserInfo,
@@ -210,6 +211,17 @@ export class BackendService {
     await this.httpService.request(
       `/project/${projectId}/share/${linkId}`,
       'POST',
+      {},
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
+  async getProjectUsers(projectId: string): Promise<ProjectUser[]> {
+    return this.httpService.request(
+      `/project/${projectId}/users`,
+      'GET',
       {},
       {
         Authorization: `Bearer ${this.authService.getToken()}`,

@@ -31,6 +31,18 @@ export type Project = {
   name: string
 }
 
+export type ProjectUser = {
+  id: string
+  email: string
+  role: ProjectRole
+}
+
+export enum ProjectRole {
+  OWNER = 'OWNER',
+  ADMIN = 'ADMIN',
+  MEMBER = 'MEMBER',
+}
+
 export type ApiKey = {
   id: string
   name: string

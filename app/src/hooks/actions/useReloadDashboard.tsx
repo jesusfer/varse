@@ -7,16 +7,19 @@ import {
   activeProjectAtom,
   variableListAtom,
   apiKeyListAtom,
+  projectUserListAtom,
 } from '../../state/state'
 
 export default function useReloadDashboard() {
   const navigate = useNav()
-  const { getProjects, getVariables, getApiKeys } = useProject()
+  const { getProjects, getVariables, getApiKeys, getProjectUsers } =
+    useProject()
 
   const setProjectList = useSetRecoilState(projectListAtom)
   const setActiveProject = useSetRecoilState(activeProjectAtom)
   const setVariableList = useSetRecoilState(variableListAtom)
   const setApiKeyList = useSetRecoilState(apiKeyListAtom)
+  const setProjectUserList = useSetRecoilState(projectUserListAtom)
 
   const activeProject = useRecoilValue(activeProjectAtom)
 
@@ -41,13 +44,15 @@ export default function useReloadDashboard() {
 
       setActiveProject(project)
 
-      const [variables, apiKeys] = await Promise.all([
+      const [variables, apiKeys, projectUsers] = await Promise.all([
         getVariables(project.id),
         getApiKeys(project.id),
+        getProjectUsers(project.id),
       ])
 
       setVariableList(variables)
       setApiKeyList(apiKeys)
+      setProjectUserList(projectUsers)
 
       return projects
     } catch (error) {
@@ -58,10 +63,12 @@ export default function useReloadDashboard() {
     getProjects,
     getVariables,
     getApiKeys,
+    getProjectUsers,
     setProjectList,
     setActiveProject,
     setVariableList,
     setApiKeyList,
+    setProjectUserList,
     activeProject,
     navigate,
   ])
