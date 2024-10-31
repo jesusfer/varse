@@ -11,7 +11,7 @@ env:
 
 jobs:
   services:
-    runs-on: namespace-profile-repaint
+    runs-on: namespace-profile-default
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.service.name }}
       cancel-in-progress: true
