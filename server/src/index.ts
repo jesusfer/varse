@@ -10,6 +10,7 @@ import { ProjectService } from './project/project'
 import { AuthMiddleware } from './auth/auth.middleware'
 import { UserInfo } from './user/types'
 import { VariableRoutes } from './api/variable'
+import { HealthRoutes } from './api/health'
 
 declare global {
   namespace Express {
@@ -33,6 +34,7 @@ const userRoutes = new UserRoutes(userService, authService, authMiddleware)
 const projectRoutes = new ProjectRoutes(projectService, authMiddleware)
 const authRoutes = new AuthRoutes(userService, authService)
 const variableRoutes = new VariableRoutes(projectService, authMiddleware)
+const healthRoutes = new HealthRoutes()
 
 app.use(express.json())
 app.use(cors())
@@ -41,6 +43,8 @@ userRoutes.addRoutes(app)
 authRoutes.addRoutes(app)
 projectRoutes.addRoutes(app)
 variableRoutes.addRoutes(app)
+healthRoutes.addRoutes(app)
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`)
 })
