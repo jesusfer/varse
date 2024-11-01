@@ -4,4 +4,4 @@ export type Variable = {
   value: string;
 };
 
-export type VariableValue = string;
+export type VariableValue = string | number | boolean;

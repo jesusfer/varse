@@ -1,8 +1,8 @@
 {
-  "name": "varse-io",
+  "name": "varse-io-react",
   "author": "Varse",
-  "version": "1.0.8",
-  "description": "SDK for Varse",
+  "version": "1.0.0",
+  "description": "React SDK for Varse",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -13,13 +13,16 @@
   },
   "keywords": [
     "varse",
-    "sdk"
+    "sdk",
+    "react"
   ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "format": "prettier --write ."
   },
   "peerDependencies": {
-    "axios": ">=1.0.0"
+    "axios": ">=1.0.0",
+    "varse-io": ">=1.1.1"
   },
   "devDependencies": {
     "axios": "^1.6.7",
