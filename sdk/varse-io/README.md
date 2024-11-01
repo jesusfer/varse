@@ -11,12 +11,12 @@ npm install varse-io
 ## Usage
 
 ```typescript
-import { VarseClient } from "varse-io";
+import { VarseClient } from 'varse-io'
 
 const client = new VarseClient({
-  apiKey: "your-api-key",
-  baseUrl: "https://api.varse.io",
-});
+  apiKey: 'your-api-key',
+  baseUrl: 'https://api.varse.io',
+})
 
-const value = await client.getBool("my-variable");
+const value = await client.getBool('my-variable')
 ```

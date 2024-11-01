@@ -1,51 +1,51 @@
-import axios from "axios";
-import { VariableValue } from "./types";
+import axios from 'axios'
+import { VariableValue } from './types'
 
 interface VarseClientOptions {
-  apiKey: string;
-  baseUrl: string;
+  apiKey: string
+  baseUrl: string
 }
 
 class VarseClient {
-  private config: VarseClientOptions;
+  private config: VarseClientOptions
 
   constructor(options: VarseClientOptions) {
-    this.config = options;
+    this.config = options
   }
 
   async get(variableId: string): Promise<VariableValue> {
-    const headers = { "x-api-key": this.config.apiKey };
-    const route = `${this.config.baseUrl}/variable/${variableId}`;
-    const response = await axios.get(route, { headers });
-    return response.data.value;
+    const headers = { 'x-api-key': this.config.apiKey }
+    const route = `${this.config.baseUrl}/variable/${variableId}`
+    const response = await axios.get(route, { headers })
+    return response.data.value
   }
 
   async getBool(variableId: string): Promise<boolean> {
-    const value = await this.get(variableId);
+    const value = await this.get(variableId)
     try {
-      return Boolean(value);
+      return value === 'true'
     } catch (error) {
-      throw new Error(`Variable ${variableId} is not a boolean`);
+      throw new Error(`Variable ${variableId} is not a boolean`)
     }
   }
 
   async getString(variableId: string): Promise<string> {
-    const value = await this.get(variableId);
+    const value = await this.get(variableId)
     try {
-      return String(value);
+      return String(value)
     } catch (error) {
-      throw new Error(`Variable ${variableId} is not a string`);
+      throw new Error(`Variable ${variableId} is not a string`)
     }
   }
 
   async getNumber(variableId: string): Promise<number> {
-    const value = await this.get(variableId);
+    const value = await this.get(variableId)
     try {
-      return Number(value);
+      return Number(value)
     } catch (error) {
-      throw new Error(`Variable ${variableId} is not a number`);
+      throw new Error(`Variable ${variableId} is not a number`)
     }
   }
 }
 
-export { VarseClient, VarseClientOptions };
+export { VarseClient, VarseClientOptions }

@@ -1,7 +1,7 @@
 {
   "name": "varse-io-react",
   "author": "Varse",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "React SDK for Varse",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,7 +22,7 @@
   },
   "peerDependencies": {
     "axios": ">=1.0.0",
-    "varse-io": ">=1.1.1"
+    "varse-io": ">=1.1.3"
   },
   "devDependencies": {
     "axios": "^1.6.7",

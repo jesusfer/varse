@@ -12,32 +12,40 @@ import NotFound from './components/Pages/NotFound/NotFound'
 import Account from './components/Pages/Account/Account'
 import Admin from './components/Pages/Admin/Admin'
 import { RecoilRoot } from 'recoil'
+import { VarseProvider } from 'varse-io-react'
 
 function App() {
+  const varseOptions = {
+    apiKey: 'pk_84e2aa4f6fe34cfb85c403996654218d',
+    baseUrl: 'https://api.varse.io',
+  }
+
   return (
-    <RecoilRoot>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/first-project" element={<FirstProject />} />
+    <VarseProvider {...varseOptions}>
+      <RecoilRoot>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/first-project" element={<FirstProject />} />
 
-          <Route element={<Dashboard />}>
-            <Route path="/variable-list" element={<VariableList />} />
-            <Route
-              path="/variable-details/:variableId"
-              element={<VariableDetails />}
-            />
-            <Route path="/keys" element={<Keys />} />
-            <Route path="/account" element={<Account />} />
-            <Route path="/admin" element={<Admin />} />
-          </Route>
+            <Route element={<Dashboard />}>
+              <Route path="/variable-list" element={<VariableList />} />
+              <Route
+                path="/variable-details/:variableId"
+                element={<VariableDetails />}
+              />
+              <Route path="/keys" element={<Keys />} />
+              <Route path="/account" element={<Account />} />
+              <Route path="/admin" element={<Admin />} />
+            </Route>
 
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </RecoilRoot>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </RecoilRoot>
+    </VarseProvider>
   )
 }
 

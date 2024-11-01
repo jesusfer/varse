@@ -11,7 +11,8 @@
     "react-router-dom": "^6.27.0",
     "react-scripts": "5.0.1",
     "recoil": "^0.7.7",
-    "varse-io": "^1.0.1"
+    "varse-io": "^1.0.1",
+    "varse-io-react": "^1.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
