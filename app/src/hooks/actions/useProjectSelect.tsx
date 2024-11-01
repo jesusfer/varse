@@ -31,10 +31,7 @@ export default function useProjectSelect() {
         setApiKeyList(apiKeys)
 
         navigate('variable-list')
-      } catch (error) {
-        console.error('Failed to select project:', error)
-        throw error
-      }
+      } catch (e) {}
     },
     [
       getVariables,

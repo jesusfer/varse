@@ -17,9 +17,6 @@ export default function useProjectDelete() {
       await deleteProject(activeProject.id)
       await reloadDashboard()
       navigate('variable-list')
-    } catch (error) {
-      console.error('Failed to delete project:', error)
-      throw error
-    }
+    } catch (e) {}
   }, [activeProject, deleteProject, reloadDashboard, navigate])
 }

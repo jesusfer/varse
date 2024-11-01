@@ -11,15 +11,19 @@ const useLoginRedirect = () => {
   const { acceptShareLink } = useProject()
 
   useEffect(() => {
-    backendService
-      .validate()
-      .then(() => {
+    const validateAuth = async () => {
+      try {
+        await backendService.validate()
         if (referral) {
           acceptShareLink(referral.projectId, referral.id)
         }
         navigate('variable-list')
-      })
-      .catch(() => {})
+      } catch (e) {
+        navigate('login')
+      }
+    }
+
+    validateAuth()
   }, [acceptShareLink, backendService, navigate, referral])
 }
 

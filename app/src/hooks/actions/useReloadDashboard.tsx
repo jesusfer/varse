@@ -55,10 +55,7 @@ export default function useReloadDashboard() {
       setProjectUserList(projectUsers)
 
       return projects
-    } catch (error) {
-      console.error('Failed to reload dashboard:', error)
-      throw error
-    }
+    } catch (e) {}
   }, [
     getProjects,
     getVariables,

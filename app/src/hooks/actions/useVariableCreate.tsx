@@ -20,10 +20,7 @@ export default function useVariableCreate() {
 
         const updatedVariables = await getVariables(activeProject.id)
         setVariableList(updatedVariables)
-      } catch (error) {
-        console.error('Failed to create variable:', error)
-        throw error
-      }
+      } catch (e) {}
     },
     [activeProject, createVariable, getVariables, setVariableList],
   )

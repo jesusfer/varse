@@ -20,10 +20,7 @@ export default function useApiKeyCreate() {
 
         const updatedApiKeys = await getApiKeys(activeProject.id)
         setApiKeyList(updatedApiKeys)
-      } catch (error) {
-        console.error('Failed to create API key:', error)
-        throw error
-      }
+      } catch (e) {}
     },
     [activeProject, createApiKey, getApiKeys, setApiKeyList],
   )

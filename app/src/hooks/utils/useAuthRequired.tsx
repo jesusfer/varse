@@ -7,12 +7,15 @@ const useAuthRequired = () => {
   const backendService = useBackend()
 
   useEffect(() => {
-    backendService
-      .validate()
-      .then(() => {})
-      .catch(() => {
+    const validateAuth = async () => {
+      try {
+        await backendService.validate()
+      } catch (e) {
         navigate('login')
-      })
+      }
+    }
+
+    validateAuth()
   }, [backendService, navigate])
 }
 

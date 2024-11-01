@@ -20,10 +20,7 @@ export default function useVariableUpdate() {
 
         const updatedVariables = await getVariables(activeProject.id)
         setVariableList(updatedVariables)
-      } catch (error) {
-        console.error('Failed to update variable:', error)
-        throw error
-      }
+      } catch (e) {}
     },
     [activeProject, updateVariable, getVariables, setVariableList],
   )

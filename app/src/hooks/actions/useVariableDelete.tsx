@@ -24,10 +24,7 @@ export default function useVariableDelete() {
         setVariableList(updatedVariables)
 
         navigate('variable-list')
-      } catch (error) {
-        console.error('Failed to delete variable:', error)
-        throw error
-      }
+      } catch (e) {}
     },
     [activeProject, deleteVariable, getVariables, setVariableList, navigate],
   )

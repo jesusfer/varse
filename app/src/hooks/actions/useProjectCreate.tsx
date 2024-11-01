@@ -33,10 +33,7 @@ export default function useProjectCreate() {
         navigate('variable-list')
 
         return newProject
-      } catch (error) {
-        console.error('Failed to create project:', error)
-        throw error
-      }
+      } catch (e) {}
     },
     [
       createProject,

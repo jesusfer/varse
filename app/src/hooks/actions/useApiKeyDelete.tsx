@@ -20,10 +20,7 @@ export default function useApiKeyDelete() {
 
         const updatedApiKeys = await getApiKeys(activeProject.id)
         setApiKeyList(updatedApiKeys)
-      } catch (error) {
-        console.error('Failed to delete API key:', error)
-        throw error
-      }
+      } catch (e) {}
     },
     [activeProject, deleteApiKey, getApiKeys, setApiKeyList],
   )
