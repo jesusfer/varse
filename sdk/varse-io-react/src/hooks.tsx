@@ -1,94 +1,69 @@
 import { useContext, useState } from 'react'
 import { VarseContext } from './provider'
-import { VariableValue } from 'varse-io'
+import { VariableValue, VarseClient } from 'varse-io'
 
-type UseVarseValueOptions = {
-  key: string
-  defaultValue?: VariableValue
-}
+type _UseVarseValueOptions<T> = string | { key: string; defaultValue?: T }
 
-const useVarseValue = ({
-  key,
-  defaultValue,
-}: UseVarseValueOptions): VariableValue => {
-  const [value, setValue] = useState<VariableValue>(defaultValue ?? '')
+const _useVarseValueTyped = <T,>(
+  options: _UseVarseValueOptions<T>,
+  _getFunction: (key: string, client: VarseClient) => Promise<T>,
+  _fallback: T
+): T => {
+  const keyOnly = typeof options === 'string'
+  const key = keyOnly ? options : options.key
+  const fallback = keyOnly ? _fallback : options.defaultValue ?? _fallback
+
+  const [value, setValue] = useState<T>(fallback)
 
   const client = useContext(VarseContext)
   if (!client) {
-    throw new Error('useVarseValue must be used within a VarseProvider')
+    throw new Error('useVarseValue hooks must be used within a VarseProvider')
   }
 
-  client.getString(key).then(setValue)
+  _getFunction(key, client).then((value) => setValue(value))
 
   return value
 }
 
-type UseVarseBoolOptions = {
-  key: string
-  defaultValue?: boolean
-}
+type UseVarseValueOptions = _UseVarseValueOptions<VariableValue>
+const useVarseValue = (options: UseVarseValueOptions) =>
+  _useVarseValueTyped<VariableValue>(
+    options,
+    (key, client) => client.get(key),
+    ''
+  )
 
-const useVarseBool = ({ key, defaultValue }: UseVarseBoolOptions): boolean => {
-  const [value, setValue] = useState<boolean>(defaultValue ?? false)
+type UseVarseBoolOptions = _UseVarseValueOptions<boolean>
+const useVarseBool = (options: UseVarseBoolOptions) =>
+  _useVarseValueTyped<boolean>(
+    options,
+    (key, client) => client.getBool(key),
+    false
+  )
 
-  const client = useContext(VarseContext)
-  if (!client) {
-    throw new Error('useVarseBool must be used within a VarseProvider')
-  }
+type UseVarseStringOptions = _UseVarseValueOptions<string>
+const useVarseString = (options: UseVarseStringOptions) =>
+  _useVarseValueTyped<string>(
+    options,
+    (key, client) => client.getString(key),
+    ''
+  )
 
-  client.getBool(key).then(setValue)
-
-  return value
-}
-
-type UseVarseStringOptions = {
-  key: string
-  defaultValue?: string
-}
-
-const useVarseString = ({
-  key,
-  defaultValue,
-}: UseVarseStringOptions): string => {
-  const [value, setValue] = useState<string>(defaultValue ?? '')
-
-  const client = useContext(VarseContext)
-  if (!client) {
-    throw new Error('useVarseString must be used within a VarseProvider')
-  }
-
-  client.getString(key).then(setValue)
-
-  return value
-}
-
-type UseVarseNumberOptions = {
-  key: string
-  defaultValue?: number
-}
-
-const useVarseNumber = ({
-  key,
-  defaultValue,
-}: UseVarseNumberOptions): number => {
-  const [value, setValue] = useState<number>(defaultValue ?? 0)
-
-  const client = useContext(VarseContext)
-  if (!client) {
-    throw new Error('useVarseNumber must be used within a VarseProvider')
-  }
-
-  client.getNumber(key).then(setValue)
-
-  return value
-}
+type UseVarseNumberOptions = _UseVarseValueOptions<number>
+const useVarseNumber = (options: UseVarseNumberOptions) =>
+  _useVarseValueTyped<number>(
+    options,
+    (key, client) => client.getNumber(key),
+    0
+  )
 
 export {
   UseVarseBoolOptions,
-  UseVarseStringOptions,
-  UseVarseNumberOptions,
   useVarseBool,
+  UseVarseValueOptions,
   useVarseValue,
+  UseVarseStringOptions,
   useVarseString,
+  UseVarseNumberOptions,
   useVarseNumber,
 }

@@ -1,7 +1,7 @@
 {
   "name": "varse-io-react",
   "author": "Varse",
-  "version": "1.0.2",
+  "version": "1.1.4",
   "description": "React SDK for Varse",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
