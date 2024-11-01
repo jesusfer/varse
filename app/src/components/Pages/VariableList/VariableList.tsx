@@ -8,8 +8,11 @@ import VariableTable from './VariableTable/VariableTable'
 import useVariableCreate from '../../../hooks/actions/useVariableCreate'
 import useVariableList from '../../../hooks/state/useVariableList'
 import ShareButton from '../../Library/ShareButton/ShareButton'
+import useLoadDashboard from '../../../hooks/actions/useLoadDashboard'
 
 const VariableList: React.FC = () => {
+  useLoadDashboard()
+
   const navigate = useNav()
   const createVariable = useVariableCreate()
   const variableList = useVariableList()

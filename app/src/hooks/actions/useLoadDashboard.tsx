@@ -8,7 +8,7 @@ import useLoadProjectUserList from '../data/useProjectUserList'
 const useLoadDashboard = () => {
   const loadUser = useLoadUser()
   const loadProjectList = useLoadProjectList()
-  const loadAPIKeys = useLoadKeys()
+  const loadKeys = useLoadKeys()
   const loadProjectUserList = useLoadProjectUserList()
   const loadVariables = useLoadVariables()
 
@@ -21,8 +21,8 @@ const useLoadDashboard = () => {
   }, [loadProjectList])
 
   useEffect(() => {
-    loadAPIKeys()
-  }, [loadAPIKeys])
+    loadKeys()
+  }, [loadKeys])
 
   useEffect(() => {
     loadProjectUserList()

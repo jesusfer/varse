@@ -7,8 +7,11 @@ import TopBar from '../../Library/TopBar/TopBar'
 import useApiKeyList from '../../../hooks/state/useApiKeyList'
 import useKeyCreate from '../../../hooks/actions/useKeyCreate'
 import useKeyDelete from '../../../hooks/actions/useKeyDelete'
+import useLoadDashboard from '../../../hooks/actions/useLoadDashboard'
 
 const Keys: React.FC = () => {
+  useLoadDashboard()
+
   const apiKeyList = useApiKeyList()
   const createApiKey = useKeyCreate()
   const deleteApiKey = useKeyDelete()

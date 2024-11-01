@@ -2,8 +2,11 @@ import Button from '../../Library/Button/Button'
 import TopBar from '../../Library/TopBar/TopBar'
 import useLogout from '../../../hooks/actions/useLogout'
 import useUserInfo from '../../../hooks/state/useUserInfo'
+import useLoadDashboard from '../../../hooks/actions/useLoadDashboard'
 
 const Account: React.FC = () => {
+  useLoadDashboard()
+
   const logout = useLogout()
   const userInfo = useUserInfo()
 

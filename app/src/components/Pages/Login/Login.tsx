@@ -8,6 +8,7 @@ import useNav from '../../../hooks/utils/useNav'
 
 const Login: React.FC = () => {
   useLoginRedirect()
+
   const navigate = useNav()
   const handleLogin = useLogin()
 

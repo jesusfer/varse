@@ -170,12 +170,12 @@ export class ProjectRoutes {
     res: Response
   ): Promise<void> => {
     try {
-      await this.projectService.createVariable(
+      const variable = await this.projectService.createVariable(
         req.params.projectId,
         req.body.key,
         req.body.value
       )
-      res.json({ message: 'Variable created' })
+      res.json(variable)
     } catch (error) {
       res.status(500).json({ message: 'Internal server error' })
     }

@@ -9,6 +9,7 @@ import useSignup from '../../../hooks/actions/useSignup'
 
 const Signup: React.FC = () => {
   useLoginRedirect()
+
   const navigate = useNav()
   const referral = useReferalCode()
   const handleSignup = useSignup()

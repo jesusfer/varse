@@ -7,8 +7,11 @@ import useActiveProject from '../../../hooks/state/useActiveProject'
 import useProjectUserDelete from '../../../hooks/actions/useProjectUserDelete'
 import { Trash } from 'lucide-react'
 import useUserInfo from '../../../hooks/state/useUserInfo'
+import useLoadDashboard from '../../../hooks/actions/useLoadDashboard'
 
 const Admin: React.FC = () => {
+  useLoadDashboard()
+
   const activeProject = useActiveProject()
   const projectUserList = useProjectUserList()
   const userInfo = useUserInfo()

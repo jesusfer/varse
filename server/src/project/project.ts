@@ -85,8 +85,10 @@ export class ProjectService {
     projectId: string,
     key: string,
     value: string
-  ): Promise<void> => {
-    await this.prisma.variable.create({ data: { projectId, key, value } })
+  ): Promise<Variable> => {
+    return await this.prisma.variable.create({
+      data: { projectId, key, value },
+    })
   }
 
   getVariables = async (projectId: string): Promise<Variable[]> => {
