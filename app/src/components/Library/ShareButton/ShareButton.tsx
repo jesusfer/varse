@@ -3,14 +3,10 @@ import { ProjectShareLink } from '../../../backend/types'
 import Button from '../Button/Button'
 import useActiveProject from '../../../hooks/state/useActiveProject'
 import useProject from '../../../hooks/services/useProject'
-import { useVarseBool } from 'varse-io-react'
 
 export default function ShareButton() {
   const activeProject = useActiveProject()
   const { shareProject } = useProject()
-
-  const visible = useVarseBool({ key: 'share_enabled' })
-  if (!visible) return null
 
   return (
     <Button
