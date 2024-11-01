@@ -1,33 +1,27 @@
-import { useSetRecoilState } from 'recoil'
 import { useCallback } from 'react'
 import useProject from '../services/useProject'
 import useNav from '../utils/useNav'
-import { variableListAtom } from '../../state/state'
 import useActiveProject from '../state/useActiveProject'
+import useLoadVariables from '../data/useLoadVariables'
 
 export default function useVariableDelete() {
   const navigate = useNav()
-  const { deleteVariable, getVariables } = useProject()
-  const activeProject = useActiveProject()
-  const setVariableList = useSetRecoilState(variableListAtom)
+  const { deleteVariable } = useProject()
+  const project = useActiveProject()
+  const loadVariables = useLoadVariables()
 
-  const handleDeleteVariable = useCallback(
+  return useCallback(
     async (variableId: string) => {
       try {
-        if (!activeProject) {
-          throw new Error('No active project')
-        }
+        if (!project) throw new Error('No active project')
 
-        await deleteVariable(activeProject.id, variableId)
+        await deleteVariable(project.id, variableId)
 
-        const updatedVariables = await getVariables(activeProject.id)
-        setVariableList(updatedVariables)
+        await loadVariables()
 
         navigate('variable-list')
       } catch (e) {}
     },
-    [activeProject, deleteVariable, getVariables, setVariableList, navigate],
+    [project, loadVariables, deleteVariable, navigate],
   )
-
-  return handleDeleteVariable
 }

@@ -5,13 +5,13 @@ import KeyTable from './KeyTable/KeyTable'
 import KeyCreatePopup from './KeyCreatePopup/KeyCreatePopup'
 import TopBar from '../../Library/TopBar/TopBar'
 import useApiKeyList from '../../../hooks/state/useApiKeyList'
-import useApiKeyCreate from '../../../hooks/actions/useApiKeyCreate'
-import useApiKeyDelete from '../../../hooks/actions/useApiKeyDelete'
+import useKeyCreate from '../../../hooks/actions/useKeyCreate'
+import useKeyDelete from '../../../hooks/actions/useKeyDelete'
 
 const Keys: React.FC = () => {
   const apiKeyList = useApiKeyList()
-  const createApiKey = useApiKeyCreate()
-  const deleteApiKey = useApiKeyDelete()
+  const createApiKey = useKeyCreate()
+  const deleteApiKey = useKeyDelete()
 
   const [search, setSearch] = useState('')
   const [creatingKey, setCreatingKey] = useState(false)

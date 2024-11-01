@@ -12,7 +12,7 @@ export default function useLogin() {
   const { getUserInfo } = useAccount()
   const setUserInfo = useSetRecoilState(userInfoAtom)
 
-  const handleLogin = useCallback(
+  return useCallback(
     async (email: string, password: string) => {
       try {
         await login(email, password)
@@ -28,6 +28,4 @@ export default function useLogin() {
     },
     [login, getProjects, navigate, getUserInfo, setUserInfo],
   )
-
-  return handleLogin
 }

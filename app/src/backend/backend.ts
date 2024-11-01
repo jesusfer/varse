@@ -134,8 +134,8 @@ export class BackendService {
     projectId: string,
     key: string,
     value: string,
-  ): Promise<void> {
-    await this.httpService.request(
+  ): Promise<Variable> {
+    return this.httpService.request(
       `/project/${projectId}/variables`,
       'POST',
       { key, value },

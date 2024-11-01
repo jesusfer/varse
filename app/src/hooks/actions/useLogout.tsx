@@ -22,7 +22,7 @@ export default function useLogout() {
   const resetApiKeyList = useResetRecoilState(apiKeyListAtom)
   const resetProjectUserList = useResetRecoilState(projectUserListAtom)
 
-  const handleLogout = useCallback(async () => {
+  return useCallback(async () => {
     try {
       await logout()
 
@@ -48,6 +48,4 @@ export default function useLogout() {
     resetApiKeyList,
     resetProjectUserList,
   ])
-
-  return handleLogout
 }

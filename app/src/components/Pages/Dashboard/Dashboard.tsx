@@ -1,16 +1,11 @@
 import { Outlet } from 'react-router-dom'
 import Sidebar from '../../Library/Sidebar/Sidebar'
 import useAuthRequired from '../../../hooks/utils/useAuthRequired'
-import useLoadProjectList from '../../../hooks/data/useLoadProjectList'
-import useLoadProject from '../../../hooks/data/useLoadProject'
-import useLoadUser from '../../../hooks/data/useLoadUser'
+import useLoadDashboard from '../../../hooks/actions/useLoadDashboard'
 
 const Dashboard: React.FC = () => {
   useAuthRequired()
-
-  useLoadUser()
-  useLoadProjectList()
-  useLoadProject()
+  useLoadDashboard()
 
   return (
     <div className="h-screen w-screen flex items-start justify-start bg-background">

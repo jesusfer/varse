@@ -1,29 +1,27 @@
-import { useSetRecoilState } from 'recoil'
 import { useCallback } from 'react'
 import useProject from '../services/useProject'
-import { variableListAtom } from '../../state/state'
 import useActiveProject from '../state/useActiveProject'
+import useNav from '../utils/useNav'
+import useLoadVariables from '../data/useLoadVariables'
 
 export default function useVariableCreate() {
-  const { createVariable, getVariables } = useProject()
-  const activeProject = useActiveProject()
-  const setVariableList = useSetRecoilState(variableListAtom)
+  const navigate = useNav()
+  const { createVariable } = useProject()
+  const project = useActiveProject()
+  const loadVariables = useLoadVariables()
 
-  const handleCreateVariable = useCallback(
+  return useCallback(
     async (key: string, value: string) => {
       try {
-        if (!activeProject) {
-          throw new Error('No active project')
-        }
+        if (!project) throw new Error('No active project')
 
-        await createVariable(activeProject.id, key, value)
+        const newVariable = await createVariable(project.id, key, value)
 
-        const updatedVariables = await getVariables(activeProject.id)
-        setVariableList(updatedVariables)
+        await loadVariables()
+
+        navigate('variable-details', newVariable.id)
       } catch (e) {}
     },
-    [activeProject, createVariable, getVariables, setVariableList],
+    [project, createVariable, loadVariables, navigate],
   )
-
-  return handleCreateVariable
 }

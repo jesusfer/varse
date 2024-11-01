@@ -7,7 +7,7 @@ const useAccount = () => {
 
   const login = useCallback(
     async (email: string, password: string) => {
-      const hashedPassword = await hashPassword(password)
+      const hashedPassword = sha256(password)
       return backendService.login({ email, password: hashedPassword })
     },
     [backendService],
@@ -19,7 +19,7 @@ const useAccount = () => {
 
   const signup = useCallback(
     async (email: string, password: string) => {
-      const hashedPassword = await hashPassword(password)
+      const hashedPassword = sha256(password)
       return backendService.signup({ email, password: hashedPassword })
     },
     [backendService],
@@ -29,11 +29,7 @@ const useAccount = () => {
     return backendService.getUserInfo()
   }, [backendService])
 
-  return { login, logout, signup, getUserInfo, hashPassword }
+  return { login, logout, signup, getUserInfo }
 }
 
 export default useAccount
-
-async function hashPassword(password: string) {
-  return sha256(password)
-}

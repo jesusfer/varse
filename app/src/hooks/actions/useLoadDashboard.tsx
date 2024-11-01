@@ -1,21 +1,36 @@
 import { useEffect } from 'react'
-import useReloadDashboard from './useReloadDashboard'
-import useUserInfo from '../state/useUserInfo'
-import useAccount from '../services/useAccount'
-import { userInfoAtom } from '../../state/state'
-import { useSetRecoilState } from 'recoil'
+import useLoadKeys from '../data/useLoadKeys'
+import useLoadProjectList from '../data/useLoadProjectList'
+import useLoadUser from '../data/useLoadUser'
+import useLoadVariables from '../data/useLoadVariables'
+import useLoadProjectUserList from '../data/useProjectUserList'
 
-export default function useLoadDashboard() {
-  const { getUserInfo } = useAccount()
-  const userInfo = useUserInfo()
-  const reloadDashboard = useReloadDashboard()
-  const setUserInfo = useSetRecoilState(userInfoAtom)
+const useLoadDashboard = () => {
+  const loadUser = useLoadUser()
+  const loadProjectList = useLoadProjectList()
+  const loadAPIKeys = useLoadKeys()
+  const loadProjectUserList = useLoadProjectUserList()
+  const loadVariables = useLoadVariables()
 
   useEffect(() => {
-    reloadDashboard()
+    loadUser()
+  }, [loadUser])
 
-    if (!userInfo) {
-      getUserInfo().then((userInfo) => setUserInfo(userInfo))
-    }
-  }, [reloadDashboard, userInfo, getUserInfo, setUserInfo])
+  useEffect(() => {
+    loadProjectList()
+  }, [loadProjectList])
+
+  useEffect(() => {
+    loadAPIKeys()
+  }, [loadAPIKeys])
+
+  useEffect(() => {
+    loadProjectUserList()
+  }, [loadProjectUserList])
+
+  useEffect(() => {
+    loadVariables()
+  }, [loadVariables])
 }
+
+export default useLoadDashboard

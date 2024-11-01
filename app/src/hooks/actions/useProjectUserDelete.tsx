@@ -1,32 +1,23 @@
-import { useSetRecoilState } from 'recoil'
 import { useCallback } from 'react'
 import useProject from '../services/useProject'
-import { projectUserListAtom } from '../../state/state'
 import useActiveProject from '../state/useActiveProject'
+import useLoadProjectUserList from '../data/useProjectUserList'
 
 export default function useProjectUserDelete() {
-  const { deleteProjectUser, getProjectUsers } = useProject()
-  const activeProject = useActiveProject()
-  const setProjectUserList = useSetRecoilState(projectUserListAtom)
+  const { deleteProjectUser } = useProject()
+  const project = useActiveProject()
+  const loadProjectUsers = useLoadProjectUserList()
 
-  const handleDeleteProjectUser = useCallback(
+  return useCallback(
     async (projectUserId: string) => {
       try {
-        if (!activeProject) {
-          throw new Error('No active project')
-        }
+        if (!project) throw new Error('No active project')
 
-        await deleteProjectUser(activeProject.id, projectUserId)
+        await deleteProjectUser(project.id, projectUserId)
 
-        const updatedProjectUsers = await getProjectUsers(activeProject.id)
-        setProjectUserList(updatedProjectUsers)
-      } catch (error) {
-        console.error('Failed to delete project user:', error)
-        throw error
-      }
+        await loadProjectUsers()
+      } catch (error) {}
     },
-    [activeProject, deleteProjectUser, getProjectUsers, setProjectUserList],
+    [project, deleteProjectUser, loadProjectUsers],
   )
-
-  return handleDeleteProjectUser
 }
