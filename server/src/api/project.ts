@@ -82,6 +82,11 @@ export class ProjectRoutes {
       this.authMiddleware.verifyAccess,
       this.getProjectUsers
     )
+    router.delete(
+      '/project/:projectId/users/:userId',
+      this.authMiddleware.verifyAccess,
+      this.deleteProjectUser
+    )
   }
 
   private createProject = async (
@@ -265,6 +270,21 @@ export class ProjectRoutes {
         req.params.projectId
       )
       res.json(projectUsers)
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
+  private deleteProjectUser = async (
+    req: Request,
+    res: Response
+  ): Promise<void> => {
+    try {
+      await this.projectService.deleteProjectUser(
+        req.params.userId,
+        req.params.projectId
+      )
+      res.json({ message: 'Project user deleted' })
     } catch (error) {
       res.status(500).json({ message: 'Internal server error' })
     }

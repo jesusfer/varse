@@ -99,6 +99,13 @@ const useProject = () => {
     [backendService],
   )
 
+  const deleteProjectUser = useCallback(
+    async (projectId: string, userId: string) => {
+      return backendService.deleteProjectUser(projectId, userId)
+    },
+    [backendService],
+  )
+
   return {
     createProject,
     getProjects,
@@ -114,6 +121,7 @@ const useProject = () => {
     shareProject,
     acceptShareLink,
     getProjectUsers,
+    deleteProjectUser,
   }
 }
 

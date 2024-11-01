@@ -1,6 +1,20 @@
 import { atom } from 'recoil'
-import { Project, Variable, ApiKey, ProjectUser } from '../backend/types'
+import {
+  Project,
+  Variable,
+  ApiKey,
+  ProjectUser,
+  UserInfo,
+} from '../backend/types'
 import persistAtom from './persistAtom'
+
+export const userInfoAtom = atom<UserInfo | null>(
+  persistAtom({
+    key: 'userInfo',
+    default: null,
+    persistMode: 'local',
+  }),
+)
 
 export const activeProjectAtom = atom<Project | null>(
   persistAtom({

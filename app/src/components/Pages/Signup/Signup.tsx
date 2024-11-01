@@ -5,32 +5,22 @@ import Button from '../../Library/Button/Button'
 import useLoginRedirect from '../../../hooks/utils/useLoginRedirect'
 import useNav from '../../../hooks/utils/useNav'
 import useReferalCode from '../../../hooks/utils/useReferalCode'
-import useProject from '../../../hooks/services/useProject'
-import useAccount from '../../../hooks/services/useAccount'
+import useSignup from '../../../hooks/actions/useSignup'
 
 const Signup: React.FC = () => {
   useLoginRedirect()
   const navigate = useNav()
   const referral = useReferalCode()
-  const { signup } = useAccount()
-  const { acceptShareLink } = useProject()
+  const handleSignup = useSignup()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
-    try {
-      e.preventDefault()
-      if (password !== confirmPassword) return
-      await signup(email, password)
-      if (referral) {
-        await acceptShareLink(referral.projectId, referral.id)
-        navigate('variable-list')
-      } else {
-        navigate('first-project')
-      }
-    } catch (e) {}
+    e.preventDefault()
+    if (password !== confirmPassword) return
+    await handleSignup(email, password, referral || undefined)
   }
 
   return (

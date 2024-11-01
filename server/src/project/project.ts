@@ -182,4 +182,13 @@ export class ProjectService {
       role: u.role,
     }))
   }
+
+  deleteProjectUser = async (
+    userId: string,
+    projectId: string
+  ): Promise<void> => {
+    await this.prisma.projectUser.delete({
+      where: { userId_projectId: { userId, projectId } },
+    })
+  }
 }

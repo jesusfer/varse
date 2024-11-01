@@ -1,29 +1,11 @@
-import { useEffect, useState } from 'react'
-import useAccount from '../../../hooks/services/useAccount'
-import useNav from '../../../hooks/utils/useNav'
 import Button from '../../Library/Button/Button'
 import TopBar from '../../Library/TopBar/TopBar'
-import { UserInfo } from '../../../backend/types'
+import useLogout from '../../../hooks/actions/useLogout'
+import useUserInfo from '../../../hooks/state/useUserInfo'
 
 const Account: React.FC = () => {
-  const navigate = useNav()
-  const { logout, getUserInfo } = useAccount()
-
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
-
-  const handleLogout = async () => {
-    await logout()
-    navigate('login')
-  }
-
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      const userInfo = await getUserInfo()
-      setUserInfo(userInfo)
-    }
-
-    fetchUserInfo()
-  }, [getUserInfo])
+  const logout = useLogout()
+  const userInfo = useUserInfo()
 
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
@@ -57,11 +39,7 @@ const Account: React.FC = () => {
               </div>
             </div>
           </div>
-          <Button
-            variant="outline"
-            className="self-start"
-            onClick={handleLogout}
-          >
+          <Button variant="outline" className="self-start" onClick={logout}>
             Logout
           </Button>
         </div>

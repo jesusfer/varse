@@ -1,28 +1,22 @@
 import { useState } from 'react'
 import Input from '../../Library/Input/Input'
 import OnboardingCard from '../../Library/OnboardingCard/OnboardingCard'
-import useAccount from '../../../hooks/services/useAccount'
+import useLoginRedirect from '../../../hooks/utils/useLoginRedirect'
+import useLogin from '../../../hooks/actions/useLogin'
 import Button from '../../Library/Button/Button'
 import useNav from '../../../hooks/utils/useNav'
-import useLoginRedirect from '../../../hooks/utils/useLoginRedirect'
-import useProject from '../../../hooks/services/useProject'
 
 const Login: React.FC = () => {
   useLoginRedirect()
   const navigate = useNav()
-  const { login } = useAccount()
-  const { getProjects } = useProject()
+  const handleLogin = useLogin()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
-    try {
-      e.preventDefault()
-      await login(email, password)
-      const projects = await getProjects()
-      navigate(projects.length > 0 ? 'variable-list' : 'first-project')
-    } catch (e) {}
+    e.preventDefault()
+    await handleLogin(email, password)
   }
 
   return (

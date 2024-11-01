@@ -229,6 +229,17 @@ export class BackendService {
     )
   }
 
+  async deleteProjectUser(projectId: string, userId: string): Promise<void> {
+    await this.httpService.request(
+      `/project/${projectId}/users/${userId}`,
+      'DELETE',
+      {},
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
   async logout(): Promise<void> {
     this.authService.clearToken()
   }
