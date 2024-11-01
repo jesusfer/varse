@@ -13,6 +13,7 @@ import Account from './components/Pages/Account/Account'
 import Admin from './components/Pages/Admin/Admin'
 import { RecoilRoot } from 'recoil'
 import { VarseProvider } from 'varse-io-react'
+import Onboarding from './components/Pages/Onboarding/Onboarding'
 
 function App() {
   const varseOptions = {
@@ -31,6 +32,7 @@ function App() {
             <Route path="/first-project" element={<FirstProject />} />
 
             <Route element={<Dashboard />}>
+              <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/variable-list" element={<VariableList />} />
               <Route
                 path="/variable-details/:variableId"

@@ -15,6 +15,7 @@ export type LinkKey =
   | 'login'
   | 'signup'
   | 'first-project'
+  | 'onboarding'
 
 const linkMap: Record<LinkKey, string> = {
   'docs.home': `${baseUrl}/docs`,
@@ -28,6 +29,7 @@ const linkMap: Record<LinkKey, string> = {
   login: '/login',
   signup: '/signup',
   'first-project': '/first-project',
+  onboarding: '/onboarding',
 }
 
 const isInternalLink = (key: LinkKey) => linkMap[key].startsWith('/')

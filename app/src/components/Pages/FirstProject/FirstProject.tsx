@@ -16,7 +16,7 @@ const FirstProject: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     await createProject(projectName)
-    navigate('variable-list')
+    navigate('onboarding')
   }
 
   return (
