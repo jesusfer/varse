@@ -7,12 +7,12 @@ type AtomOptions<T> = {
   persistMode?: 'session' | 'local'
 }
 
-export default function persistAtom<T>({
+const persistAtom = <T>({
   key,
   default: defaultValue,
   effects,
   persistMode,
-}: AtomOptions<T>) {
+}: AtomOptions<T>) => {
   const storage = persistMode === 'local' ? localStorage : sessionStorage
   const item = storage.getItem(key)
   let storedValue: T | null
@@ -42,3 +42,5 @@ export default function persistAtom<T>({
     ],
   }
 }
+
+export default persistAtom
