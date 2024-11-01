@@ -4,12 +4,13 @@ import OnboardingCard from '../../Library/OnboardingCard/OnboardingCard'
 import Button from '../../Library/Button/Button'
 import useNav from '../../../hooks/utils/useNav'
 import useAuthRequired from '../../../hooks/utils/useAuthRequired'
-import useProject from '../../../hooks/services/useProject'
+import useProjectCreate from '../../../hooks/actions/useProjectCreate'
 
 const FirstProject: React.FC = () => {
   useAuthRequired()
-  const { createProject } = useProject()
   const navigate = useNav()
+  const createProject = useProjectCreate()
+
   const [projectName, setProjectName] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
