@@ -50,7 +50,7 @@ const VariableTable: React.FC<VariableTableProps> = ({
                   className="w-4 h-4 text-text-2 hover:text-text-1 cursor-pointer"
                   onClick={(e) => {
                     e.stopPropagation()
-                    navigator.clipboard.writeText(variable.value)
+                    navigator.clipboard.writeText(variable.key)
                   }}
                 >
                   <Copy size={16} />
