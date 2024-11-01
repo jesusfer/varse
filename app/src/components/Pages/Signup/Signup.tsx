@@ -20,15 +20,17 @@ const Signup: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (password !== confirmPassword) return
-    await signup(email, password)
-    if (referral) {
-      await acceptShareLink(referral.projectId, referral.id)
-      navigate('variable-list')
-    } else {
-      navigate('first-project')
-    }
+    try {
+      e.preventDefault()
+      if (password !== confirmPassword) return
+      await signup(email, password)
+      if (referral) {
+        await acceptShareLink(referral.projectId, referral.id)
+        navigate('variable-list')
+      } else {
+        navigate('first-project')
+      }
+    } catch (e) {}
   }
 
   return (

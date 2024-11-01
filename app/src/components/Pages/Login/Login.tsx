@@ -17,10 +17,12 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    await login(email, password)
-    const projects = await getProjects()
-    navigate(projects.length > 0 ? 'variable-list' : 'first-project')
+    try {
+      e.preventDefault()
+      await login(email, password)
+      const projects = await getProjects()
+      navigate(projects.length > 0 ? 'variable-list' : 'first-project')
+    } catch (e) {}
   }
 
   return (

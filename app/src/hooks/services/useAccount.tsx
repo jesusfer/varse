@@ -1,12 +1,14 @@
 import { useCallback } from 'react'
 import useBackend from './useBackend'
+import { sha256 } from 'js-sha256'
 
 const useAccount = () => {
   const backendService = useBackend()
 
   const login = useCallback(
     async (email: string, password: string) => {
-      return backendService.login({ email, password })
+      const hashedPassword = await hashPassword(password)
+      return backendService.login({ email, password: hashedPassword })
     },
     [backendService],
   )
@@ -17,7 +19,8 @@ const useAccount = () => {
 
   const signup = useCallback(
     async (email: string, password: string) => {
-      return backendService.signup({ email, password })
+      const hashedPassword = await hashPassword(password)
+      return backendService.signup({ email, password: hashedPassword })
     },
     [backendService],
   )
@@ -26,7 +29,11 @@ const useAccount = () => {
     return backendService.getUserInfo()
   }, [backendService])
 
-  return { login, logout, signup, getUserInfo }
+  return { login, logout, signup, getUserInfo, hashPassword }
 }
 
 export default useAccount
+
+async function hashPassword(password: string) {
+  return sha256(password)
+}
