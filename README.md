@@ -40,7 +40,7 @@ import { VarseProvider } from 'varse-io-react'
 
 const App = () => {
   const varseOptions = {
-    apiKey: 'your-api-key',
+    apiKey: 'pk_00000000000000000000000000000000',
     baseUrl: 'https://api.varse.io',
   }
 
@@ -57,7 +57,7 @@ const App = () => {
 import { useVarseBool } from 'varse-io-react'
 
 const Component = () => {
-  const value = useVarseBool('my-variable')
+  const value = useVarseBool('new_variable')
 
   return <div>{value ? 'True' : 'False'}</div>
 }
@@ -68,9 +68,9 @@ const Component = () => {
 import { VarseClient } from "varse-io";
 
 const client = new VarseClient({
-  apiKey: "your-api-key",
+  apiKey: "pk_00000000000000000000000000000000",
   baseUrl: "https://api.varse.io",
 });
 
-const value = await client.getBool("my-variable");
+const value = await client.getBool("new_variable");
 ```
