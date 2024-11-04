@@ -7,11 +7,14 @@ import { useState } from 'react'
 import { Copy, Eye } from 'lucide-react'
 import { DocsCodeBlock } from './DocsCodeBlock/DocsCodeBlock'
 import useNav from '../../../hooks/utils/useNav'
+import useKeyCreate from '../../../hooks/actions/useKeyCreate'
 
 const Onboarding: React.FC = () => {
   useLoadDashboard()
 
   const nav = useNav()
+  const createKey = useKeyCreate()
+
   const [createdKey, setCreatedKey] = useState<boolean>(false)
   const [showKey, setShowKey] = useState<boolean>(false)
   const [codeTab, setCodeTab] = useState<'javascript' | 'tsx'>('javascript')
@@ -46,7 +49,13 @@ const Onboarding: React.FC = () => {
               </p>
             </div>
             {!createdKey && (
-              <Button variant="cta" onClick={() => setCreatedKey(true)}>
+              <Button
+                variant="cta"
+                onClick={async () => {
+                  await createKey('prod_key')
+                  setCreatedKey(true)
+                }}
+              >
                 Create API Key
               </Button>
             )}
