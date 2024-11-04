@@ -60,9 +60,14 @@ export class ProjectService {
 
   createApiKey = async (projectId: string, name: string): Promise<void> => {
     const key = `pk_${v4().replace(/-/g, '')}`
-    await this.prisma.apiKey.create({
-      data: { name, key, projectId },
-    })
+    try {
+      await this.prisma.apiKey.create({
+        data: { name, key, projectId },
+      })
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
   }
 
   getApiKeys = async (projectId: string): Promise<ApiKey[]> => {

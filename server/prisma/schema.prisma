@@ -45,7 +45,7 @@ model ProjectShareLink {
 
 model ApiKey {
   id         String    @id @default(uuid())
-  name       String    @unique
+  name       String
   key        String    @unique
   createdAt  DateTime  @default(now())
   lastUsedAt DateTime?

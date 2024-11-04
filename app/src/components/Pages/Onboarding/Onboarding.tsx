@@ -17,7 +17,7 @@ const Onboarding: React.FC = () => {
 
   const [createdKey, setCreatedKey] = useState<boolean>(false)
   const [showKey, setShowKey] = useState<boolean>(false)
-  const [codeTab, setCodeTab] = useState<'javascript' | 'tsx'>('javascript')
+  const [codeTab, setCodeTab] = useState<'javascript' | 'tsx'>('tsx')
 
   const keyList = useKeyList()
   const key = keyList[0]
@@ -94,14 +94,14 @@ const Onboarding: React.FC = () => {
 
             <div className="w-full flex flex-col items-start justify-start gap-2">
               <div className="w-full flex items-center justify-start gap-2">
+                <Button variant="outline" onClick={() => setCodeTab('tsx')}>
+                  TSX
+                </Button>
                 <Button
                   variant="outline"
                   onClick={() => setCodeTab('javascript')}
                 >
                   JavaScript
-                </Button>
-                <Button variant="outline" onClick={() => setCodeTab('tsx')}>
-                  TSX
                 </Button>
               </div>
 
