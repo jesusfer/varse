@@ -80,7 +80,7 @@ const Sidebar: React.FC = () => {
         <NavButton
           icon={<FileText size={16} className={'text-text-1'} />}
           name={'Docs'}
-          onClick={() => navigate('docs.home')}
+          onClick={() => navigate('docs')}
           external
         />
       </div>

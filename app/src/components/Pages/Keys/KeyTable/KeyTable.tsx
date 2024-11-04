@@ -76,7 +76,7 @@ const KeyTable: React.FC<KeyTableProps> = ({ keyList, search, onDelete }) => {
           </p>
           <button
             className="text-[14px] text-cta-base cursor-pointer underline"
-            onClick={() => navigate('docs.home')}
+            onClick={() => navigate('docs')}
           >
             Quick Start
           </button>

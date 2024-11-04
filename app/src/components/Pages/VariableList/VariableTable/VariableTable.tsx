@@ -72,7 +72,7 @@ const VariableTable: React.FC<VariableTableProps> = ({
           </p>
           <button
             className="text-[14px] text-cta-base cursor-pointer underline"
-            onClick={() => navigate('docs.home')}
+            onClick={() => navigate('docs')}
           >
             Quick Start
           </button>
