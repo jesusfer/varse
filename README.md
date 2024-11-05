@@ -1,6 +1,6 @@
-# Varse.io
+# Varse
 
-Varse is a tool for updating server variables at runtime. It has a dashboard for managing variables and an SDK for reading variables. It has built-in team managment for sharing configs across a team.
+Varse is a tool for updating application variables at runtime. It has a dashboard for managing variables and an SDK for reading variables. It has built-in team managment for sharing configs across a team.
 
 ## Use Cases
 
