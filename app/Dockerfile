@@ -4,11 +4,11 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-# RUN apt-get update && \
-#     apt-get install -y curl
-RUN npm install && \
+RUN npm ci && \
     npm run build
 
 EXPOSE 3000
 
-CMD [ "npx", "serve", "-s", "build" ]
+ENV NODE_ENV=production
+
+CMD ["npx", "serve", "-s", "build" ]

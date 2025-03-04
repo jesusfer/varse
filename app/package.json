@@ -1,25 +1,31 @@
 {
   "name": "varse-app",
   "version": "1.0.0",
-  "dependencies": {
-    "@types/highlight.js": "^10.1.0",
-    "axios": "^1.7.7",
-    "highlight.js": "^11.10.0",
-    "js-sha256": "^0.11.0",
-    "lucide-react": "^0.454.0",
-    "prettier": "^3.3.3",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.27.0",
-    "react-scripts": "5.0.1",
-    "recoil": "^0.7.7",
-    "varse-io": "^1.0.1",
-    "varse-io-react": "^1.0.0"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "format": "prettier --write ."
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.20",
+    "axios": "^1.8.1",
+    "highlight.js": "^11.11.1",
+    "js-sha256": "^0.11.0",
+    "lucide-react": "^0.477.0",
+    "postcss": "^8.5.3",
+    "prettier": "^3.5.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.0",
+    "react-scripts": "5.0.1",
+    "recoil": "^0.7.7",
+    "tailwindcss": "^3.4.17",
+    "varse-io": "^1.1.4",
+    "varse-io-react": "^1.1.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.9",
+    "@types/react-dom": "^18.3.5"
   },
   "eslintConfig": {
     "extends": [
@@ -38,18 +44,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@types/react-dom": "^18.3.1",
-    "autoprefixer": "latest",
-    "postcss": "latest",
-    "tailwindcss": "latest"
-  },
-  "postcss": {
-    "plugins": {
-      "tailwindcss": {},
-      "autoprefixer": {}
-    }
   }
 }

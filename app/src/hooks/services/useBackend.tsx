@@ -6,7 +6,7 @@ import useAuthService from './useAuthService'
 const { REACT_APP_SERVER_ADDRESS } = process.env
 const SERVER_ADDRESS = REACT_APP_SERVER_ADDRESS
   ? REACT_APP_SERVER_ADDRESS
-  : 'http://localhost:4000'
+  : 'http://localhost:3001'
 
 const useBackend = () => {
   const authService = useAuthService()

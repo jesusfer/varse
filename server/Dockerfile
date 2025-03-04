@@ -5,12 +5,12 @@ WORKDIR /usr/src/app
 COPY . .
 
 RUN apk add openssl && \
-    npm install && \
+    npm ci && \
     npx prisma generate && \
     npm run build
 
 ENV NODE_ENV=production
 
-EXPOSE 80
+EXPOSE ${SERVER_PORT}
 
 CMD ["node", "dist/index.js"]

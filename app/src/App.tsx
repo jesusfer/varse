@@ -18,7 +18,7 @@ import Onboarding from './components/Pages/Onboarding/Onboarding'
 function App() {
   const varseOptions = {
     apiKey: 'pk_84e2aa4f6fe34cfb85c403996654218d',
-    baseUrl: 'https://api.varse.io',
+    baseUrl: process.env.REACT_APP_SERVER_ADDRESS || 'http://localhost:3001',
   }
 
   return (

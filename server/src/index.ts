@@ -22,7 +22,7 @@ declare global {
 }
 
 const app: Express = express()
-const port = 4000
+const port = process.env.SERVER_PORT || 3001
 
 const jwtService = new JwtService()
 const userService = new UserService()
