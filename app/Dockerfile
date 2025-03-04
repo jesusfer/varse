@@ -1,16 +1,13 @@
-FROM node:18.17
-
-RUN apt-get update && apt-get install -y curl
+FROM node:22-alpine
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
-
-RUN npm install
-
 COPY . .
 
-RUN npm run build
+# RUN apt-get update && \
+#     apt-get install -y curl
+RUN npm install && \
+    npm run build
 
 EXPOSE 3000
 
