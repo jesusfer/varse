@@ -10,7 +10,7 @@
     "studio:local": "DATABASE_URL=$(grep DATABASE_URL .env.local | cut -d '=' -f2- | tr -d '\"') npx prisma studio"
   },
   "dependencies": {
-    "@prisma/client": "^5.22.0",
+    "@prisma/client": "^6.4.1",
     "@types/express": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.9",
     "body-parser": "^1.20.3",
@@ -19,14 +19,14 @@
     "express-json": "^1.0.0",
     "express-validator": "^7.2.1",
     "jsonwebtoken": "^9.0.2",
-    "prisma": "^5.22.0",
-    "ts-node": "latest",
+    "ts-node": "10.9.2",
     "tsc-watch": "^6.2.1",
-    "typescript": "latest",
+    "typescript": "5.8.2",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
-    "@types/node": "^22.13.9"
+    "@types/node": "^22.13.9",
+    "prisma": "^6.4.1"
   }
 }
