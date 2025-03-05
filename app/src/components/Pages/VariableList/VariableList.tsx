@@ -9,19 +9,25 @@ import useVariableCreate from '../../../hooks/actions/useVariableCreate'
 import useVariableList from '../../../hooks/state/useVariableList'
 import ShareButton from '../../Library/ShareButton/ShareButton'
 import useLoadDashboard from '../../../hooks/actions/useLoadDashboard'
+import useGroupList from '../../../hooks/state/useGroupList'
 
 const VariableList: React.FC = () => {
   useLoadDashboard()
 
   const navigate = useNav()
   const createVariable = useVariableCreate()
+  const groupList = useGroupList()
   const variableList = useVariableList()
 
   const [search, setSearch] = useState('')
   const [openCreatePopup, setOpenCreatePopup] = useState(false)
 
-  const handleCreateVariable = async (key: string, value: string) => {
-    await createVariable(key, value)
+  const handleCreateVariable = async (
+    groupId: string,
+    key: string,
+    value: string,
+  ) => {
+    await createVariable(groupId, key, value)
     setOpenCreatePopup(false)
   }
 
@@ -48,8 +54,12 @@ const VariableList: React.FC = () => {
             <Button variant="outline" onClick={() => setOpenCreatePopup(true)}>
               Create Variable
             </Button>
+            <Button variant="outline" onClick={() => setOpenCreatePopup(true)}>
+              Create Group
+            </Button>
           </div>
           <VariableTable
+            groupList={groupList}
             variableList={variableList}
             search={search}
             onSelect={(key) => navigate('variable-details', key)}
@@ -60,6 +70,7 @@ const VariableList: React.FC = () => {
         isOpen={openCreatePopup}
         create={handleCreateVariable}
         onClose={() => setOpenCreatePopup(false)}
+        groups={groupList}
       />
     </div>
   )

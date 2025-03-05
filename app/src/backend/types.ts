@@ -50,6 +50,12 @@ export type ApiKey = {
   lastUsed: Date | null
 }
 
+export type Group = {
+  id: string
+  name: string
+  isDefault: boolean
+}
+
 export type Variable = {
   id: string
   key: string

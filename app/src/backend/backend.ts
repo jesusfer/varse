@@ -2,6 +2,7 @@ import { AuthService } from './auth'
 import { HTTPService } from './http'
 import {
   ApiKey,
+  Group,
   LoginRequest,
   LoginResponse,
   Project,
@@ -130,15 +131,27 @@ export class BackendService {
     )
   }
 
+  async getGroups(projectId: string): Promise<Group[]> {
+    return this.httpService.request(
+      `/project/${projectId}/groups`,
+      'GET',
+      {},
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
   async createVariable(
     projectId: string,
+    groupId: string,
     key: string,
     value: string,
   ): Promise<Variable> {
     return this.httpService.request(
       `/project/${projectId}/variables`,
       'POST',
-      { key, value },
+      { groupId, key, value },
       {
         Authorization: `Bearer ${this.authService.getToken()}`,
       },

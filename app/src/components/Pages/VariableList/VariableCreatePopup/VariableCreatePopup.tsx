@@ -2,20 +2,27 @@ import { useRef, useState } from 'react'
 import useClickOutside from '../../../../hooks/utils/useClickOutside'
 import Button from '../../../Library/Button/Button'
 import Input from '../../../Library/Input/Input'
+import Select from '../../../Library/Select/Select'
+import { Group } from '../../../../backend/types'
 
 interface VariableCreatePopupProps {
   isOpen: boolean
-  create: (name: string, value: string) => void
+  create: (groupId: string, name: string, value: string) => void
   onClose: () => void
+  groups: Group[]
 }
 
 const VariableCreatePopup: React.FC<VariableCreatePopupProps> = ({
   isOpen,
   create,
   onClose,
+  groups,
 }) => {
+  const defaultGroup = groups.find((g) => g.isDefault)
+  const defaultGroupId = defaultGroup ? defaultGroup.id : ''
   const [name, setName] = useState('')
   const [value, setValue] = useState('')
+  const [group, setGroup] = useState(defaultGroupId)
 
   const ref = useRef<HTMLDivElement>(null)
   useClickOutside(ref, onClose)
@@ -23,10 +30,11 @@ const VariableCreatePopup: React.FC<VariableCreatePopupProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (name.trim()) {
-      create(name, value.trim() || 'true')
+      create(group || defaultGroupId, name, value.trim() || 'true')
     }
     setName('')
     setValue('')
+    // setGroup('')
     onClose()
   }
 
@@ -60,6 +68,16 @@ const VariableCreatePopup: React.FC<VariableCreatePopupProps> = ({
               type="text"
               placeholder="true"
               onChange={(e) => setValue(e.target.value)}
+            />
+            <Select
+              label="Group"
+              options={groups.map((g) => {
+                return {
+                  key: g.id,
+                  value: g.name,
+                }
+              })}
+              onChange={(e) => setGroup(e.target.value)}
             />
           </div>
           <Button type="submit">Submit</Button>

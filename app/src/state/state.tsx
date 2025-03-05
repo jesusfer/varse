@@ -5,6 +5,7 @@ import {
   ApiKey,
   ProjectUser,
   UserInfo,
+  Group,
 } from '../backend/types'
 import persistAtom from './persistAtom'
 
@@ -31,6 +32,11 @@ export const projectListAtom = atom<Project[]>(
     persistMode: 'local',
   }),
 )
+
+export const groupListAtom = atom<Group[]>({
+  key: 'groupList',
+  default: [],
+})
 
 export const variableListAtom = atom<Variable[]>({
   key: 'variableList',

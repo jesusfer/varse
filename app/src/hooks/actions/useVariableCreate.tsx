@@ -11,11 +11,16 @@ export default function useVariableCreate() {
   const loadVariables = useLoadVariables()
 
   return useCallback(
-    async (key: string, value: string) => {
+    async (groupId: string, key: string, value: string) => {
       try {
         if (!project) throw new Error('No active project')
 
-        const newVariable = await createVariable(project.id, key, value)
+        const newVariable = await createVariable(
+          project.id,
+          groupId,
+          key,
+          value,
+        )
 
         await loadVariables()
 

@@ -17,7 +17,7 @@ export default function useProjectCreate() {
       try {
         const newProject = await createProject(name)
 
-        await createVariable(newProject.id, 'new_variable', 'true')
+        // await createVariable(newProject.id, 'new_variable', 'true')
 
         setActiveProject(newProject)
 

@@ -5,6 +5,7 @@ import {
   ProjectShareLink,
   ProjectUser,
   Variable,
+  Group,
 } from '@prisma/client'
 import { ProjectInfo } from './types'
 import { v4 } from 'uuid'
@@ -29,9 +30,16 @@ export class ProjectService {
             role: 'OWNER',
           },
         },
+        groups: {
+          create: {
+            name: 'Default',
+            isDefault: true,
+          },
+        },
       },
       include: {
         members: true,
+        groups: true,
       },
     })
     return { id: project.id, name: project.name }
@@ -86,20 +94,70 @@ export class ProjectService {
     await this.prisma.apiKey.delete({ where: { id: apiKeyId } })
   }
 
+  createGroup = async (input: Prisma.GroupCreateInput): Promise<Group> => {
+    return await this.prisma.group.create({
+      data: { ...input },
+    })
+  }
+
+  getGroups = async (projectId: string): Promise<Group[]> => {
+    return await this.prisma.group.findMany({
+      where: { projectId },
+    })
+  }
+
+  updateGroup = async (input: Prisma.GroupCreateInput): Promise<void> => {
+    await this.prisma.group.update({
+      where: { id: input.id },
+      data: { ...input },
+    })
+  }
+
+  deleteGroup = async (groupId: string, projectId: string) => {
+    const project = await this.prisma.project.findUniqueOrThrow({
+      where: { id: projectId },
+      include: {
+        groups: true,
+      },
+    })
+    const group = project.groups.find((g) => g.id === groupId)
+    if (!group) {
+      throw new Error('Group not found in project')
+    }
+    if (group.isDefault) {
+      throw new Error('Cannot delete the default group')
+    }
+    const defaultGroupId = project.groups.find((g) => g.isDefault)?.id
+    const variables = await this.prisma.variable.findMany({
+      where: { groupId: groupId },
+    })
+    if (variables.length > 0) {
+      await this.prisma.variable.updateMany({
+        where: { groupId: groupId },
+        data: { groupId: defaultGroupId },
+      })
+    }
+    await this.prisma.group.delete({
+      where: { id: groupId },
+    })
+  }
+
   createVariable = async (
-    projectId: string,
+    groupId: string,
     key: string,
     value: string
   ): Promise<Variable> => {
     return await this.prisma.variable.create({
-      data: { projectId, key, value },
+      data: { groupId, key, value },
     })
   }
 
   getVariables = async (projectId: string): Promise<Variable[]> => {
-    return await this.prisma.variable.findMany({
+    const groups = await this.prisma.group.findMany({
       where: { projectId },
+      include: { variables: true },
     })
+    return groups.flatMap((value, index, array) => value.variables)
   }
 
   getVariableById = async (variableId: string): Promise<Variable | null> => {
@@ -109,11 +167,12 @@ export class ProjectService {
   }
 
   getVariableByKey = async (
-    projectId: string,
+    groupId: string,
     key: string
   ): Promise<Variable | null> => {
+    // TODO: Review this key as it could change if the var is moved between groups
     return await this.prisma.variable.findUnique({
-      where: { projectId_key: { projectId, key } },
+      where: { groupId_key: { groupId, key } },
     })
   }
 
@@ -126,6 +185,10 @@ export class ProjectService {
 
   deleteVariable = async (variableId: string): Promise<void> => {
     await this.prisma.variable.delete({ where: { id: variableId } })
+  }
+
+  moveVariable = async () => {
+    // TODO:
   }
 
   verifyProjectAccess = async (

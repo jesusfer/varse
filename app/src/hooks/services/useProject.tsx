@@ -43,9 +43,16 @@ const useProject = () => {
     [backendService],
   )
 
+  const getGroups = useCallback(
+    async (projectId: string) => {
+      return backendService.getGroups(projectId)
+    },
+    [backendService],
+  )
+
   const createVariable = useCallback(
-    async (projectId: string, key: string, value: string) => {
-      return backendService.createVariable(projectId, key, value)
+    async (projectId: string, groupId: string, key: string, value: string) => {
+      return backendService.createVariable(projectId, groupId, key, value)
     },
     [backendService],
   )
@@ -113,6 +120,7 @@ const useProject = () => {
     createApiKey,
     getApiKeys,
     deleteApiKey,
+    getGroups,
     createVariable,
     getVariables,
     getVariableById,

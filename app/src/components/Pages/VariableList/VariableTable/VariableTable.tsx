@@ -1,15 +1,17 @@
 import { Copy } from 'lucide-react'
 import useNav from '../../../../hooks/utils/useNav'
-import { Variable } from '../../../../backend/types'
+import { Variable, Group } from '../../../../backend/types'
 import { useMemo } from 'react'
 
 interface VariableTableProps {
+  groupList: Group[]
   variableList: Variable[]
   search: string
   onSelect: (key: string) => void
 }
 
 const VariableTable: React.FC<VariableTableProps> = ({
+  groupList: groups,
   variableList: variables,
   search,
   onSelect,

@@ -40,6 +40,12 @@ export class ProjectRoutes {
       this.deleteApiKey
     )
 
+    router.get(
+      '/project/:projectId/groups',
+      this.authMiddleware.verifyAccess,
+      this.getGroups
+    )
+
     router.post(
       '/project/:projectId/variables',
       this.authMiddleware.verifyAccess,
@@ -165,13 +171,22 @@ export class ProjectRoutes {
     }
   }
 
+  private getGroups = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const groups = await this.projectService.getGroups(req.params.projectId)
+      res.json(groups)
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
   private createVariable = async (
     req: Request,
     res: Response
   ): Promise<void> => {
     try {
       const variable = await this.projectService.createVariable(
-        req.params.projectId,
+        req.body.groupId,
         req.body.key,
         req.body.value
       )
