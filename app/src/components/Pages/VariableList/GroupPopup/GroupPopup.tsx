@@ -3,16 +3,22 @@ import useClickOutside from '../../../../hooks/utils/useClickOutside'
 import Button from '../../../Library/Button/Button'
 import Input from '../../../Library/Input/Input'
 
-interface GroupCreatePopupProps {
+interface GroupPopupProps {
   isOpen: boolean
-  create: (name: string) => void
   onClose: () => void
+  create: (name: string) => void
+  isUpdate: boolean
+  currentName: string
+  update: (name: string) => void
 }
 
-const GroupCreatePopup: React.FC<GroupCreatePopupProps> = ({
+const GroupPopup: React.FC<GroupPopupProps> = ({
   isOpen,
-  create,
   onClose,
+  create,
+  isUpdate,
+  currentName,
+  update,
 }) => {
   const [name, setName] = useState('')
 
@@ -22,7 +28,8 @@ const GroupCreatePopup: React.FC<GroupCreatePopupProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (name.trim()) {
-      create(name)
+      if (isUpdate) update(name)
+      else create(name)
     }
     setName('')
     onClose()
@@ -36,26 +43,28 @@ const GroupCreatePopup: React.FC<GroupCreatePopupProps> = ({
         ref={ref}
         className="w-[360px] p-6 flex flex-col items-start justify-start gap-6 rounded-[6px] bg-panel-background border border-panel-border"
       >
-        <h1 className="text-[24px] font-semibold text-text-1">Create group</h1>
+        <h1 className="text-[24px] font-semibold text-text-1">
+          {isUpdate ? 'Update' : 'Create'} group
+        </h1>
         <form
           onSubmit={handleSubmit}
           className="w-full flex flex-col items-start gap-6"
         >
           <div className="w-full flex flex-col items-center gap-4">
             <Input
-              label="Key"
-              value={name}
+              label="Name"
+              value={name || currentName}
               type="text"
-              placeholder="Group name"
+              placeholder={isUpdate ? currentName : 'Group name'}
               onChange={(e) => setName(e.target.value)}
               autoFocus
             />
           </div>
-          <Button type="submit">Submit</Button>
+          <Button type="submit">{isUpdate ? 'Update' : 'Create'}</Button>
         </form>
       </div>
     </div>
   )
 }
 
-export default GroupCreatePopup
+export default GroupPopup

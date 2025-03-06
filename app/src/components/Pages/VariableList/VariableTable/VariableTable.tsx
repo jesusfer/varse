@@ -1,4 +1,4 @@
-import { Copy } from 'lucide-react'
+import { Copy, Edit2 } from 'lucide-react'
 import useNav from '../../../../hooks/utils/useNav'
 import { Variable, Group } from '../../../../backend/types'
 import { useMemo } from 'react'
@@ -8,6 +8,7 @@ interface VariableTableProps {
   variableList: Variable[]
   search: string
   onSelect: (key: string) => void
+  openUpdateGroupPopup: (groupId: string, currentName: string) => void
 }
 
 const VariableTable: React.FC<VariableTableProps> = ({
@@ -15,6 +16,7 @@ const VariableTable: React.FC<VariableTableProps> = ({
   variableList: variables,
   search,
   onSelect,
+  openUpdateGroupPopup,
 }) => {
   const navigate = useNav()
 
@@ -63,9 +65,25 @@ const VariableTable: React.FC<VariableTableProps> = ({
               <div key={key}>
                 <div className="top-0 w-full p-0 items-center justify-between border-b border-panel-border">
                   <div className="p-3 flex bg-panel-background border-b border-panel-border">
-                    <p className="flex-1 text-[14px] text-text-2">
+                    <div className="flex-none text-[14px] text-text-2">
                       <b>{groups.find((g) => g.id === key)?.name}</b>
-                    </p>
+                    </div>
+                    {!groups.find((g) => g.id === key)?.isDefault ? (
+                      <div
+                        className="w-4 h-4 ml-2 mr-2 flex-1 text-text-2 hover:text-text-1 cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          const currentName =
+                            groups.find((g) => g.id === key)?.name || ''
+                          openUpdateGroupPopup(key, currentName)
+                        }}
+                        title="Edit the group's name"
+                      >
+                        <Edit2 size={16} />
+                      </div>
+                    ) : (
+                      ''
+                    )}
                     <p className="flex-1 pr-2 text-right text-[14px] text-text-2">
                       {key}
                     </p>

@@ -153,6 +153,21 @@ export class BackendService {
     )
   }
 
+  async updateGroup(
+    projectId: string,
+    groupId: string,
+    name: string,
+  ): Promise<Group> {
+    return this.httpService.request(
+      `/project/${projectId}/groups/${groupId}`,
+      'POST',
+      { name },
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
   async createVariable(
     projectId: string,
     groupId: string,

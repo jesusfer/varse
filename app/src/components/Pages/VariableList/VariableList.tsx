@@ -4,11 +4,12 @@ import useNav from '../../../hooks/utils/useNav'
 import Button from '../../Library/Button/Button'
 import ShareButton from '../../Library/ShareButton/ShareButton'
 import TopBar from '../../Library/TopBar/TopBar'
-import GroupCreatePopup from './GroupCreatePopup/GroupCreatePopup'
+import GroupPopup from './GroupPopup/GroupPopup'
 import VariableCreatePopup from './VariableCreatePopup/VariableCreatePopup'
 import VariableTable from './VariableTable/VariableTable'
 import useLoadDashboard from '../../../hooks/actions/useLoadDashboard'
 import useGroupCreate from '../../../hooks/actions/useGroupCreate'
+import useGroupUpdate from '../../../hooks/actions/useGroupUpdate'
 import useVariableCreate from '../../../hooks/actions/useVariableCreate'
 import useGroupList from '../../../hooks/state/useGroupList'
 import useVariableList from '../../../hooks/state/useVariableList'
@@ -18,17 +19,31 @@ const VariableList: React.FC = () => {
 
   const navigate = useNav()
   const createGroup = useGroupCreate()
+  const updateGroup = useGroupUpdate()
   const createVariable = useVariableCreate()
   const groupList = useGroupList()
   const variableList = useVariableList()
 
   const [search, setSearch] = useState('')
-  const [openCreateVariablePopup, setOpenCreateVariablePopup] = useState(false)
+
   const [openCreateGroupPopup, setOpenCreateGroupPopup] = useState(false)
+  const [isGroupUpdate, setIsGroupUpdate] = useState(false)
+  const [updatedGroupId, setUpdatedGroupId] = useState('')
+  const [updatedGroupName, setUpdatedGroupName] = useState('')
+
+  const [openCreateVariablePopup, setOpenCreateVariablePopup] = useState(false)
 
   const handleCreateGroup = async (name: string) => {
     await createGroup(name)
     setOpenCreateGroupPopup(false)
+  }
+
+  const handleUpdateGroup = async (name: string) => {
+    await updateGroup(updatedGroupId, name)
+    setOpenCreateGroupPopup(false)
+    setIsGroupUpdate(false)
+    setUpdatedGroupId('')
+    setUpdatedGroupName('')
   }
 
   const handleCreateVariable = async (
@@ -78,19 +93,33 @@ const VariableList: React.FC = () => {
             variableList={variableList}
             search={search}
             onSelect={(key) => navigate('variable-details', key)}
+            openUpdateGroupPopup={(groupId: string, currentName: string) => {
+              setUpdatedGroupId(groupId)
+              setUpdatedGroupName(currentName)
+              setIsGroupUpdate(true)
+              setOpenCreateGroupPopup(true)
+            }}
           />
         </div>
       </div>
       <VariableCreatePopup
         isOpen={openCreateVariablePopup}
-        create={handleCreateVariable}
         onClose={() => setOpenCreateVariablePopup(false)}
+        create={handleCreateVariable}
         groups={groupList}
       />
-      <GroupCreatePopup
+      <GroupPopup
         isOpen={openCreateGroupPopup}
+        onClose={() => {
+          setOpenCreateGroupPopup(false)
+          setIsGroupUpdate(false)
+          setUpdatedGroupId('')
+          setUpdatedGroupName('')
+        }}
         create={handleCreateGroup}
-        onClose={() => setOpenCreateGroupPopup(false)}
+        isUpdate={isGroupUpdate}
+        currentName={updatedGroupName}
+        update={handleUpdateGroup}
       />
     </div>
   )

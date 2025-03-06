@@ -106,10 +106,10 @@ export class ProjectService {
     })
   }
 
-  updateGroup = async (input: Prisma.GroupCreateInput): Promise<void> => {
+  updateGroup = async (groupId: string, newName: string): Promise<void> => {
     await this.prisma.group.update({
-      where: { id: input.id },
-      data: { ...input },
+      where: { id: groupId },
+      data: { name: newName },
     })
   }
 
