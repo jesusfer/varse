@@ -40,6 +40,11 @@ export class ProjectRoutes {
       this.deleteApiKey
     )
 
+    router.post(
+      '/project/:projectId/groups',
+      this.authMiddleware.verifyAccess,
+      this.createGroup
+    )
     router.get(
       '/project/:projectId/groups',
       this.authMiddleware.verifyAccess,
@@ -166,6 +171,18 @@ export class ProjectRoutes {
     try {
       await this.projectService.deleteApiKey(req.params.apiKeyId)
       res.json({ message: 'Api key deleted' })
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
+  private createGroup = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const group = await this.projectService.createGroup(
+        req.params.projectId,
+        req.body.name
+      )
+      res.json(group)
     } catch (error) {
       res.status(500).json({ message: 'Internal server error' })
     }

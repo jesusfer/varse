@@ -131,6 +131,17 @@ export class BackendService {
     )
   }
 
+  async createGroup(projectId: string, name: string): Promise<Group> {
+    return this.httpService.request(
+      `/project/${projectId}/groups`,
+      'POST',
+      { name },
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
   async getGroups(projectId: string): Promise<Group[]> {
     return this.httpService.request(
       `/project/${projectId}/groups`,

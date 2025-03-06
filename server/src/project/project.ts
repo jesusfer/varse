@@ -94,9 +94,9 @@ export class ProjectService {
     await this.prisma.apiKey.delete({ where: { id: apiKeyId } })
   }
 
-  createGroup = async (input: Prisma.GroupCreateInput): Promise<Group> => {
+  createGroup = async (projectId: string, name: string): Promise<Group> => {
     return await this.prisma.group.create({
-      data: { ...input },
+      data: { name, projectId },
     })
   }
 

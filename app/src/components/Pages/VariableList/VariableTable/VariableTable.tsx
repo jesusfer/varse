@@ -34,13 +34,21 @@ const VariableTable: React.FC<VariableTableProps> = ({
     })
 
     let groupsWithVariables = new Map<string, Variable[]>()
-    groups.forEach((group) => groupsWithVariables.set(group.id, []))
+    const sortedGroups = groups.toSorted((a, b) => {
+      if (a.isDefault) return -1
+      if (b.isDefault) return -1
+      return a.name.toLowerCase() < b.name.toLowerCase()
+        ? -1
+        : a.name.toLowerCase() === b.name.toLowerCase()
+          ? 0
+          : 1
+    })
+    sortedGroups.forEach((group) => groupsWithVariables.set(group.id, []))
     groupedVariables
       .keys()
       .forEach((groupId) =>
         groupsWithVariables.set(groupId, groupedVariables.get(groupId) || []),
       )
-    console.log(variables)
     return groupsWithVariables
   }, [groups, variables, search])
 
@@ -67,7 +75,7 @@ const VariableTable: React.FC<VariableTableProps> = ({
                         e.stopPropagation()
                         navigator.clipboard.writeText(key)
                       }}
-                      title="Click to copy the ID"
+                      title="Copy the group ID"
                     >
                       <Copy size={16} />
                     </div>
@@ -97,7 +105,7 @@ const VariableTable: React.FC<VariableTableProps> = ({
                           e.stopPropagation()
                           navigator.clipboard.writeText(variable.key)
                         }}
-                        title="Click to copy the Key"
+                        title="Copy the variable key"
                       >
                         <Copy size={16} />
                       </div>

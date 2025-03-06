@@ -1,26 +1,35 @@
 import { useState } from 'react'
 import { Search } from 'lucide-react'
 import useNav from '../../../hooks/utils/useNav'
-import TopBar from '../../Library/TopBar/TopBar'
 import Button from '../../Library/Button/Button'
+import ShareButton from '../../Library/ShareButton/ShareButton'
+import TopBar from '../../Library/TopBar/TopBar'
+import GroupCreatePopup from './GroupCreatePopup/GroupCreatePopup'
 import VariableCreatePopup from './VariableCreatePopup/VariableCreatePopup'
 import VariableTable from './VariableTable/VariableTable'
-import useVariableCreate from '../../../hooks/actions/useVariableCreate'
-import useVariableList from '../../../hooks/state/useVariableList'
-import ShareButton from '../../Library/ShareButton/ShareButton'
 import useLoadDashboard from '../../../hooks/actions/useLoadDashboard'
+import useGroupCreate from '../../../hooks/actions/useGroupCreate'
+import useVariableCreate from '../../../hooks/actions/useVariableCreate'
 import useGroupList from '../../../hooks/state/useGroupList'
+import useVariableList from '../../../hooks/state/useVariableList'
 
 const VariableList: React.FC = () => {
   useLoadDashboard()
 
   const navigate = useNav()
+  const createGroup = useGroupCreate()
   const createVariable = useVariableCreate()
   const groupList = useGroupList()
   const variableList = useVariableList()
 
   const [search, setSearch] = useState('')
-  const [openCreatePopup, setOpenCreatePopup] = useState(false)
+  const [openCreateVariablePopup, setOpenCreateVariablePopup] = useState(false)
+  const [openCreateGroupPopup, setOpenCreateGroupPopup] = useState(false)
+
+  const handleCreateGroup = async (name: string) => {
+    await createGroup(name)
+    setOpenCreateGroupPopup(false)
+  }
 
   const handleCreateVariable = async (
     groupId: string,
@@ -28,7 +37,7 @@ const VariableList: React.FC = () => {
     value: string,
   ) => {
     await createVariable(groupId, key, value)
-    setOpenCreatePopup(false)
+    setOpenCreateVariablePopup(false)
   }
 
   return (
@@ -51,10 +60,16 @@ const VariableList: React.FC = () => {
                 onChange={(e) => setSearch(e.target.value)}
               />
             </div>
-            <Button variant="outline" onClick={() => setOpenCreatePopup(true)}>
+            <Button
+              variant="outline"
+              onClick={() => setOpenCreateVariablePopup(true)}
+            >
               Create Variable
             </Button>
-            <Button variant="outline" onClick={() => setOpenCreatePopup(true)}>
+            <Button
+              variant="outline"
+              onClick={() => setOpenCreateGroupPopup(true)}
+            >
               Create Group
             </Button>
           </div>
@@ -67,10 +82,15 @@ const VariableList: React.FC = () => {
         </div>
       </div>
       <VariableCreatePopup
-        isOpen={openCreatePopup}
+        isOpen={openCreateVariablePopup}
         create={handleCreateVariable}
-        onClose={() => setOpenCreatePopup(false)}
+        onClose={() => setOpenCreateVariablePopup(false)}
         groups={groupList}
+      />
+      <GroupCreatePopup
+        isOpen={openCreateGroupPopup}
+        create={handleCreateGroup}
+        onClose={() => setOpenCreateGroupPopup(false)}
       />
     </div>
   )
