@@ -4,14 +4,14 @@ import { Variable, Group } from '../../../../backend/types'
 import { useMemo } from 'react'
 
 interface VariableTableProps {
-  groupList: Group[]
+  groups: Group[]
   variableList: Variable[]
   search: string
   onSelect: (key: string) => void
 }
 
 const VariableTable: React.FC<VariableTableProps> = ({
-  groupList: groups,
+  groups,
   variableList: variables,
   search,
   onSelect,
@@ -19,52 +19,100 @@ const VariableTable: React.FC<VariableTableProps> = ({
   const navigate = useNav()
 
   const filteredVariables = useMemo(() => {
-    return variables.filter((variable) =>
+    let foundVariables = variables.filter((variable) =>
       variable.key.toLowerCase().includes(search.toLowerCase()),
     )
-  }, [variables, search])
+    const groupedVariables = Map.groupBy(
+      foundVariables,
+      (item: Variable) => item.groupId,
+    )
+    groupedVariables.forEach((vars, key, map) => {
+      const sorted = vars.sort((a, b) =>
+        a.key < b.key ? -1 : a.key === b.key ? 0 : 1,
+      )
+      map.set(key, sorted)
+    })
+
+    let groupsWithVariables = new Map<string, Variable[]>()
+    groups.forEach((group) => groupsWithVariables.set(group.id, []))
+    groupedVariables
+      .keys()
+      .forEach((groupId) =>
+        groupsWithVariables.set(groupId, groupedVariables.get(groupId) || []),
+      )
+    console.log(variables)
+    return groupsWithVariables
+  }, [groups, variables, search])
 
   return (
     <div className="w-full max-w-[600px] h-full border border-panel-border rounded-[6px] flex-shrink overflow-auto">
-      <div className="sticky top-0 bg-background w-full p-3 flex items-center justify-between border-b border-panel-border">
-        <div className="flex-1 flex items-center justify-end gap-3">
-          <p className="w-[140px] text-[14px] text-text-2">Key</p>
-          <p className="flex-1 text-[14px] text-text-2">Value</p>
-          <div className="w-4 h-4" />
-        </div>
-      </div>
       {variables.length > 0 && (
         <div className="w-full flex flex-col overflow-y-auto">
-          {filteredVariables.map((variable) => (
-            <div
-              key={variable.id}
-              className="w-full p-3 flex items-center justify-between border-b border-panel-border hover:bg-input-active cursor-pointer"
-              onClick={() => onSelect(variable.id)}
-            >
-              <div className="flex-1 flex items-center justify-end gap-3">
-                <p className="w-[140px] text-[14px] text-text-1">
-                  {variable.key}
-                </p>
-                <p className="flex-1 text-[14px] text-text-1">
-                  {variable.value}
-                </p>
-                <div
-                  className="w-4 h-4 text-text-2 hover:text-text-1 cursor-pointer"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    navigator.clipboard.writeText(variable.key)
-                  }}
-                >
-                  <Copy size={16} />
+          {filteredVariables
+            .keys()
+            .toArray()
+            .map((key) => (
+              <div key={key}>
+                <div className="top-0 w-full p-0 items-center justify-between border-b border-panel-border">
+                  <div className="p-3 flex bg-panel-background border-b border-panel-border">
+                    <p className="flex-1 text-[14px] text-text-2">
+                      <b>{groups.find((g) => g.id === key)?.name}</b>
+                    </p>
+                    <p className="flex-1 pr-2 text-right text-[14px] text-text-2">
+                      {key}
+                    </p>
+                    <div
+                      className="w-4 h-4 text-text-2 hover:text-text-1 cursor-pointer"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        navigator.clipboard.writeText(key)
+                      }}
+                      title="Click to copy the ID"
+                    >
+                      <Copy size={16} />
+                    </div>
+                  </div>
+                  <div className="p-3 flex items-center justify-end gap-3">
+                    <p className="w-[140px] text-[14px] text-text-2">Key</p>
+                    <p className="flex-1 text-[14px] text-text-2">Value</p>
+                    <div className="w-4 h-4" />
+                  </div>
                 </div>
+                {filteredVariables.get(key)?.map((variable) => (
+                  <div
+                    key={variable.id}
+                    className="w-full p-3 flex items-center justify-between border-b border-panel-border hover:bg-input-active cursor-pointer"
+                    onClick={() => onSelect(variable.id)}
+                  >
+                    <div className="flex-1 flex items-center justify-end gap-3">
+                      <p className="w-[140px] text-[14px] text-text-1">
+                        {variable.key}
+                      </p>
+                      <p className="flex-1 text-[14px] text-text-1">
+                        {variable.value}
+                      </p>
+                      <div
+                        className="w-4 h-4 text-text-2 hover:text-text-1 cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          navigator.clipboard.writeText(variable.key)
+                        }}
+                        title="Click to copy the Key"
+                      >
+                        <Copy size={16} />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                {filteredVariables.get(key)?.length === 0 && (
+                  <div className="w-full flex items-center justify-start p-3">
+                    <p className="w-full text-center text-[14px] text-text-2">
+                      No variables found.
+                    </p>
+                  </div>
+                )}{' '}
               </div>
-            </div>
-          ))}
-        </div>
-      )}
-      {variables.length > 0 && filteredVariables.length === 0 && (
-        <div className="w-full flex items-center justify-start p-3">
-          <p className="text-[14px] text-text-2">No variables found.</p>
+            ))}
         </div>
       )}
       {variables.length === 0 && (

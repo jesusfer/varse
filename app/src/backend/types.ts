@@ -60,6 +60,7 @@ export type Variable = {
   id: string
   key: string
   value: string
+  groupId: string
 }
 
 export type ProjectShareLink = {

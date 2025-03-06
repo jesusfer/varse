@@ -24,7 +24,7 @@ export default function useVariableCreate() {
 
         await loadVariables()
 
-        navigate('variable-details', newVariable.id)
+        // navigate('variable-details', newVariable.id)
       } catch (e) {}
     },
     [project, createVariable, loadVariables, navigate],

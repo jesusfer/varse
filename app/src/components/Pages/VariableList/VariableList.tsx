@@ -59,7 +59,7 @@ const VariableList: React.FC = () => {
             </Button>
           </div>
           <VariableTable
-            groupList={groupList}
+            groups={groupList}
             variableList={variableList}
             search={search}
             onSelect={(key) => navigate('variable-details', key)}

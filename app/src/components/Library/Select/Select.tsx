@@ -20,7 +20,7 @@ const Select: React.FC<SelectProps> = ({ label, ...props }) => {
       >
         {props.options.length > 0 &&
           props.options.map((option, index) => (
-            <option key={index} value="{option.key}">
+            <option key={index} value={option.key}>
               {option.value}
             </option>
           ))}
