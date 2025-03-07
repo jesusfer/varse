@@ -18,7 +18,7 @@ export class VariableRoutes {
       this.getVariable
     )
     router.get(
-      '/project/:projectId/groups/:groupId/variables',
+      '/groups/:groupId/variables',
       this.authMiddleware.authenticateProject,
       this.getVariablesByGroup
     )
