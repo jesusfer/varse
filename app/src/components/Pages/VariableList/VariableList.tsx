@@ -1,20 +1,20 @@
-import { useMemo, useState } from 'react'
 import { Search } from 'lucide-react'
+import { useMemo, useState } from 'react'
+import useGroupCreate from '../../../hooks/actions/useGroupCreate'
+import useGroupDelete from '../../../hooks/actions/useGroupDelete'
+import useGroupUpdate from '../../../hooks/actions/useGroupUpdate'
+import useLoadDashboard from '../../../hooks/actions/useLoadDashboard'
+import useVariableCreate from '../../../hooks/actions/useVariableCreate'
+import useGroupList from '../../../hooks/state/useGroupList'
+import useVariableList from '../../../hooks/state/useVariableList'
 import useNav from '../../../hooks/utils/useNav'
 import Button from '../../Library/Button/Button'
 import ShareButton from '../../Library/ShareButton/ShareButton'
 import TopBar from '../../Library/TopBar/TopBar'
+import DeleteGroupPopup from './GroupPopups/DeleteGroupPopup'
 import GroupPopup from './GroupPopups/GroupPopup'
 import VariableCreatePopup from './VariableCreatePopup/VariableCreatePopup'
 import VariableTable from './VariableTable/VariableTable'
-import useLoadDashboard from '../../../hooks/actions/useLoadDashboard'
-import useGroupCreate from '../../../hooks/actions/useGroupCreate'
-import useGroupUpdate from '../../../hooks/actions/useGroupUpdate'
-import useGroupDelete from '../../../hooks/actions/useGroupDelete'
-import useVariableCreate from '../../../hooks/actions/useVariableCreate'
-import useGroupList from '../../../hooks/state/useGroupList'
-import useVariableList from '../../../hooks/state/useVariableList'
-import DeleteGroupPopup from './GroupPopups/DeleteGroupPopup'
 
 const VariableList: React.FC = () => {
   useLoadDashboard()
@@ -150,6 +150,7 @@ const VariableList: React.FC = () => {
         isUpdate={isGroupUpdate}
         currentName={updatedGroupName}
         update={handleUpdateGroup}
+        groups={sortedGroups}
       />
       <DeleteGroupPopup
         isOpen={openDeleteGroupPopup}
