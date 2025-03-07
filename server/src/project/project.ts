@@ -143,12 +143,13 @@ export class ProjectService {
   }
 
   createVariable = async (
+    projectId: string,
     groupId: string,
     key: string,
     value: string
   ): Promise<Variable> => {
     return await this.prisma.variable.create({
-      data: { groupId, key, value },
+      data: { projectId, groupId, key, value },
     })
   }
 
@@ -167,12 +168,17 @@ export class ProjectService {
   }
 
   getVariableByKey = async (
-    groupId: string,
+    projectId: string,
     key: string
   ): Promise<Variable | null> => {
-    // TODO: Review this key as it could change if the var is moved between groups
     return await this.prisma.variable.findUnique({
-      where: { groupId_key: { groupId, key } },
+      where: { projectId_key: { projectId, key } },
+    })
+  }
+
+  getVariablesByGroup = async (groupId: string): Promise<Variable[]> => {
+    return await this.prisma.variable.findMany({
+      where: { groupId },
     })
   }
 
@@ -185,10 +191,6 @@ export class ProjectService {
 
   deleteVariable = async (variableId: string): Promise<void> => {
     await this.prisma.variable.delete({ where: { id: variableId } })
-  }
-
-  moveVariable = async () => {
-    // TODO:
   }
 
   verifyProjectAccess = async (

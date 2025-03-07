@@ -21,6 +21,7 @@ model Project {
   members          ProjectUser[]
   apiKeys          ApiKey[]
   groups           Group[]
+  variables        Variable[]
   ProjectShareLink ProjectShareLink[]
 }
 
@@ -65,13 +66,15 @@ model Group {
 }
 
 model Variable {
-  id      String @id @default(nanoid(16))
-  key     String
-  value   String
-  group   Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  groupId String
+  id        String  @id @default(nanoid(16))
+  key       String
+  value     String
+  group     Group   @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId   String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
 
-  @@unique([groupId, key])
+  @@unique([projectId, key])
   @@index([groupId])
 }
 

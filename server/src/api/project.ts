@@ -237,6 +237,7 @@ export class ProjectRoutes {
   ): Promise<void> => {
     try {
       const variable = await this.projectService.createVariable(
+        req.params.projectId,
         req.body.groupId,
         req.body.key,
         req.body.value
