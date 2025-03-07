@@ -5,7 +5,7 @@ import useProjectUserList from '../../../hooks/state/useProjectUserList'
 import { ProjectRole } from '../../../backend/types'
 import useActiveProject from '../../../hooks/state/useActiveProject'
 import useProjectUserDelete from '../../../hooks/actions/useProjectUserDelete'
-import { Trash } from 'lucide-react'
+import { Copy, Trash } from 'lucide-react'
 import useUserInfo from '../../../hooks/state/useUserInfo'
 import useLoadDashboard from '../../../hooks/actions/useLoadDashboard'
 
@@ -53,6 +53,16 @@ const Admin: React.FC = () => {
                       {activeProject?.id}
                     </p>
                   </div>
+                  <div
+                    className="w-4 h-4 text-text-2 hover:text-text-1 cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      navigator.clipboard.writeText(activeProject?.id || '')
+                    }}
+                    title="Copy the ID"
+                  >
+                    <Copy size={16} />
+                  </div>{' '}
                 </div>
               </div>
             </div>
