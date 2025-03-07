@@ -34,7 +34,7 @@ const VariableCreatePopup: React.FC<VariableCreatePopupProps> = ({
     }
     setName('')
     setValue('')
-    // setGroup('')
+    setGroup('')
     onClose()
   }
 
