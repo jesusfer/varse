@@ -1,4 +1,4 @@
-import { Copy, Edit2, Trash2 } from 'lucide-react'
+import { Copy, Edit2, Trash } from 'lucide-react'
 import useNav from '../../../../hooks/utils/useNav'
 import { Variable, Group } from '../../../../backend/types'
 import { useMemo } from 'react'
@@ -83,7 +83,7 @@ const VariableTable: React.FC<VariableTableProps> = ({
                           }}
                           title="Delete this group"
                         >
-                          <Trash2 size={14} color="firebrick" />
+                          <Trash size={14} color="firebrick" />
                         </div>
                       </>
                     ) : (
