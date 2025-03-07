@@ -1,8 +1,8 @@
-import { useSetRecoilState } from 'recoil'
-import useActiveProject from '../state/useActiveProject'
-import { groupListAtom } from '../../state/state'
 import { useCallback } from 'react'
+import { useSetRecoilState } from 'recoil'
+import { groupListAtom } from '../../state/state'
 import useProject from '../services/useProject'
+import useActiveProject from '../state/useActiveProject'
 
 const useLoadGroups = () => {
   const { getGroups } = useProject()

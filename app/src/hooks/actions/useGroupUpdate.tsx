@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
+import useLoadGroups from '../data/useLoadGroups'
 import useProject from '../services/useProject'
 import useActiveProject from '../state/useActiveProject'
-import useLoadGroups from '../data/useLoadGroups'
 
 export default function useGroupUpdate() {
   const { updateGroup } = useProject()

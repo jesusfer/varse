@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
-import useProject from '../services/useProject'
-import useActiveProject from '../state/useActiveProject'
 import useLoadGroups from '../data/useLoadGroups'
 import useLoadVariables from '../data/useLoadVariables'
+import useProject from '../services/useProject'
+import useActiveProject from '../state/useActiveProject'
 
 export default function useGroupDelete() {
   const { deleteGroup } = useProject()

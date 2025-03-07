@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express'
-import { ProjectService } from '../project/project'
 import { AuthMiddleware } from '../auth/auth.middleware'
+import { ProjectService } from '../project/project'
 
 export class VariableRoutes {
   private projectService: ProjectService

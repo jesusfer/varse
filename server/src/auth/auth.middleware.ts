@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express'
-import { AuthService } from './auth'
+import { NextFunction, Request, Response } from 'express'
 import { ProjectService } from '../project/project'
+import { AuthService } from './auth'
 
 export class AuthMiddleware {
   constructor(

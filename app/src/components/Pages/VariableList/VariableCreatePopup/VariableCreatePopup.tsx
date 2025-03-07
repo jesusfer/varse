@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
+import { useDebounce } from 'use-debounce'
+import { Group, Variable } from '../../../../backend/types'
 import useClickOutside from '../../../../hooks/utils/useClickOutside'
 import Button from '../../../Library/Button/Button'
 import Input from '../../../Library/Input/Input'
 import Select from '../../../Library/Select/Select'
-import { Group, Variable } from '../../../../backend/types'
-import { useDebounce } from 'use-debounce'
 
 interface VariableCreatePopupProps {
   isOpen: boolean

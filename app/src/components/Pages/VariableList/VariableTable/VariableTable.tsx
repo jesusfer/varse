@@ -1,7 +1,7 @@
 import { Copy, Edit2, Trash } from 'lucide-react'
-import useNav from '../../../../hooks/utils/useNav'
-import { Variable, Group } from '../../../../backend/types'
 import { useMemo } from 'react'
+import { Group, Variable } from '../../../../backend/types'
+import useNav from '../../../../hooks/utils/useNav'
 
 interface VariableTableProps {
   groups: Group[]

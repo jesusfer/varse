@@ -1,15 +1,15 @@
 import {
   ApiKey,
+  Group,
   Prisma,
   PrismaClient,
   ProjectShareLink,
   ProjectUser,
   Variable,
-  Group,
 } from '@prisma/client'
-import { ProjectInfo, ServiceError } from './types'
-import { v4 } from 'uuid'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
+import { v4 } from 'uuid'
+import { ProjectInfo, ServiceError } from './types'
 
 export class ProjectService {
   private prisma: PrismaClient

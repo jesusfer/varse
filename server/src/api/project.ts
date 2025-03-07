@@ -1,7 +1,7 @@
-import { Request, Response, Router } from 'express'
-import { ProjectService } from '../project/project'
-import { AuthMiddleware } from '../auth/auth.middleware'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
+import { Request, Response, Router } from 'express'
+import { AuthMiddleware } from '../auth/auth.middleware'
+import { ProjectService } from '../project/project'
 import { ServiceError } from '../project/types'
 
 export class ProjectRoutes {
