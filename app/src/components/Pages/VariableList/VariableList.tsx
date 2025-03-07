@@ -1,18 +1,20 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Search } from 'lucide-react'
 import useNav from '../../../hooks/utils/useNav'
 import Button from '../../Library/Button/Button'
 import ShareButton from '../../Library/ShareButton/ShareButton'
 import TopBar from '../../Library/TopBar/TopBar'
-import GroupPopup from './GroupPopup/GroupPopup'
+import GroupPopup from './GroupPopups/GroupPopup'
 import VariableCreatePopup from './VariableCreatePopup/VariableCreatePopup'
 import VariableTable from './VariableTable/VariableTable'
 import useLoadDashboard from '../../../hooks/actions/useLoadDashboard'
 import useGroupCreate from '../../../hooks/actions/useGroupCreate'
 import useGroupUpdate from '../../../hooks/actions/useGroupUpdate'
+import useGroupDelete from '../../../hooks/actions/useGroupDelete'
 import useVariableCreate from '../../../hooks/actions/useVariableCreate'
 import useGroupList from '../../../hooks/state/useGroupList'
 import useVariableList from '../../../hooks/state/useVariableList'
+import DeleteGroupPopup from './GroupPopups/DeleteGroupPopup'
 
 const VariableList: React.FC = () => {
   useLoadDashboard()
@@ -20,6 +22,7 @@ const VariableList: React.FC = () => {
   const navigate = useNav()
   const createGroup = useGroupCreate()
   const updateGroup = useGroupUpdate()
+  const deleteGroup = useGroupDelete()
   const createVariable = useVariableCreate()
   const groupList = useGroupList()
   const variableList = useVariableList()
@@ -30,6 +33,9 @@ const VariableList: React.FC = () => {
   const [isGroupUpdate, setIsGroupUpdate] = useState(false)
   const [updatedGroupId, setUpdatedGroupId] = useState('')
   const [updatedGroupName, setUpdatedGroupName] = useState('')
+
+  const [openDeleteGroupPopup, setOpenDeleteGroupPopup] = useState(false)
+  const [deleteGroupId, setDeleteGroupId] = useState('')
 
   const [openCreateVariablePopup, setOpenCreateVariablePopup] = useState(false)
 
@@ -46,6 +52,12 @@ const VariableList: React.FC = () => {
     setUpdatedGroupName('')
   }
 
+  const handleDeleteGroup = async (groupId: string) => {
+    await deleteGroup(groupId)
+    setOpenDeleteGroupPopup(false)
+    setDeleteGroupId('')
+  }
+
   const handleCreateVariable = async (
     groupId: string,
     key: string,
@@ -54,6 +66,19 @@ const VariableList: React.FC = () => {
     await createVariable(groupId, key, value)
     setOpenCreateVariablePopup(false)
   }
+
+  const sortedGroups = useMemo(() => {
+    const sortedGroups = groupList.toSorted((a, b) => {
+      if (a.isDefault) return -1
+      if (b.isDefault) return -1
+      return a.name.toLowerCase() < b.name.toLowerCase()
+        ? -1
+        : a.name.toLowerCase() === b.name.toLowerCase()
+          ? 0
+          : 1
+    })
+    return sortedGroups
+  }, [groupList])
 
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
@@ -89,7 +114,7 @@ const VariableList: React.FC = () => {
             </Button>
           </div>
           <VariableTable
-            groups={groupList}
+            groups={sortedGroups}
             variableList={variableList}
             search={search}
             onSelect={(key) => navigate('variable-details', key)}
@@ -99,6 +124,10 @@ const VariableList: React.FC = () => {
               setIsGroupUpdate(true)
               setOpenCreateGroupPopup(true)
             }}
+            openDeleteGroupPopup={(groupId: string) => {
+              setDeleteGroupId(groupId)
+              setOpenDeleteGroupPopup(true)
+            }}
           />
         </div>
       </div>
@@ -106,7 +135,7 @@ const VariableList: React.FC = () => {
         isOpen={openCreateVariablePopup}
         onClose={() => setOpenCreateVariablePopup(false)}
         create={handleCreateVariable}
-        groups={groupList}
+        groups={sortedGroups}
       />
       <GroupPopup
         isOpen={openCreateGroupPopup}
@@ -120,6 +149,15 @@ const VariableList: React.FC = () => {
         isUpdate={isGroupUpdate}
         currentName={updatedGroupName}
         update={handleUpdateGroup}
+      />
+      <DeleteGroupPopup
+        isOpen={openDeleteGroupPopup}
+        onClose={() => {
+          setOpenDeleteGroupPopup(false)
+          setDeleteGroupId('')
+        }}
+        groupId={deleteGroupId}
+        deleteGroup={handleDeleteGroup}
       />
     </div>
   )

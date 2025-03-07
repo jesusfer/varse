@@ -55,6 +55,11 @@ export class ProjectRoutes {
       this.authMiddleware.verifyAccess,
       this.updateGroup
     )
+    router.delete(
+      '/project/:projectId/groups/:groupId',
+      this.authMiddleware.verifyAccess,
+      this.deleteGroup
+    )
 
     router.post(
       '/project/:projectId/variables',
@@ -213,6 +218,19 @@ export class ProjectRoutes {
       res.status(500).json({ message: 'Internal server error' })
     }
   }
+
+  private deleteGroup = async (req: Request, res: Response): Promise<void> => {
+    try {
+      await this.projectService.deleteGroup(
+        req.params.projectId,
+        req.params.groupId
+      )
+      res.json({ message: 'Group deleted' })
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
   private createVariable = async (
     req: Request,
     res: Response

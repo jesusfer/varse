@@ -1,4 +1,4 @@
-import { Copy, Edit2 } from 'lucide-react'
+import { Copy, Edit2, Trash2 } from 'lucide-react'
 import useNav from '../../../../hooks/utils/useNav'
 import { Variable, Group } from '../../../../backend/types'
 import { useMemo } from 'react'
@@ -9,6 +9,7 @@ interface VariableTableProps {
   search: string
   onSelect: (key: string) => void
   openUpdateGroupPopup: (groupId: string, currentName: string) => void
+  openDeleteGroupPopup: (groupId: string) => void
 }
 
 const VariableTable: React.FC<VariableTableProps> = ({
@@ -17,6 +18,7 @@ const VariableTable: React.FC<VariableTableProps> = ({
   search,
   onSelect,
   openUpdateGroupPopup,
+  openDeleteGroupPopup,
 }) => {
   const navigate = useNav()
 
@@ -36,16 +38,7 @@ const VariableTable: React.FC<VariableTableProps> = ({
     })
 
     let groupsWithVariables = new Map<string, Variable[]>()
-    const sortedGroups = groups.toSorted((a, b) => {
-      if (a.isDefault) return -1
-      if (b.isDefault) return -1
-      return a.name.toLowerCase() < b.name.toLowerCase()
-        ? -1
-        : a.name.toLowerCase() === b.name.toLowerCase()
-          ? 0
-          : 1
-    })
-    sortedGroups.forEach((group) => groupsWithVariables.set(group.id, []))
+    groups.forEach((group) => groupsWithVariables.set(group.id, []))
     groupedVariables
       .keys()
       .forEach((groupId) =>
@@ -61,39 +54,51 @@ const VariableTable: React.FC<VariableTableProps> = ({
           {filteredVariables
             .keys()
             .toArray()
-            .map((key) => (
-              <div key={key}>
+            .map((groupId) => (
+              <div key={groupId}>
                 <div className="top-0 w-full p-0 items-center justify-between border-b border-panel-border">
                   <div className="p-3 flex bg-panel-background border-b border-panel-border">
                     <div className="flex-none text-[14px] text-text-2">
-                      <b>{groups.find((g) => g.id === key)?.name}</b>
+                      <b>{groups.find((g) => g.id === groupId)?.name}</b>
                     </div>
-                    {!groups.find((g) => g.id === key)?.isDefault ? (
-                      <div
-                        className="w-4 h-4 ml-2 mr-2 flex-1 text-text-2 hover:text-text-1 cursor-pointer"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          const currentName =
-                            groups.find((g) => g.id === key)?.name || ''
-                          openUpdateGroupPopup(key, currentName)
-                        }}
-                        title="Edit the group's name"
-                      >
-                        <Edit2 size={16} />
-                      </div>
+                    {!groups.find((g) => g.id === groupId)?.isDefault ? (
+                      <>
+                        <div
+                          className="w-4 h-4 ml-4 flex-none text-text-2 hover:text-text-1 cursor-pointer"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            const currentName =
+                              groups.find((g) => g.id === groupId)?.name || ''
+                            openUpdateGroupPopup(groupId, currentName)
+                          }}
+                          title="Edit the name"
+                        >
+                          <Edit2 size={14} />
+                        </div>
+                        <div
+                          className="w-4 h-4 ml-2 flex-1 text-text-2 hover:text-text-1 cursor-pointer"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            openDeleteGroupPopup(groupId)
+                          }}
+                          title="Delete this group"
+                        >
+                          <Trash2 size={14} color="firebrick" />
+                        </div>
+                      </>
                     ) : (
                       ''
                     )}
                     <p className="flex-1 pr-2 text-right text-[14px] text-text-2">
-                      {key}
+                      {groupId}
                     </p>
                     <div
                       className="w-4 h-4 text-text-2 hover:text-text-1 cursor-pointer"
                       onClick={(e) => {
                         e.stopPropagation()
-                        navigator.clipboard.writeText(key)
+                        navigator.clipboard.writeText(groupId)
                       }}
-                      title="Copy the group ID"
+                      title="Copy the ID"
                     >
                       <Copy size={16} />
                     </div>
@@ -104,7 +109,7 @@ const VariableTable: React.FC<VariableTableProps> = ({
                     <div className="w-4 h-4" />
                   </div>
                 </div>
-                {filteredVariables.get(key)?.map((variable) => (
+                {filteredVariables.get(groupId)?.map((variable) => (
                   <div
                     key={variable.id}
                     className="w-full p-3 flex items-center justify-between border-b border-panel-border hover:bg-input-active cursor-pointer"
@@ -130,7 +135,7 @@ const VariableTable: React.FC<VariableTableProps> = ({
                     </div>
                   </div>
                 ))}
-                {filteredVariables.get(key)?.length === 0 && (
+                {filteredVariables.get(groupId)?.length === 0 && (
                   <div className="w-full flex items-center justify-start p-3">
                     <p className="w-full text-center text-[14px] text-text-2">
                       No variables found.

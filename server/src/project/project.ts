@@ -113,7 +113,7 @@ export class ProjectService {
     })
   }
 
-  deleteGroup = async (groupId: string, projectId: string) => {
+  deleteGroup = async (projectId: string, groupId: string) => {
     const project = await this.prisma.project.findUniqueOrThrow({
       where: { id: projectId },
       include: {

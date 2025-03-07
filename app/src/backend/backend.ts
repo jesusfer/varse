@@ -168,6 +168,17 @@ export class BackendService {
     )
   }
 
+  async deleteGroup(projectId: string, groupId: string): Promise<Group> {
+    return this.httpService.request(
+      `/project/${projectId}/groups/${groupId}`,
+      'DELETE',
+      {},
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
   async createVariable(
     projectId: string,
     groupId: string,
