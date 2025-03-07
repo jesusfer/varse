@@ -136,6 +136,7 @@ const VariableList: React.FC = () => {
         onClose={() => setOpenCreateVariablePopup(false)}
         create={handleCreateVariable}
         groups={sortedGroups}
+        variables={variableList}
       />
       <GroupPopup
         isOpen={openCreateGroupPopup}
