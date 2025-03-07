@@ -7,8 +7,9 @@ import {
   Variable,
   Group,
 } from '@prisma/client'
-import { ProjectInfo } from './types'
+import { ProjectInfo, ServiceError } from './types'
 import { v4 } from 'uuid'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 
 export class ProjectService {
   private prisma: PrismaClient
@@ -148,9 +149,25 @@ export class ProjectService {
     key: string,
     value: string
   ): Promise<Variable> => {
-    return await this.prisma.variable.create({
-      data: { projectId, groupId, key, value },
-    })
+    try {
+      return await this.prisma.variable.create({
+        data: { projectId, groupId, key, value },
+      })
+    } catch (error) {
+      let message = 'Internal server error: query error'
+      let status = 500
+      if (error instanceof PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case 'P2002':
+            message = 'A variable with that key already exists'
+            status = 400
+            break
+          default:
+            break
+        }
+      }
+      throw new ServiceError(message, status)
+    }
   }
 
   getVariables = async (projectId: string): Promise<Variable[]> => {

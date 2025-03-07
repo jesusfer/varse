@@ -1,6 +1,8 @@
 import { Request, Response, Router } from 'express'
 import { ProjectService } from '../project/project'
 import { AuthMiddleware } from '../auth/auth.middleware'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
+import { ServiceError } from '../project/types'
 
 export class ProjectRoutes {
   private projectService: ProjectService
@@ -244,7 +246,13 @@ export class ProjectRoutes {
       )
       res.json(variable)
     } catch (error) {
-      res.status(500).json({ message: 'Internal server error' })
+      var message = 'Internal server error'
+      var status = 500
+      if (error instanceof ServiceError) {
+        message = error.message
+        status = error.status
+      }
+      res.status(status).json({ message })
     }
   }
 
