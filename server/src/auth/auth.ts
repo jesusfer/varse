@@ -1,7 +1,7 @@
+import { UserInfo } from '../user/types'
 import { UserService } from '../user/user'
 import { JwtService } from './jwt'
 import { AuthLogin, AuthToken } from './types'
-import { UserInfo } from '../user/types'
 
 export class AuthService {
   private userService: UserService

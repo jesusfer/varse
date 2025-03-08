@@ -1,13 +1,15 @@
 import {
   ApiKey,
+  Group,
   Prisma,
   PrismaClient,
   ProjectShareLink,
   ProjectUser,
   Variable,
 } from '@prisma/client'
-import { ProjectInfo } from './types'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { v4 } from 'uuid'
+import { ProjectInfo, ServiceError } from './types'
 
 export class ProjectService {
   private prisma: PrismaClient
@@ -29,9 +31,16 @@ export class ProjectService {
             role: 'OWNER',
           },
         },
+        groups: {
+          create: {
+            name: 'Default',
+            isDefault: true,
+          },
+        },
       },
       include: {
         members: true,
+        groups: true,
       },
     })
     return { id: project.id, name: project.name }
@@ -86,20 +95,87 @@ export class ProjectService {
     await this.prisma.apiKey.delete({ where: { id: apiKeyId } })
   }
 
-  createVariable = async (
-    projectId: string,
-    key: string,
-    value: string
-  ): Promise<Variable> => {
-    return await this.prisma.variable.create({
-      data: { projectId, key, value },
+  createGroup = async (projectId: string, name: string): Promise<Group> => {
+    return await this.prisma.group.create({
+      data: { name, projectId },
     })
   }
 
-  getVariables = async (projectId: string): Promise<Variable[]> => {
-    return await this.prisma.variable.findMany({
+  getGroups = async (projectId: string): Promise<Group[]> => {
+    return await this.prisma.group.findMany({
       where: { projectId },
     })
+  }
+
+  updateGroup = async (groupId: string, newName: string): Promise<void> => {
+    await this.prisma.group.update({
+      where: { id: groupId },
+      data: { name: newName },
+    })
+  }
+
+  deleteGroup = async (projectId: string, groupId: string) => {
+    const project = await this.prisma.project.findUniqueOrThrow({
+      where: { id: projectId },
+      include: {
+        groups: true,
+      },
+    })
+    const group = project.groups.find((g) => g.id === groupId)
+    if (!group) {
+      throw new Error('Group not found in project')
+    }
+    if (group.isDefault) {
+      throw new Error('Cannot delete the default group')
+    }
+    const defaultGroupId = project.groups.find((g) => g.isDefault)?.id
+    const variables = await this.prisma.variable.findMany({
+      where: { groupId: groupId },
+    })
+    if (variables.length > 0) {
+      await this.prisma.variable.updateMany({
+        where: { groupId: groupId },
+        data: { groupId: defaultGroupId },
+      })
+    }
+    await this.prisma.group.delete({
+      where: { id: groupId },
+    })
+  }
+
+  createVariable = async (
+    projectId: string,
+    groupId: string,
+    key: string,
+    value: string
+  ): Promise<Variable> => {
+    try {
+      return await this.prisma.variable.create({
+        data: { projectId, groupId, key, value },
+      })
+    } catch (error) {
+      let message = 'Internal server error: query error'
+      let status = 500
+      if (error instanceof PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case 'P2002':
+            message = 'A variable with that key already exists'
+            status = 400
+            break
+          default:
+            break
+        }
+      }
+      throw new ServiceError(message, status)
+    }
+  }
+
+  getVariables = async (projectId: string): Promise<Variable[]> => {
+    const groups = await this.prisma.group.findMany({
+      where: { projectId },
+      include: { variables: true },
+    })
+    return groups.flatMap((value, index, array) => value.variables)
   }
 
   getVariableById = async (variableId: string): Promise<Variable | null> => {
@@ -117,10 +193,20 @@ export class ProjectService {
     })
   }
 
-  updateVariable = async (variableId: string, value: string): Promise<void> => {
+  getVariablesByGroup = async (groupId: string): Promise<Variable[]> => {
+    return await this.prisma.variable.findMany({
+      where: { groupId },
+    })
+  }
+
+  updateVariable = async (
+    variableId: string,
+    value: string,
+    groupId: string
+  ): Promise<void> => {
     await this.prisma.variable.update({
       where: { id: variableId },
-      data: { value },
+      data: { value, groupId },
     })
   }
 

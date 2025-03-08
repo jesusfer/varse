@@ -27,7 +27,7 @@ const VariableDetails: React.FC = () => {
         <div className="flex items-center gap-3">
           <h2
             className="text-[14px] text-text-2 cursor-pointer hover:text-text-1"
-            onClick={() => nav('variable-list')}
+            onClick={() => nav('variables')}
           >
             Variables
           </h2>

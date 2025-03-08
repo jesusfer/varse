@@ -7,7 +7,7 @@ import useLoadProjectList from '../data/useLoadProjectList'
 
 export default function useProjectCreate() {
   const navigate = useNav()
-  const { createProject, createVariable } = useProject()
+  const { createProject } = useProject()
   const loadProjectList = useLoadProjectList()
 
   const setActiveProject = useSetRecoilState(activeProjectAtom)
@@ -17,21 +17,13 @@ export default function useProjectCreate() {
       try {
         const newProject = await createProject(name)
 
-        await createVariable(newProject.id, 'new_variable', 'true')
-
         setActiveProject(newProject)
 
         await loadProjectList()
 
-        navigate('variable-list')
+        navigate('variables')
       } catch (e) {}
     },
-    [
-      createProject,
-      createVariable,
-      setActiveProject,
-      loadProjectList,
-      navigate,
-    ],
+    [createProject, setActiveProject, loadProjectList, navigate],
   )
 }

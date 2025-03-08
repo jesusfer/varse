@@ -4,7 +4,7 @@ import type { LinkKey } from './useNav'
 export default function useCurrentPage(): LinkKey | null {
   const { pathname } = useLocation()
 
-  if (pathname === '/variable-list') return 'variable-list'
+  if (pathname === '/variables') return 'variables'
   if (pathname.startsWith('/variable-details')) return 'variable-details'
   if (pathname === '/keys') return 'keys'
   if (pathname === '/admin') return 'admin'

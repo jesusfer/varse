@@ -19,7 +19,7 @@ export default function useVariableDelete() {
 
         await loadVariables()
 
-        navigate('variable-list')
+        navigate('variables')
       } catch (e) {}
     },
     [project, loadVariables, deleteVariable, navigate],

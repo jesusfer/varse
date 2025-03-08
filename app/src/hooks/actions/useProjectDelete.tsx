@@ -14,7 +14,7 @@ export default function useProjectDelete() {
 
       await deleteProject(project.id)
 
-      navigate('variable-list')
+      navigate('variables')
     } catch (e) {}
   }, [project, deleteProject, navigate])
 }

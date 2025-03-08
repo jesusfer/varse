@@ -1,27 +1,29 @@
 import { useCallback } from 'react'
 import useProject from '../services/useProject'
 import useActiveProject from '../state/useActiveProject'
-import useNav from '../utils/useNav'
 import useLoadVariables from '../data/useLoadVariables'
+import { AxiosError } from 'axios'
 
 export default function useVariableCreate() {
-  const navigate = useNav()
   const { createVariable } = useProject()
   const project = useActiveProject()
   const loadVariables = useLoadVariables()
 
   return useCallback(
-    async (key: string, value: string) => {
+    async (groupId: string, key: string, value: string) => {
       try {
         if (!project) throw new Error('No active project')
 
-        const newVariable = await createVariable(project.id, key, value)
+        await createVariable(project.id, groupId, key, value)
 
         await loadVariables()
-
-        navigate('variable-details', newVariable.id)
-      } catch (e) {}
+      } catch (e) {
+        if (e instanceof AxiosError) {
+          console.error(e.response?.data.message)
+          if (e.status === 400) throw new Error(e.response?.data.message)
+        }
+      }
     },
-    [project, createVariable, loadVariables, navigate],
+    [project, createVariable, loadVariables],
   )
 }

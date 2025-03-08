@@ -43,9 +43,37 @@ const useProject = () => {
     [backendService],
   )
 
+  const createGroup = useCallback(
+    async (projectId: string, name: string) => {
+      return backendService.createGroup(projectId, name)
+    },
+    [backendService],
+  )
+
+  const getGroups = useCallback(
+    async (projectId: string) => {
+      return backendService.getGroups(projectId)
+    },
+    [backendService],
+  )
+
+  const updateGroup = useCallback(
+    async (projectId: string, groupId: string, name: string) => {
+      return backendService.updateGroup(projectId, groupId, name)
+    },
+    [backendService],
+  )
+
+  const deleteGroup = useCallback(
+    async (projectId: string, groupId: string) => {
+      return backendService.deleteGroup(projectId, groupId)
+    },
+    [backendService],
+  )
+
   const createVariable = useCallback(
-    async (projectId: string, key: string, value: string) => {
-      return backendService.createVariable(projectId, key, value)
+    async (projectId: string, groupId: string, key: string, value: string) => {
+      return backendService.createVariable(projectId, groupId, key, value)
     },
     [backendService],
   )
@@ -65,8 +93,18 @@ const useProject = () => {
   )
 
   const updateVariable = useCallback(
-    async (projectId: string, variableId: string, value: string) => {
-      return backendService.updateVariable(projectId, variableId, value)
+    async (
+      projectId: string,
+      variableId: string,
+      value: string,
+      groupId: string,
+    ) => {
+      return backendService.updateVariable(
+        projectId,
+        variableId,
+        value,
+        groupId,
+      )
     },
     [backendService],
   )
@@ -113,6 +151,10 @@ const useProject = () => {
     createApiKey,
     getApiKeys,
     deleteApiKey,
+    createGroup,
+    getGroups,
+    updateGroup,
+    deleteGroup,
     createVariable,
     getVariables,
     getVariableById,

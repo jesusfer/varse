@@ -15,5 +15,18 @@ services:
       - POSTGRES_USER=varse
       - POSTGRES_PASSWORD=password
 
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json
+    ports:
+      - 8080
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@varse.dev
+      - PGADMIN_DEFAULT_PASSWORD=o83756gakafyg
+      - PGADMIN_DISABLE_POSTFIX=1
+      - PGADMIN_LISTEN_PORT=8080
+    restart: unless-stopped
+
 volumes:
   postgres-data:

@@ -17,7 +17,7 @@ export default function useLogin() {
       try {
         await login(email, password)
         const projects = await getProjects()
-        navigate(projects.length > 0 ? 'variable-list' : 'first-project')
+        navigate(projects.length > 0 ? 'variables' : 'first-project')
 
         const userInfo = await getUserInfo()
         setUserInfo(userInfo)

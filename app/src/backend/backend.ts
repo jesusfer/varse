@@ -2,6 +2,7 @@ import { AuthService } from './auth'
 import { HTTPService } from './http'
 import {
   ApiKey,
+  Group,
   LoginRequest,
   LoginResponse,
   Project,
@@ -130,15 +131,64 @@ export class BackendService {
     )
   }
 
+  async createGroup(projectId: string, name: string): Promise<Group> {
+    return this.httpService.request(
+      `/project/${projectId}/groups`,
+      'POST',
+      { name },
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
+  async getGroups(projectId: string): Promise<Group[]> {
+    return this.httpService.request(
+      `/project/${projectId}/groups`,
+      'GET',
+      {},
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
+  async updateGroup(
+    projectId: string,
+    groupId: string,
+    name: string,
+  ): Promise<Group> {
+    return this.httpService.request(
+      `/project/${projectId}/groups/${groupId}`,
+      'POST',
+      { name },
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
+  async deleteGroup(projectId: string, groupId: string): Promise<Group> {
+    return this.httpService.request(
+      `/project/${projectId}/groups/${groupId}`,
+      'DELETE',
+      {},
+      {
+        Authorization: `Bearer ${this.authService.getToken()}`,
+      },
+    )
+  }
+
   async createVariable(
     projectId: string,
+    groupId: string,
     key: string,
     value: string,
   ): Promise<Variable> {
     return this.httpService.request(
       `/project/${projectId}/variables`,
       'POST',
-      { key, value },
+      { groupId, key, value },
       {
         Authorization: `Bearer ${this.authService.getToken()}`,
       },
@@ -174,11 +224,12 @@ export class BackendService {
     projectId: string,
     variableId: string,
     value: string,
+    groupId: string,
   ): Promise<void> {
     await this.httpService.request(
       `/project/${projectId}/variables/${variableId}`,
       'PUT',
-      { value },
+      { value, groupId },
       {
         Authorization: `Bearer ${this.authService.getToken()}`,
       },

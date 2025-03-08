@@ -17,7 +17,7 @@ const useLoginRedirect = () => {
       if (referral) {
         acceptShareLink(referral.projectId, referral.id)
       } else {
-        navigate('variable-list')
+        navigate('variables')
       }
     } catch (e) {
       if (LOGIN_PATHS.includes(getPathname())) return

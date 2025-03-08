@@ -1,32 +1,34 @@
 import { useRef, useState } from 'react'
+import { Group } from '../../../../backend/types'
 import useClickOutside from '../../../../hooks/utils/useClickOutside'
 import Button from '../../../Library/Button/Button'
-import Input from '../../../Library/Input/Input'
+import Select from '../../../Library/Select/Select'
 
-interface VariableCreatePopupProps {
+interface VariableMovePopupProps {
   isOpen: boolean
-  create: (name: string, value: string) => void
+  move: (variableId: string) => void
   onClose: () => void
+  groups: Group[]
 }
 
-const VariableCreatePopup: React.FC<VariableCreatePopupProps> = ({
+const VariableMovePopup: React.FC<VariableMovePopupProps> = ({
   isOpen,
-  create,
+  move,
   onClose,
+  groups,
 }) => {
-  const [name, setName] = useState('')
-  const [value, setValue] = useState('')
+  const [newGroup, setNewGroup] = useState('')
 
   const ref = useRef<HTMLDivElement>(null)
-  useClickOutside(ref, onClose)
+  useClickOutside(ref, () => {
+    setNewGroup('')
+    onClose()
+  })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (name.trim()) {
-      create(name, value.trim() || 'true')
-    }
-    setName('')
-    setValue('')
+    move(newGroup)
+    setNewGroup('')
     onClose()
   }
 
@@ -38,28 +40,22 @@ const VariableCreatePopup: React.FC<VariableCreatePopupProps> = ({
         ref={ref}
         className="w-[360px] p-6 flex flex-col items-start justify-start gap-6 rounded-[6px] bg-panel-background border border-panel-border"
       >
-        <h1 className="text-[24px] font-semibold text-text-1">
-          Create Variable
-        </h1>
+        <h1 className="text-[24px] font-semibold text-text-1">Move variable</h1>
         <form
           onSubmit={handleSubmit}
           className="w-full flex flex-col items-start gap-6"
         >
           <div className="w-full flex flex-col items-center gap-4">
-            <Input
-              label="Key"
-              value={name}
-              type="text"
-              placeholder="variable_key"
-              onChange={(e) => setName(e.target.value)}
-              autoFocus
-            />
-            <Input
-              label="Value"
-              value={value}
-              type="text"
-              placeholder="true"
-              onChange={(e) => setValue(e.target.value)}
+            <Select
+              label="Move to"
+              options={groups.map((g) => {
+                return {
+                  key: g.id,
+                  value: g.name,
+                }
+              })}
+              // value={newGroup}
+              onChange={(e) => setNewGroup(e.target.value)}
             />
           </div>
           <Button type="submit">Submit</Button>
@@ -69,4 +65,4 @@ const VariableCreatePopup: React.FC<VariableCreatePopupProps> = ({
   )
 }
 
-export default VariableCreatePopup
+export default VariableMovePopup

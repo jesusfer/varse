@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express'
-import { ProjectService } from '../project/project'
 import { AuthMiddleware } from '../auth/auth.middleware'
+import { ProjectService } from '../project/project'
 
 export class VariableRoutes {
   private projectService: ProjectService
@@ -16,6 +16,11 @@ export class VariableRoutes {
       '/variable/:key',
       this.authMiddleware.authenticateProject,
       this.getVariable
+    )
+    router.get(
+      '/groups/:groupId/variables',
+      this.authMiddleware.authenticateProject,
+      this.getVariablesByGroup
     )
   }
 
@@ -33,6 +38,20 @@ export class VariableRoutes {
       res.json(variable)
     } catch (error) {
       res.status(404).json({ message: 'Variable not found' })
+    }
+  }
+
+  private getVariablesByGroup = async (
+    req: Request,
+    res: Response
+  ): Promise<void> => {
+    try {
+      const variables = await this.projectService.getVariablesByGroup(
+        req.params.groupId
+      )
+      res.json(variables)
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
     }
   }
 }

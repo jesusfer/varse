@@ -4,12 +4,14 @@ import useLoadProjectList from '../data/useLoadProjectList'
 import useLoadUser from '../data/useLoadUser'
 import useLoadVariables from '../data/useLoadVariables'
 import useLoadProjectUserList from '../data/useProjectUserList'
+import useLoadGroups from '../data/useLoadGroups'
 
 const useLoadDashboard = () => {
   const loadUser = useLoadUser()
   const loadProjectList = useLoadProjectList()
   const loadKeys = useLoadKeys()
   const loadProjectUserList = useLoadProjectUserList()
+  const loadGroups = useLoadGroups()
   const loadVariables = useLoadVariables()
 
   useEffect(() => {
@@ -27,6 +29,10 @@ const useLoadDashboard = () => {
   useEffect(() => {
     loadProjectUserList()
   }, [loadProjectUserList])
+
+  useEffect(() => {
+    loadGroups()
+  }, [loadGroups])
 
   useEffect(() => {
     loadVariables()

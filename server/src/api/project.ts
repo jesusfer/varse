@@ -1,6 +1,8 @@
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { Request, Response, Router } from 'express'
-import { ProjectService } from '../project/project'
 import { AuthMiddleware } from '../auth/auth.middleware'
+import { ProjectService } from '../project/project'
+import { ServiceError } from '../project/types'
 
 export class ProjectRoutes {
   private projectService: ProjectService
@@ -38,6 +40,27 @@ export class ProjectRoutes {
       '/project/:projectId/apikeys/:apiKeyId',
       this.authMiddleware.verifyAccess,
       this.deleteApiKey
+    )
+
+    router.post(
+      '/project/:projectId/groups',
+      this.authMiddleware.verifyAccess,
+      this.createGroup
+    )
+    router.get(
+      '/project/:projectId/groups',
+      this.authMiddleware.verifyAccess,
+      this.getGroups
+    )
+    router.post(
+      '/project/:projectId/groups/:groupId',
+      this.authMiddleware.verifyAccess,
+      this.updateGroup
+    )
+    router.delete(
+      '/project/:projectId/groups/:groupId',
+      this.authMiddleware.verifyAccess,
+      this.deleteGroup
     )
 
     router.post(
@@ -165,6 +188,51 @@ export class ProjectRoutes {
     }
   }
 
+  private createGroup = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const group = await this.projectService.createGroup(
+        req.params.projectId,
+        req.body.name
+      )
+      res.json(group)
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
+  private getGroups = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const groups = await this.projectService.getGroups(req.params.projectId)
+      res.json(groups)
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
+  private updateGroup = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const group = await this.projectService.updateGroup(
+        req.params.groupId,
+        req.body.name
+      )
+      res.json(group)
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
+  private deleteGroup = async (req: Request, res: Response): Promise<void> => {
+    try {
+      await this.projectService.deleteGroup(
+        req.params.projectId,
+        req.params.groupId
+      )
+      res.json({ message: 'Group deleted' })
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
   private createVariable = async (
     req: Request,
     res: Response
@@ -172,12 +240,19 @@ export class ProjectRoutes {
     try {
       const variable = await this.projectService.createVariable(
         req.params.projectId,
+        req.body.groupId,
         req.body.key,
         req.body.value
       )
       res.json(variable)
     } catch (error) {
-      res.status(500).json({ message: 'Internal server error' })
+      var message = 'Internal server error'
+      var status = 500
+      if (error instanceof ServiceError) {
+        message = error.message
+        status = error.status
+      }
+      res.status(status).json({ message })
     }
   }
 
@@ -213,7 +288,8 @@ export class ProjectRoutes {
     try {
       await this.projectService.updateVariable(
         req.params.variableId,
-        req.body.value
+        req.body.value,
+        req.body.groupId
       )
       res.json({ message: 'Variable updated' })
     } catch (error) {

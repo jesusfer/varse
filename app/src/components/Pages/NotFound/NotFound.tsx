@@ -9,7 +9,7 @@ const NotFound: React.FC = () => {
       <p className="text-[16px] text-text-2">Page not found</p>
       <button
         className="text-[14px] text-cta-base cursor-pointer underline"
-        onClick={() => navigate('variable-list')}
+        onClick={() => navigate('variables')}
       >
         Go back home
       </button>

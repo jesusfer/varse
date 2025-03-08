@@ -5,7 +5,7 @@ const githubUrl = 'https://github.com/varse-io/varse'
 
 export type LinkKey =
   | 'docs'
-  | 'variable-list'
+  | 'variables'
   | 'variable-details'
   | 'keys'
   | 'admin'
@@ -17,8 +17,8 @@ export type LinkKey =
 
 const linkMap: Record<LinkKey, string> = {
   docs: `${githubUrl}`,
-  'variable-list': '/variable-list',
-  'variable-details': '/variable-details',
+  variables: '/variables',
+  'variable-details': '/variable',
   keys: '/keys',
   account: '/account',
   admin: '/admin',
