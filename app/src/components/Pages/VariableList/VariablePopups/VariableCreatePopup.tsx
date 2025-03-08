@@ -33,6 +33,7 @@ const VariableCreatePopup: React.FC<VariableCreatePopupProps> = ({
   const ref = useRef<HTMLDivElement>(null)
   useClickOutside(ref, () => {
     setName('')
+    setValue('')
     onClose()
   })
 

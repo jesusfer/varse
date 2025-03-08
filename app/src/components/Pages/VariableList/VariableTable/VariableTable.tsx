@@ -8,7 +8,7 @@ interface VariableTableProps {
   variableList: Variable[]
   search: string
   onSelect: (key: string) => void
-  openUpdateGroupPopup: (groupId: string, currentName: string) => void
+  openGroupPopupForUpdate: (groupId: string, currentName: string) => void
   openDeleteGroupPopup: (groupId: string) => void
   openVariableMovePopup: (variableId: string, groupId: string) => void
 }
@@ -18,7 +18,7 @@ const VariableTable: React.FC<VariableTableProps> = ({
   variableList: variables,
   search,
   onSelect,
-  openUpdateGroupPopup,
+  openGroupPopupForUpdate,
   openDeleteGroupPopup,
   openVariableMovePopup,
 }) => {
@@ -71,7 +71,7 @@ const VariableTable: React.FC<VariableTableProps> = ({
                             e.stopPropagation()
                             const currentName =
                               groups.find((g) => g.id === groupId)?.name || ''
-                            openUpdateGroupPopup(groupId, currentName)
+                            openGroupPopupForUpdate(groupId, currentName)
                           }}
                           title="Edit the name"
                         >

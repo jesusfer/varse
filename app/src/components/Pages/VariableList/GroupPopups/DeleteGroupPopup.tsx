@@ -5,14 +5,12 @@ import Button from '../../../Library/Button/Button'
 interface GroupPopupProps {
   isOpen: boolean
   onClose: () => void
-  groupId: string
-  deleteGroup: (groupId: string) => void
+  deleteGroup: () => void
 }
 
 const DeleteGroupPopup: React.FC<GroupPopupProps> = ({
   isOpen,
   onClose,
-  groupId,
   deleteGroup,
 }) => {
   const ref = useRef<HTMLDivElement>(null)
@@ -20,7 +18,7 @@ const DeleteGroupPopup: React.FC<GroupPopupProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    deleteGroup(groupId)
+    deleteGroup()
     onClose()
   }
 

@@ -60,8 +60,8 @@ const VariableList: React.FC = () => {
     setUpdatedGroupName('')
   }
 
-  const handleDeleteGroup = async (groupId: string) => {
-    await deleteGroup(groupId)
+  const handleDeleteGroup = async () => {
+    await deleteGroup(deleteGroupId)
     setOpenDeleteGroupPopup(false)
     setDeleteGroupId('')
   }
@@ -75,12 +75,13 @@ const VariableList: React.FC = () => {
     setOpenCreateVariablePopup(false)
   }
 
-  const handleMoveVariable = async (variableId: string, newGroupId: string) => {
-    const variable = variableList.find((v) => v.id === variableId)
+  const handleMoveVariable = async (newGroupId: string) => {
+    const variable = variableList.find((v) => v.id === moveVariableId)
     newGroupId = newGroupId || sortedGroups[0].id
     if (variable && variable.groupId !== newGroupId)
-      await updateVariable(variableId, variable.value, newGroupId)
+      await updateVariable(moveVariableId, variable.value, newGroupId)
     setOpenMoveVariablePopup(false)
+    setMoveVariableId('')
   }
 
   const sortedGroups = useMemo(() => {
@@ -134,7 +135,7 @@ const VariableList: React.FC = () => {
             variableList={variableList}
             search={search}
             onSelect={(key) => navigate('variable-details', key)}
-            openUpdateGroupPopup={(groupId: string, currentName: string) => {
+            openGroupPopupForUpdate={(groupId: string, currentName: string) => {
               setUpdatedGroupId(groupId)
               setUpdatedGroupName(currentName)
               setIsGroupUpdate(true)
@@ -161,7 +162,7 @@ const VariableList: React.FC = () => {
       <VariableMovePopup
         isOpen={openMoveVariablePopup}
         onClose={() => setOpenMoveVariablePopup(false)}
-        move={(groupId: string) => handleMoveVariable(moveVariableId, groupId)}
+        move={(groupId: string) => handleMoveVariable(groupId)}
         groups={groupList}
       />
       <GroupPopup
@@ -173,18 +174,14 @@ const VariableList: React.FC = () => {
           setUpdatedGroupName('')
         }}
         create={handleCreateGroup}
+        update={handleUpdateGroup}
         isUpdate={isGroupUpdate}
         currentName={updatedGroupName}
-        update={handleUpdateGroup}
         groups={sortedGroups}
       />
       <DeleteGroupPopup
         isOpen={openDeleteGroupPopup}
-        onClose={() => {
-          setOpenDeleteGroupPopup(false)
-          setDeleteGroupId('')
-        }}
-        groupId={deleteGroupId}
+        onClose={() => setOpenDeleteGroupPopup(false)}
         deleteGroup={handleDeleteGroup}
       />
     </div>
