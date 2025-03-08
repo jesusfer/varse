@@ -93,8 +93,18 @@ const useProject = () => {
   )
 
   const updateVariable = useCallback(
-    async (projectId: string, variableId: string, value: string) => {
-      return backendService.updateVariable(projectId, variableId, value)
+    async (
+      projectId: string,
+      variableId: string,
+      value: string,
+      groupId: string,
+    ) => {
+      return backendService.updateVariable(
+        projectId,
+        variableId,
+        value,
+        groupId,
+      )
     },
     [backendService],
   )

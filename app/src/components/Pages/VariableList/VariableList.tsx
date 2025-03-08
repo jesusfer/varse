@@ -13,8 +13,10 @@ import ShareButton from '../../Library/ShareButton/ShareButton'
 import TopBar from '../../Library/TopBar/TopBar'
 import DeleteGroupPopup from './GroupPopups/DeleteGroupPopup'
 import GroupPopup from './GroupPopups/GroupPopup'
-import VariableCreatePopup from './VariableCreatePopup/VariableCreatePopup'
+import VariableCreatePopup from './VariablePopups/VariableCreatePopup'
 import VariableTable from './VariableTable/VariableTable'
+import VariableMovePopup from './VariablePopups/VariableMovePopup'
+import useVariableUpdate from '../../../hooks/actions/useVariableUpdate'
 
 const VariableList: React.FC = () => {
   useLoadDashboard()
@@ -23,7 +25,10 @@ const VariableList: React.FC = () => {
   const createGroup = useGroupCreate()
   const updateGroup = useGroupUpdate()
   const deleteGroup = useGroupDelete()
+
   const createVariable = useVariableCreate()
+  const updateVariable = useVariableUpdate()
+
   const groupList = useGroupList()
   const variableList = useVariableList()
 
@@ -38,6 +43,9 @@ const VariableList: React.FC = () => {
   const [deleteGroupId, setDeleteGroupId] = useState('')
 
   const [openCreateVariablePopup, setOpenCreateVariablePopup] = useState(false)
+
+  const [openMoveVariablePopup, setOpenMoveVariablePopup] = useState(false)
+  const [moveVariableId, setMoveVariableId] = useState('')
 
   const handleCreateGroup = async (name: string) => {
     await createGroup(name)
@@ -65,6 +73,14 @@ const VariableList: React.FC = () => {
   ) => {
     await createVariable(groupId, key, value)
     setOpenCreateVariablePopup(false)
+  }
+
+  const handleMoveVariable = async (variableId: string, newGroupId: string) => {
+    const variable = variableList.find((v) => v.id === variableId)
+    newGroupId = newGroupId || sortedGroups[0].id
+    if (variable && variable.groupId !== newGroupId)
+      await updateVariable(variableId, variable.value, newGroupId)
+    setOpenMoveVariablePopup(false)
   }
 
   const sortedGroups = useMemo(() => {
@@ -128,6 +144,10 @@ const VariableList: React.FC = () => {
               setDeleteGroupId(groupId)
               setOpenDeleteGroupPopup(true)
             }}
+            openVariableMovePopup={(variableId: string) => {
+              setMoveVariableId(variableId)
+              setOpenMoveVariablePopup(true)
+            }}
           />
         </div>
       </div>
@@ -137,6 +157,12 @@ const VariableList: React.FC = () => {
         create={handleCreateVariable}
         groups={sortedGroups}
         variables={variableList}
+      />
+      <VariableMovePopup
+        isOpen={openMoveVariablePopup}
+        onClose={() => setOpenMoveVariablePopup(false)}
+        move={(groupId: string) => handleMoveVariable(moveVariableId, groupId)}
+        groups={groupList}
       />
       <GroupPopup
         isOpen={openCreateGroupPopup}

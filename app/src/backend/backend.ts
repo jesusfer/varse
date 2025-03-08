@@ -224,11 +224,12 @@ export class BackendService {
     projectId: string,
     variableId: string,
     value: string,
+    groupId: string,
   ): Promise<void> {
     await this.httpService.request(
       `/project/${projectId}/variables/${variableId}`,
       'PUT',
-      { value },
+      { value, groupId },
       {
         Authorization: `Bearer ${this.authService.getToken()}`,
       },

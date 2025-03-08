@@ -288,7 +288,8 @@ export class ProjectRoutes {
     try {
       await this.projectService.updateVariable(
         req.params.variableId,
-        req.body.value
+        req.body.value,
+        req.body.groupId
       )
       res.json({ message: 'Variable updated' })
     } catch (error) {

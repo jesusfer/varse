@@ -1,4 +1,4 @@
-import { Copy, Edit2, Trash } from 'lucide-react'
+import { Copy, CornerDownRight, Edit2, Trash } from 'lucide-react'
 import { useMemo } from 'react'
 import { Group, Variable } from '../../../../backend/types'
 import useNav from '../../../../hooks/utils/useNav'
@@ -10,6 +10,7 @@ interface VariableTableProps {
   onSelect: (key: string) => void
   openUpdateGroupPopup: (groupId: string, currentName: string) => void
   openDeleteGroupPopup: (groupId: string) => void
+  openVariableMovePopup: (variableId: string, groupId: string) => void
 }
 
 const VariableTable: React.FC<VariableTableProps> = ({
@@ -19,6 +20,7 @@ const VariableTable: React.FC<VariableTableProps> = ({
   onSelect,
   openUpdateGroupPopup,
   openDeleteGroupPopup,
+  openVariableMovePopup,
 }) => {
   const navigate = useNav()
 
@@ -122,6 +124,20 @@ const VariableTable: React.FC<VariableTableProps> = ({
                       <p className="flex-1 text-[14px] text-text-1">
                         {variable.value}
                       </p>
+                      {groups.length > 1 ? (
+                        <div
+                          className="w-4 h-4 text-text-2 hover:text-text-1 cursor-pointer"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            openVariableMovePopup(variable.id, groupId)
+                          }}
+                          title="Move the variable"
+                        >
+                          <CornerDownRight size={16} />
+                        </div>
+                      ) : (
+                        ''
+                      )}
                       <div
                         className="w-4 h-4 text-text-2 hover:text-text-1 cursor-pointer"
                         onClick={(e) => {

@@ -9,11 +9,11 @@ export default function useVariableUpdate() {
   const loadVariables = useLoadVariables()
 
   return useCallback(
-    async (variableId: string, value: string) => {
+    async (variableId: string, value: string, groupId = '') => {
       try {
         if (!project) throw new Error('No active project')
 
-        await updateVariable(project.id, variableId, value)
+        await updateVariable(project.id, variableId, value, groupId)
 
         await loadVariables()
       } catch (e) {}

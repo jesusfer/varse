@@ -199,10 +199,14 @@ export class ProjectService {
     })
   }
 
-  updateVariable = async (variableId: string, value: string): Promise<void> => {
+  updateVariable = async (
+    variableId: string,
+    value: string,
+    groupId: string
+  ): Promise<void> => {
     await this.prisma.variable.update({
       where: { id: variableId },
-      data: { value },
+      data: { value, groupId },
     })
   }
 
