@@ -75,7 +75,7 @@ const VariableTable: React.FC<VariableTableProps> = ({
                           }}
                           title="Edit the name"
                         >
-                          <Edit2 size={14} />
+                          <Edit2 size={16} />
                         </div>
                         <div
                           className="w-4 h-4 ml-2 flex-1 text-text-2 hover:text-text-1 cursor-pointer"
@@ -85,7 +85,7 @@ const VariableTable: React.FC<VariableTableProps> = ({
                           }}
                           title="Delete this group"
                         >
-                          <Trash size={14} color="firebrick" />
+                          <Trash size={16} />
                         </div>
                       </>
                     ) : (

@@ -121,13 +121,13 @@ const VariableList: React.FC = () => {
               variant="outline"
               onClick={() => setOpenCreateVariablePopup(true)}
             >
-              Create Variable
+              Create variable
             </Button>
             <Button
               variant="outline"
               onClick={() => setOpenCreateGroupPopup(true)}
             >
-              Create Group
+              Create group
             </Button>
           </div>
           <VariableTable

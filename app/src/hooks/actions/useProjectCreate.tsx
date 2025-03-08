@@ -21,7 +21,7 @@ export default function useProjectCreate() {
 
         await loadProjectList()
 
-        navigate('variable-list')
+        navigate('variables')
       } catch (e) {}
     },
     [createProject, setActiveProject, loadProjectList, navigate],

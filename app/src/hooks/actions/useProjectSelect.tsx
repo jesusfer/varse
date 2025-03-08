@@ -11,7 +11,7 @@ export default function useProjectSelect() {
   return useCallback(
     async (project: Project) => {
       setActiveProject(project)
-      navigate('variable-list')
+      navigate('variables')
     },
     [setActiveProject, navigate],
   )

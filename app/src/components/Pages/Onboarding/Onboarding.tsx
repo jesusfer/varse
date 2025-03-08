@@ -117,7 +117,7 @@ const Onboarding: React.FC = () => {
           </div>
 
           <div className="w-full flex items-center justify-start">
-            <Button variant="outline" onClick={() => nav('variable-list')}>
+            <Button variant="outline" onClick={() => nav('variables')}>
               Done
             </Button>
           </div>

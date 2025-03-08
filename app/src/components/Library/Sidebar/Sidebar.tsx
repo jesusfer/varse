@@ -54,10 +54,9 @@ const Sidebar: React.FC = () => {
           icon={<Database size={16} className={'text-text-1'} />}
           name={'Variables'}
           active={
-            currentPage === 'variable-list' ||
-            currentPage === 'variable-details'
+            currentPage === 'variables' || currentPage === 'variable-details'
           }
-          onClick={() => navigate('variable-list')}
+          onClick={() => navigate('variables')}
         />
         <NavButton
           icon={<KeyRound size={16} className={'text-text-1'} />}

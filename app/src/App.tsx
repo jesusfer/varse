@@ -33,9 +33,9 @@ function App() {
 
             <Route element={<Dashboard />}>
               <Route path="/onboarding" element={<Onboarding />} />
-              <Route path="/variable-list" element={<VariableList />} />
+              <Route path="/variables" element={<VariableList />} />
               <Route
-                path="/variable-details/:variableId"
+                path="/variable/:variableId"
                 element={<VariableDetails />}
               />
               <Route path="/keys" element={<Keys />} />

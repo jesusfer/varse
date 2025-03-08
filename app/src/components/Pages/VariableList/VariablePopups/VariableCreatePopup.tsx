@@ -44,7 +44,6 @@ const VariableCreatePopup: React.FC<VariableCreatePopupProps> = ({
     }
     setName('')
     setValue('')
-    // setGroup(defaultGroupId)
     setCanSubmit(true)
     setNameClash(false)
     onClose()
@@ -67,7 +66,7 @@ const VariableCreatePopup: React.FC<VariableCreatePopupProps> = ({
         className="w-[360px] p-6 flex flex-col items-start justify-start gap-6 rounded-[6px] bg-panel-background border border-panel-border"
       >
         <h1 className="text-[24px] font-semibold text-text-1">
-          Create Variable
+          Create variable
         </h1>
         {nameClash ? (
           <p className="text-[red]">A variable with that name already exists</p>

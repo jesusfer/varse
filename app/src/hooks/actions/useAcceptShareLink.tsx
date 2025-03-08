@@ -14,7 +14,7 @@ const useAcceptShareLink = () => {
     const projects = await getProjects()
     setActiveProject(projects.find((p) => p.id === projectId) || null)
 
-    navigate('variable-list')
+    navigate('variables')
   }
 }
 
