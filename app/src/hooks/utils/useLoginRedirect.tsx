@@ -2,6 +2,7 @@ import useBackend from '../services/useBackend'
 import useNav from './useNav'
 import useReferalCode from './useReferalCode'
 import useAcceptShareLink from '../actions/useAcceptShareLink'
+import { useState } from 'react'
 
 const LOGIN_PATHS = ['/login', '/signup']
 
@@ -10,6 +11,7 @@ const useLoginRedirect = () => {
   const referral = useReferalCode()
   const backendService = useBackend()
   const acceptShareLink = useAcceptShareLink()
+  const [firstRender, setFirstRender] = useState(true)
 
   const validateAuth = async () => {
     try {
@@ -20,12 +22,15 @@ const useLoginRedirect = () => {
         navigate('variables')
       }
     } catch (e) {
-      if (LOGIN_PATHS.includes(getPathname())) return
+      if (LOGIN_PATHS.includes(getPathname())) {
+        setFirstRender(false)
+        return
+      }
       navigate('login')
     }
   }
 
-  validateAuth()
+  if (firstRender) validateAuth()
 }
 
 export default useLoginRedirect
