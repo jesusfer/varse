@@ -7,6 +7,7 @@ on:
     paths:
       - "app/**"
       - "server/**"
+  workflow_dispatch:
 
 env:
   REGISTRY: nublar.azurecr.io
@@ -47,7 +48,6 @@ jobs:
         name: Build and push
         with:
           context: ${{ matrix.service.path }}
-          file: ${{ matrix.service.dockerfile }}
           push: true
           tags: ${{ steps.image-metadata.outputs.tags }}
           cache-from: type=gha
