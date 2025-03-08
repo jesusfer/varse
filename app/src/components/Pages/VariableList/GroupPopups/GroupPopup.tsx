@@ -60,7 +60,7 @@ const GroupPopup: React.FC<GroupPopupProps> = ({
         className="w-[360px] p-6 flex flex-col items-start justify-start gap-6 rounded-[6px] bg-panel-background border border-panel-border"
       >
         <h1 className="text-[24px] font-semibold text-text-1">
-          {isUpdate ? 'Update' : 'Create'} group
+          {isUpdate ? 'Edit group name' : 'Create group'}
         </h1>
         {nameClash ? (
           <p className="text-[red]">A group with that name already exists</p>
@@ -74,7 +74,7 @@ const GroupPopup: React.FC<GroupPopupProps> = ({
           <div className="w-full flex flex-col items-center gap-4">
             <Input
               label="Name"
-              value={name || currentName}
+              value={name}
               type="text"
               placeholder={isUpdate ? currentName : 'Group name'}
               onChange={(e) => setName(e.target.value)}
