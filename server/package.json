@@ -1,6 +1,6 @@
 {
   "name": "varse-server",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "module": "index.ts",
   "scripts": {
     "build": "tsc",
