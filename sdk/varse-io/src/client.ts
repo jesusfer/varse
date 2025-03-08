@@ -60,6 +60,27 @@ class VarseClient {
       throw new Error(`Variable ${variableId} is not a number`)
     }
   }
+
+  async getGroup(groupId: string): Promise<VariableValue[]> {
+    const headers = { 'x-api-key': this.config.apiKey }
+    const route = `${this.config.baseUrl}/group/${groupId}/variables`
+    try {
+      const response = await axios.get(route, { headers })
+      return response.data.value
+    } catch (error) {
+      if (!axios.isAxiosError(error)) {
+        throw error
+      }
+      switch (error.response?.status) {
+        case 401:
+          throw new Error('Invalid API key')
+        case 404:
+          throw new Error('Variable not found')
+        default:
+          throw new Error('Unknown error, please create a ticket.')
+      }
+    }
+  }
 }
 
 export { VarseClient, VarseClientOptions }
