@@ -1,0 +1,1 @@
+postgresql://varse:password@db:5432/varse?schema=public

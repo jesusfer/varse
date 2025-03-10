@@ -1,11 +1,12 @@
 import jwt, { JwtPayload, Secret, SignOptions } from 'jsonwebtoken'
 import { StringValue } from 'ms'
+import { SettingsService } from '../utils/settings'
 
 export class JwtService {
   private readonly secretKey: Secret
 
   constructor() {
-    this.secretKey = process.env.JWT_SECRET || 'secret'
+    this.secretKey = SettingsService.get('JWT_SECRET')
   }
 
   sign = (payload: object, expiresIn: StringValue = '1h'): string => {

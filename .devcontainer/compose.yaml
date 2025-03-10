@@ -1,10 +1,23 @@
+secrets:
+  db_url:
+    file: ./db_url.txt
+  jwt_secret:
+    file: ./jwt_secret.txt
+
 services:
   devcontainer:
     image: mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm
     volumes:
       - ../..:/workspaces:cached
+    environment:
+      - SERVER_PORT=3001
+      - SERVER_JWT_SECRET_FILE=/run/secrets/jwt_secret
+      - SERVER_DATABASE_URL_FILE=/run/secrets/db_url
     network_mode: service:db
     command: sleep infinity
+    secrets:
+      - db_url
+      - jwt_secret
 
   db:
     image: postgres:alpine

@@ -9,13 +9,16 @@ import {
 } from '@prisma/client'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { v4 } from 'uuid'
+import { SettingsService } from '../utils/settings'
 import { ProjectInfo, ServiceError } from './types'
 
 export class ProjectService {
   private prisma: PrismaClient
 
   constructor() {
-    this.prisma = new PrismaClient()
+    this.prisma = new PrismaClient({
+      datasourceUrl: SettingsService.get('DATABASE_URL'),
+    })
   }
 
   createProject = async (

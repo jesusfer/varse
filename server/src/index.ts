@@ -1,16 +1,17 @@
-import express, { Express } from 'express'
 import cors from 'cors'
-import { UserService } from './user/user'
-import { AuthService } from './auth/auth'
-import { JwtService } from './auth/jwt'
-import { UserRoutes } from './api/user'
+import express, { Express } from 'express'
 import { AuthRoutes } from './api/auth'
-import { ProjectRoutes } from './api/project'
-import { ProjectService } from './project/project'
-import { AuthMiddleware } from './auth/auth.middleware'
-import { UserInfo } from './user/types'
-import { VariableRoutes } from './api/variable'
 import { HealthRoutes } from './api/health'
+import { ProjectRoutes } from './api/project'
+import { UserRoutes } from './api/user'
+import { VariableRoutes } from './api/variable'
+import { AuthService } from './auth/auth'
+import { AuthMiddleware } from './auth/auth.middleware'
+import { JwtService } from './auth/jwt'
+import { ProjectService } from './project/project'
+import { UserInfo } from './user/types'
+import { UserService } from './user/user'
+import { SettingsService } from './utils/settings'
 
 declare global {
   namespace Express {
@@ -22,7 +23,7 @@ declare global {
 }
 
 const app: Express = express()
-const port = process.env.SERVER_PORT || 3001
+const port = SettingsService.get('PORT', '80')
 
 const jwtService = new JwtService()
 const userService = new UserService()

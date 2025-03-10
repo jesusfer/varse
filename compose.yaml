@@ -1,0 +1,56 @@
+volumes:
+  pg_data:
+
+secrets:
+  db_password:
+    environment: DB_PWD
+  jwt_secret:
+    environment: JWT_SECRET
+
+services:
+  db:
+    image: postgres:alpine
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=varse
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db_password
+      - POSTGRES_DB=varse
+    secrets:
+      - db_password
+
+  server:
+    build: server
+    image: nublar.azurecr.io/varse/server:latest
+    environment:
+      - SERVER_PORT=4001
+      - SERVER_DATABASE_URL=postgresql://varse:password@db:5432/varse?schema=public
+      - SERVER_JWT_SECRET_FILE=/run/secrets/jwt_secret
+    ports:
+      - 4001:4001
+    secrets:
+      - jwt_secret
+    depends_on:
+      - db
+
+  app:
+    build:
+      context: app
+      args:
+        - API_ADDRESS=http://localhost:4001
+    image: nublar.azurecr.io/varse/app:latest
+    ports:
+      - 4000:80
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    volumes:
+      - ./.devcontainer/servers.json:/pgadmin4/servers.json
+    ports:
+      - 8080
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@dev.dev
+      - PGADMIN_DEFAULT_PASSWORD=whatever
+      - PGADMIN_DISABLE_POSTFIX=1
+      - PGADMIN_LISTEN_PORT=8080
+    restart: unless-stopped
