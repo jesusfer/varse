@@ -43,11 +43,14 @@ jobs:
             type=ref,event=branch
             type=ref,event=tag
 
-      - uses: docker/build-push-action@v5
+      - uses: docker/build-push-action@v6
         id: build-and-push-python
         name: Build and push
         with:
           context: "{{defaultContext}}:${{ matrix.service.path }}"
+          build-args: |-
+            API_ADDRESS=${{ secrets.API_ADDRESS }}
+            UI_ADDRESS=${{ secrets.UI_ADDRESS }}
           push: true
           tags: ${{ steps.image-metadata.outputs.tags }}
           cache-from: type=gha
