@@ -16,4 +16,9 @@ RUN npm ci && \
 
 FROM nginx:alpine AS final
 
+EXPOSE 80
+
+RUN apk update --no-cache && apk upgrade --no-cache 
+
+COPY nginx /
 COPY --from=build /usr/src/app/build/ /usr/share/nginx/html/
