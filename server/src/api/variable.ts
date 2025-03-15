@@ -1,6 +1,9 @@
 import { Request, Response, Router } from 'express'
 import { AuthMiddleware } from '../auth/auth.middleware'
 import { ProjectService } from '../project/project'
+import { getLogger } from '../utils/logging'
+
+const logger = getLogger('api:variable')
 
 export class VariableRoutes {
   private projectService: ProjectService
@@ -26,6 +29,7 @@ export class VariableRoutes {
 
   getVariable = async (req: Request, res: Response): Promise<void> => {
     if (!req.projectId) {
+      logger.info('getVariable: project not found')
       res.status(401).json({ message: 'Unauthorized' })
       return
     }
@@ -36,7 +40,13 @@ export class VariableRoutes {
         req.params.key
       )
       res.json(variable)
+      logger.info(
+        `Requested variable ${req.params.key} in project ${req.projectId}`
+      )
     } catch (error) {
+      if (error instanceof Error) {
+        logger.error(error.message)
+      }
       res.status(404).json({ message: 'Variable not found' })
     }
   }
@@ -51,6 +61,9 @@ export class VariableRoutes {
       )
       res.json(variables)
     } catch (error) {
+      if (error instanceof Error) {
+        logger.error(error.message)
+      }
       res.status(500).json({ message: 'Internal server error' })
     }
   }

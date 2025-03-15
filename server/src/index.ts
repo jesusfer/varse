@@ -11,6 +11,7 @@ import { JwtService } from './auth/jwt'
 import { ProjectService } from './project/project'
 import { UserInfo } from './user/types'
 import { UserService } from './user/user'
+import { getLogger } from './utils/logging'
 import { SettingsService } from './utils/settings'
 
 declare global {
@@ -21,6 +22,8 @@ declare global {
     }
   }
 }
+
+const logger = getLogger('server')
 
 const app: Express = express()
 const port = SettingsService.get('PORT', '80')
@@ -47,5 +50,5 @@ variableRoutes.addRoutes(app)
 healthRoutes.addRoutes(app)
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`)
+  logger.info(`Server running on port ${port}`)
 })
