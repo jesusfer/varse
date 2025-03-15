@@ -20,13 +20,13 @@ type Level =
   | 'CRITICAL'
 
 class LogRecord {
-  when?: string
-  at: Level
+  time?: string
+  level: Level
   logger: string
   msg?: string
 
   constructor(logger: string, level: Level = Logger.WARNING) {
-    this.at = level
+    this.level = level
     this.logger = logger
   }
 }
@@ -47,8 +47,8 @@ class Logger {
   log = (level: Level, message?: string, extra?: object) => {
     let record = {
       ...this.base,
-      at: level,
-      when: new Date().toISOString(),
+      level: level,
+      time: new Date().toISOString(),
       msg: message,
     }
 
@@ -60,24 +60,25 @@ class Logger {
         extra: JSON.stringify(extra),
       })
   }
-  debug = (message: string, extra = {}) =>
+  debug = (message: string, extra?: object) =>
     this.log(Logger.DEBUG, message, extra)
-  info = (message: string, extra = {}) => this.log(Logger.INFO, message, extra)
-  warning = (message: string, extra = {}) =>
+  info = (message: string, extra?: object) =>
+    this.log(Logger.INFO, message, extra)
+  warning = (message: string, extra?: object) =>
     this.log(Logger.WARNING, message, extra)
-  error = (error: Error | string, extra = {}) => {
+  error = (error: Error | string, extra?: object) => {
     if (typeof error === 'string') {
       this.log(Logger.ERROR, error, extra)
     } else {
       extra = {
         ...this.base,
-        at: Logger.ERROR,
-        when: new Date().toISOString(),
+        level: Logger.ERROR,
+        time: new Date().toISOString(),
         extra: JSON.stringify(extra),
       }
       logfmt.namespace(extra).error(error)
     }
   }
-  critical = (message: string, extra = {}) =>
+  critical = (message: string, extra?: object) =>
     this.log(Logger.CRITICAL, message, extra)
 }
