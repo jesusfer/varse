@@ -1,3 +1,4 @@
+import { ErrorRequestHandler, NextFunction, Request, Response } from 'express'
 import logfmt from 'logfmt'
 
 export const getLogger = (name: string) => new Logger(name)
@@ -45,13 +46,12 @@ class Logger {
   }
 
   log = (level: Level, message?: string, extra?: object) => {
-    let record = {
+    let record: object = {
       ...this.base,
       level: level,
       time: new Date().toISOString(),
       msg: message,
     }
-
     if (typeof extra === 'undefined') {
       logfmt.log(record)
     } else
@@ -81,4 +81,36 @@ class Logger {
   }
   critical = (message: string, extra?: object) =>
     this.log(Logger.CRITICAL, message, extra)
+}
+
+export const beginRequestLogger = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const logger = getLogger('server')
+  logger.info(`${req.method} ${req.url}`)
+  next()
+}
+
+export const endRequestLogger = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const logger = getLogger('server')
+  logger.info(`${req.method} ${req.url} ${res.status}`)
+  next()
+}
+
+export const errorLogger: ErrorRequestHandler = (
+  err: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const logger = getLogger('server')
+  res.status(500).json({ message: 'Internal server error' })
+  logger.info(`${req.method} ${req.url} ${res.statusCode}`)
+  logger.error(err)
 }

@@ -9,8 +9,11 @@ import {
 } from '@prisma/client'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { v4 } from 'uuid'
+import { getLogger } from '../utils/logging'
 import { SettingsService } from '../utils/settings'
 import { ProjectInfo, ServiceError } from './types'
+
+const logger = getLogger('server:project_service')
 
 export class ProjectService {
   private prisma: PrismaClient
@@ -77,7 +80,7 @@ export class ProjectService {
         data: { name, key, projectId },
       })
     } catch (error) {
-      console.error(error)
+      if (error instanceof Error) logger.error(error)
       throw error
     }
   }

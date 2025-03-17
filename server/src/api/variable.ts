@@ -34,20 +34,18 @@ export class VariableRoutes {
       return
     }
 
-    try {
-      const variable = await this.projectService.getVariableByKey(
-        req.projectId,
-        req.params.key
-      )
-      res.json(variable)
-      logger.info(
-        `Requested variable ${req.params.key} in project ${req.projectId}`
-      )
-    } catch (error) {
-      if (error instanceof Error) {
-        logger.error(error.message)
-      }
+    logger.info(
+      `Requested variable ${req.params.key} in project ${req.projectId}`
+    )
+    const variable = await this.projectService.getVariableByKey(
+      req.projectId,
+      req.params.key
+    )
+    if (variable === null) {
+      logger.warning(`Variable ${req.params.key} not found`)
       res.status(404).json({ message: 'Variable not found' })
+    } else {
+      res.json(variable)
     }
   }
 

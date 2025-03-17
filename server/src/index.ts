@@ -1,5 +1,6 @@
 import cors from 'cors'
 import express, { Express } from 'express'
+import 'express-async-errors'
 import { AuthRoutes } from './api/auth'
 import { HealthRoutes } from './api/health'
 import { ProjectRoutes } from './api/project'
@@ -11,7 +12,12 @@ import { JwtService } from './auth/jwt'
 import { ProjectService } from './project/project'
 import { UserInfo } from './user/types'
 import { UserService } from './user/user'
-import { getLogger } from './utils/logging'
+import {
+  beginRequestLogger,
+  endRequestLogger,
+  errorLogger,
+  getLogger,
+} from './utils/logging'
 import { SettingsService } from './utils/settings'
 
 declare global {
@@ -43,11 +49,16 @@ const healthRoutes = new HealthRoutes()
 app.use(express.json())
 app.use(cors())
 
+app.use(beginRequestLogger)
+
 userRoutes.addRoutes(app)
 authRoutes.addRoutes(app)
 projectRoutes.addRoutes(app)
 variableRoutes.addRoutes(app)
 healthRoutes.addRoutes(app)
+
+app.use(endRequestLogger)
+app.use(errorLogger)
 
 app.listen(port, () => {
   logger.info(`Server running on port ${port}`)
