@@ -34,9 +34,7 @@ export class VariableRoutes {
       return
     }
 
-    logger.info(
-      `Requested variable ${req.params.key} in project ${req.projectId}`
-    )
+    logger.info(`Variable request ${req.projectId}/${req.params.key}`)
     const variable = await this.projectService.getVariableByKey(
       req.projectId,
       req.params.key
@@ -53,16 +51,10 @@ export class VariableRoutes {
     req: Request,
     res: Response
   ): Promise<void> => {
-    try {
-      const variables = await this.projectService.getVariablesByGroup(
-        req.params.groupId
-      )
-      res.json(variables)
-    } catch (error) {
-      if (error instanceof Error) {
-        logger.error(error.message)
-      }
-      res.status(500).json({ message: 'Internal server error' })
-    }
+    logger.info(`Group variables request: ${req.params.groupId}`)
+    const variables = await this.projectService.getVariablesByGroup(
+      req.params.groupId
+    )
+    res.json(variables)
   }
 }

@@ -12,12 +12,7 @@ import { JwtService } from './auth/jwt'
 import { ProjectService } from './project/project'
 import { UserInfo } from './user/types'
 import { UserService } from './user/user'
-import {
-  beginRequestLogger,
-  endRequestLogger,
-  errorLogger,
-  getLogger,
-} from './utils/logging'
+import { beginRequestLogger, errorLogger, getLogger } from './utils/logging'
 import { SettingsService } from './utils/settings'
 
 declare global {
@@ -57,7 +52,6 @@ projectRoutes.addRoutes(app)
 variableRoutes.addRoutes(app)
 healthRoutes.addRoutes(app)
 
-app.use(endRequestLogger)
 app.use(errorLogger)
 
 app.listen(port, () => {

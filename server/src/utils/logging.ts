@@ -1,3 +1,4 @@
+import { randomInt } from 'crypto'
 import { ErrorRequestHandler, NextFunction, Request, Response } from 'express'
 import logfmt from 'logfmt'
 
@@ -70,13 +71,10 @@ class Logger {
     if (typeof error === 'string') {
       this.log(Logger.ERROR, error, extra)
     } else {
-      extra = {
-        ...this.base,
-        level: Logger.ERROR,
-        time: new Date().toISOString(),
-        extra: JSON.stringify(extra),
-      }
-      logfmt.namespace(extra).error(error)
+      extra = { ...extra, error_id: randomInt(2 ** 48 - 1) }
+      error.stack?.split('\n').forEach((line) => {
+        this.log(Logger.ERROR, line, extra)
+      })
     }
   }
   critical = (message: string, extra?: object) =>
@@ -90,16 +88,10 @@ export const beginRequestLogger = (
 ) => {
   const logger = getLogger('server')
   logger.info(`${req.method} ${req.url}`)
-  next()
-}
-
-export const endRequestLogger = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const logger = getLogger('server')
-  logger.info(`${req.method} ${req.url} ${res.status}`)
+  logger.debug(`${req.method} ${req.url}`, {
+    qs: req.query,
+    params: req.params,
+  })
   next()
 }
 
@@ -111,6 +103,6 @@ export const errorLogger: ErrorRequestHandler = (
 ) => {
   const logger = getLogger('server')
   res.status(500).json({ message: 'Internal server error' })
-  logger.info(`${req.method} ${req.url} ${res.statusCode}`)
+  logger.error(`${req.method} ${req.url} ${res.statusCode}`)
   logger.error(err)
 }
