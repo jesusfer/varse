@@ -160,19 +160,18 @@ export class ProjectService {
         data: { projectId, groupId, key, value },
       })
     } catch (error) {
-      let message = 'Internal server error: query error'
-      let status = 500
       if (error instanceof PrismaClientKnownRequestError) {
         switch (error.code) {
           case 'P2002':
-            message = 'A variable with that key already exists'
-            status = 400
-            break
+            throw new ServiceError(
+              'A variable with that key already exists',
+              400
+            )
           default:
             break
         }
       }
-      throw new ServiceError(message, status)
+      throw error
     }
   }
 

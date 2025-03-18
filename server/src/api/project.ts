@@ -1,8 +1,10 @@
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { Request, Response, Router } from 'express'
 import { AuthMiddleware } from '../auth/auth.middleware'
 import { ProjectService } from '../project/project'
 import { ServiceError } from '../project/types'
+import { getLogger } from '../utils/logging'
+
+const logger = getLogger('api:project')
 
 export class ProjectRoutes {
   private projectService: ProjectService
@@ -116,121 +118,83 @@ export class ProjectRoutes {
     req: Request,
     res: Response
   ): Promise<void> => {
-    try {
-      if (!req.user) {
-        res.status(401).json({ message: 'Unauthorized' })
-        return
-      }
-
-      const project = await this.projectService.createProject(
-        req.body,
-        req.user.id
-      )
-      res.json(project)
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' })
+    if (!req.user) {
+      logger.warning(`createProject: missing user`)
+      res.status(401).json({ message: 'Unauthorized' })
+      return
     }
+
+    const project = await this.projectService.createProject(
+      req.body,
+      req.user.id
+    )
+    res.json(project)
   }
 
   private getProjects = async (req: Request, res: Response): Promise<void> => {
-    try {
-      if (!req.user) {
-        res.status(401).json({ message: 'Unauthorized' })
-        return
-      }
-
-      const projects = await this.projectService.getProjects(req.user.id)
-      res.json(projects)
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' })
+    if (!req.user) {
+      logger.warning('getProjects: missing user')
+      res.status(401).json({ message: 'Unauthorized' })
+      return
     }
+
+    const projects = await this.projectService.getProjects(req.user.id)
+    res.json(projects)
   }
 
   private deleteProject = async (
     req: Request,
     res: Response
   ): Promise<void> => {
-    try {
-      await this.projectService.deleteProject(req.params.projectId)
-      res.json({ message: 'Project deleted' })
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' })
-    }
+    await this.projectService.deleteProject(req.params.projectId)
+    res.json({ message: 'Project deleted' })
   }
 
   private createApiKey = async (req: Request, res: Response): Promise<void> => {
-    try {
-      const apiKey = await this.projectService.createApiKey(
-        req.params.projectId,
-        req.body.name
-      )
-      res.json(apiKey)
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' })
-    }
+    const apiKey = await this.projectService.createApiKey(
+      req.params.projectId,
+      req.body.name
+    )
+    res.json(apiKey)
   }
 
   private getApiKeys = async (req: Request, res: Response): Promise<void> => {
-    try {
-      const apiKeys = await this.projectService.getApiKeys(req.params.projectId)
-      res.json(apiKeys)
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' })
-    }
+    const apiKeys = await this.projectService.getApiKeys(req.params.projectId)
+    res.json(apiKeys)
   }
 
   private deleteApiKey = async (req: Request, res: Response): Promise<void> => {
-    try {
-      await this.projectService.deleteApiKey(req.params.apiKeyId)
-      res.json({ message: 'Api key deleted' })
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' })
-    }
+    await this.projectService.deleteApiKey(req.params.apiKeyId)
+    res.json({ message: 'Api key deleted' })
   }
 
   private createGroup = async (req: Request, res: Response): Promise<void> => {
-    try {
-      const group = await this.projectService.createGroup(
-        req.params.projectId,
-        req.body.name
-      )
-      res.json(group)
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' })
-    }
+    const group = await this.projectService.createGroup(
+      req.params.projectId,
+      req.body.name
+    )
+    res.json(group)
   }
 
   private getGroups = async (req: Request, res: Response): Promise<void> => {
-    try {
-      const groups = await this.projectService.getGroups(req.params.projectId)
-      res.json(groups)
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' })
-    }
+    const groups = await this.projectService.getGroups(req.params.projectId)
+    res.json(groups)
   }
 
   private updateGroup = async (req: Request, res: Response): Promise<void> => {
-    try {
-      const group = await this.projectService.updateGroup(
-        req.params.groupId,
-        req.body.name
-      )
-      res.json(group)
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' })
-    }
+    const group = await this.projectService.updateGroup(
+      req.params.groupId,
+      req.body.name
+    )
+    res.json(group)
   }
 
   private deleteGroup = async (req: Request, res: Response): Promise<void> => {
-    try {
-      await this.projectService.deleteGroup(
-        req.params.projectId,
-        req.params.groupId
-      )
-      res.json({ message: 'Group deleted' })
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' })
-    }
+    await this.projectService.deleteGroup(
+      req.params.projectId,
+      req.params.groupId
+    )
+    res.json({ message: 'Group deleted' })
   }
 
   private createVariable = async (
@@ -246,123 +210,89 @@ export class ProjectRoutes {
       )
       res.json(variable)
     } catch (error) {
-      var message = 'Internal server error'
-      var status = 500
       if (error instanceof ServiceError) {
-        message = error.message
-        status = error.status
+        logger.error(error.message)
+        res.status(error.status).json({ message: error.message })
+        return
       }
-      res.status(status).json({ message })
+      throw error
     }
   }
 
   private getVariables = async (req: Request, res: Response): Promise<void> => {
-    try {
-      const variables = await this.projectService.getVariables(
-        req.params.projectId
-      )
-      res.json(variables)
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' })
-    }
+    const variables = await this.projectService.getVariables(
+      req.params.projectId
+    )
+    res.json(variables)
   }
 
   private getVariableById = async (
     req: Request,
     res: Response
   ): Promise<void> => {
-    try {
-      const variable = await this.projectService.getVariableById(
-        req.params.variableId
-      )
-      res.json(variable)
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' })
-    }
+    const variable = await this.projectService.getVariableById(
+      req.params.variableId
+    )
+    res.json(variable)
   }
 
   private updateVariable = async (
     req: Request,
     res: Response
   ): Promise<void> => {
-    try {
-      await this.projectService.updateVariable(
-        req.params.variableId,
-        req.body.value,
-        req.body.groupId
-      )
-      res.json({ message: 'Variable updated' })
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' })
-    }
+    await this.projectService.updateVariable(
+      req.params.variableId,
+      req.body.value,
+      req.body.groupId
+    )
+    res.json({ message: 'Variable updated' })
   }
 
   private deleteVariable = async (
     req: Request,
     res: Response
   ): Promise<void> => {
-    try {
-      await this.projectService.deleteVariable(req.params.variableId)
-      res.json({ message: 'Variable deleted' })
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' })
-    }
+    await this.projectService.deleteVariable(req.params.variableId)
+    res.json({ message: 'Variable deleted' })
   }
 
   private shareProject = async (req: Request, res: Response): Promise<void> => {
-    try {
-      const link = await this.projectService.createShareLink(
-        req.params.projectId
-      )
-      res.json(link)
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' })
-    }
+    const link = await this.projectService.createShareLink(req.params.projectId)
+    res.json(link)
   }
 
   private acceptShareLink = async (
     req: Request,
     res: Response
   ): Promise<void> => {
-    try {
-      if (!req.user) {
-        res.status(401).json({ message: 'Unauthorized' })
-        return
-      }
-
-      await this.projectService.acceptShareLink(req.user.id, req.params.linkId)
-      res.json({ message: 'Project shared' })
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' })
+    if (!req.user) {
+      logger.warning('acceptShareLink: missing user')
+      res.status(401).json({ message: 'Unauthorized' })
+      return
     }
+
+    await this.projectService.acceptShareLink(req.user.id, req.params.linkId)
+    res.json({ message: 'Project shared' })
   }
 
   private getProjectUsers = async (
     req: Request,
     res: Response
   ): Promise<void> => {
-    try {
-      const projectUsers = await this.projectService.getProjectUsers(
-        req.params.projectId
-      )
-      res.json(projectUsers)
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' })
-    }
+    const projectUsers = await this.projectService.getProjectUsers(
+      req.params.projectId
+    )
+    res.json(projectUsers)
   }
 
   private deleteProjectUser = async (
     req: Request,
     res: Response
   ): Promise<void> => {
-    try {
-      await this.projectService.deleteProjectUser(
-        req.params.userId,
-        req.params.projectId
-      )
-      res.json({ message: 'Project user deleted' })
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' })
-    }
+    await this.projectService.deleteProjectUser(
+      req.params.userId,
+      req.params.projectId
+    )
+    res.json({ message: 'Project user deleted' })
   }
 }
