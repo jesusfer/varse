@@ -1,13 +1,13 @@
-import { useParams } from 'react-router-dom'
-import useNav from '../../../hooks/utils/useNav'
-import TopBar from '../../Library/TopBar/TopBar'
 import { ChevronRight } from 'lucide-react'
-import Button from '../../Library/Button/Button'
-import VariableDisplay from './VariableDisplay/VariableDisplay'
-import useVariableList from '../../../hooks/state/useVariableList'
+import { useParams } from 'react-router-dom'
 import useVariableDelete from '../../../hooks/actions/useVariableDelete'
 import useVariableUpdate from '../../../hooks/actions/useVariableUpdate'
+import useVariableList from '../../../hooks/state/useVariableList'
+import useNav from '../../../hooks/utils/useNav'
+import Button from '../../Library/Button/Button'
 import ShareButton from '../../Library/ShareButton/ShareButton'
+import TopBar from '../../Library/TopBar/TopBar'
+import VariableDisplay from './VariableDisplay/VariableDisplay'
 
 const VariableDetails: React.FC = () => {
   const { variableId } = useParams()

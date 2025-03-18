@@ -1,10 +1,10 @@
-import Button from '../../../Library/Button/Button'
-import { Variable } from '../../../../backend/types'
 import { useState } from 'react'
+import { Variable } from '../../../../backend/types'
+import Button from '../../../Library/Button/Button'
 
 interface VariableDisplayProps {
   variable: Variable
-  handleUpdate: (id: string, value: string) => void
+  handleUpdate: (id: string, value: string, groupId: string) => void
 }
 
 const VariableDisplay: React.FC<VariableDisplayProps> = ({
@@ -20,7 +20,7 @@ const VariableDisplay: React.FC<VariableDisplayProps> = ({
   }
 
   const submitUpdate = async () => {
-    await handleUpdate(variable.id, editingValue)
+    await handleUpdate(variable.id, editingValue, variable.groupId)
     setEditing(false)
   }
 
