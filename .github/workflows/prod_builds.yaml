@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  REGISTRY: nublar.azurecr.io
+  REGISTRY: cr.nublar.net
 
 jobs:
   services:
